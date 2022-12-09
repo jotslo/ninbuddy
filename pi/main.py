@@ -1,4 +1,4 @@
-import nxbt
+import nxbt, time
 
 nx = nxbt.Nxbt()
 
@@ -14,4 +14,9 @@ nx.wait_for_connection(controller_index)
 
 print("Connected")
 
+time.sleep(3)
+
 nx.press_buttons(controller_index, [nxbt.Buttons.B])
+
+while True:
+    time.sleep(1)
