@@ -1,6 +1,7 @@
-import nxbt, time
+import bluetooth
+#import nxbt, time
 
-nx = nxbt.Nxbt()
+"""nx = nxbt.Nxbt()
 
 adapters = nx.get_available_adapters()
 
@@ -16,7 +17,11 @@ print("Connected")
 
 time.sleep(3)
 
-nx.press_buttons(controller_index, [nxbt.Buttons.B])
+nx.press_buttons(controller_index, [nxbt.Buttons.B])"""
 
-while True:
-    time.sleep(1)
+print("Scanning for devices...")
+
+nearby_devices = bluetooth.discover_devices(lookup_names=True)
+
+for addr, name in nearby_devices:
+    print("  %s - %s" % (addr, name))
