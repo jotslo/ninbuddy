@@ -3,6 +3,10 @@ import subprocess
 import evdev
 
 import pygame
+import os
+import sys
+
+os.environ["SDL_VIDEODRIVER"] = "dummy"
 
 pygame.init()
 
