@@ -50,7 +50,7 @@ while True:
         elif event.type == pygame.JOYBUTTONUP:
             print(f"{event.button} released")
         
-        print(joystick.get_button(14))
+        print(joystick.get_hat(0))
 
 """from inputs import get_gamepad
 
