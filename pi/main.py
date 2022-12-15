@@ -1,10 +1,23 @@
 import bluetooth
 import subprocess
 import evdev
-#import nxbt, time
+
+from pyjoystick.sdl2 import Key, Joystick, run_event_loop
 
 
-devices = [evdev.InputDevice(path) for path in evdev.list_devices()]
+def print_add(joy):
+    print("Added", joy)
+
+def print_remove(joy):
+    print("Removed", joy)
+
+def key_received(key):
+    print("Key:", key)
+
+run_event_loop(print_add, print_remove, key_received)
+
+
+"""devices = [evdev.InputDevice(path) for path in evdev.list_devices()]
 controller = None
 
 for device in devices:
@@ -17,7 +30,7 @@ if controller:
     while True:
         event = controller.read_one()
         if event:
-            print(event)
+            print(event)"""
 
 """nx = nxbt.Nxbt()
 
