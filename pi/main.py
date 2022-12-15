@@ -32,13 +32,9 @@ for addr, name in nearby_devices:
     if "Pro Controller" in name:
         print("Found Pro Controller!")
 
-        process = subprocess.Popen(['bluetoothctl'], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-        process.stdin.write(f"connect {addr}")
-        process.stdin.flush()
-
-        process.wait()
-
-        output, errors = process.communicate()
-        print(output)
-
+        subprocess.run(["rfkill", "unblock", "bluetooth"], check=True, shell=True)
+        subprocess.run(["bluetoothctl", "power", "on"], check=True, shell=True)
+        subprocess.run(["bluetoothctl", "pair", addr], check=True, shell=True)
+        subprocess.run(["bluetoothctl", "connect", addr], check=True, shell=True)
+        print("Connected!")
         break
