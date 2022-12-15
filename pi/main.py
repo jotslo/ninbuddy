@@ -6,6 +6,31 @@ import pygame
 import os
 import sys
 
+"""
+Button Map:
+0 - B
+1 - A
+2 - Y
+3 - X
+4 - L
+5 - R
+6 - ZL
+7 - ZR
+8 - Minus
+9 - Plus
+10 - LStick
+11 - RStick
+12 - Home
+13 - Capture
+
+# not working?
+14 - DPad Up
+15 - DPad Down
+16 - DPad Left
+17 - DPad Right
+
+"""
+
 os.environ["SDL_VIDEODRIVER"] = "dummy"
 
 pygame.init()
@@ -24,6 +49,8 @@ while True:
         
         elif event.type == pygame.JOYBUTTONUP:
             print(f"{event.button} released")
+        
+        print(joystick.get_button(14))
 
 """from inputs import get_gamepad
 
