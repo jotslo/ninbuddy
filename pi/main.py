@@ -25,9 +25,6 @@ while True:
         elif event.type == pygame.JOYBUTTONUP:
             print(f"{event.button} released")
 
-    for i in range(joystick.get_numaxes()):
-        print(joystick.get_axis(i))
-
 """from inputs import get_gamepad
 
 while True:
