@@ -1,10 +1,5 @@
-import bluetooth
-import subprocess
-import evdev
-
 import pygame
 import os
-import sys
 
 import nxbt
 
