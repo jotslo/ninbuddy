@@ -1,6 +1,23 @@
 import bluetooth
 import subprocess
+import evdev
 #import nxbt, time
+
+
+devices = [evdev.InputDevice(path) for path in evdev.list_devices()]
+controller = None
+
+for device in devices:
+    if device.name == "Pro Controller":
+        controller = evdev.InputDevice(device.path)
+        break
+
+
+if controller:
+    while True:
+        event = controller.read_one()
+        if event:
+            print(event)
 
 """nx = nxbt.Nxbt()
 
@@ -20,7 +37,7 @@ time.sleep(3)
 
 nx.press_buttons(controller_index, [nxbt.Buttons.B])"""
 
-port = 1
+"""port = 1
 passkey = "0000"
 
 print("Scanning for devices...")
@@ -38,4 +55,4 @@ for addr, name in nearby_devices:
         subprocess.run(["pair", addr], check=True, shell=True)
         subprocess.run(["connect", addr], check=True, shell=True)
         print("Connected!")
-        break
+        break"""
