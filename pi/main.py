@@ -2,12 +2,24 @@ import bluetooth
 import subprocess
 import evdev
 
-from inputs import get_gamepad
+import pygame
+
+pygame.joystick.init()
+joystick = pygame.joystick.Joystick(0)
+
+joystick.init()
+
+while True:
+    pygame.event.get()
+    for i in range(joystick.get_numaxes()):
+        print(joystick.get_axis(i))
+
+"""from inputs import get_gamepad
 
 while True:
     events = get_gamepad()
     for event in events:
-        print(event.ev_type, event.code, event.state)
+        print(event.ev_type, event.code, event.state)"""
 
 """from pyjoystick.sdl2 import Key, Joystick, run_event_loop
 
