@@ -10,13 +10,21 @@ os.environ["SDL_VIDEODRIVER"] = "dummy"
 
 pygame.init()
 
-#pygame.joystick.init()
 joystick = pygame.joystick.Joystick(0)
 
 joystick.init()
 
 while True:
-    pygame.event.get()
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            0 #finished
+        
+        elif event.type == pygame.JOYBUTTONDOWN:
+            print(f"{event.button} pressed")
+        
+        elif event.type == pygame.JOYBUTTONUP:
+            print(f"{event.button} released")
+
     for i in range(joystick.get_numaxes()):
         print(joystick.get_axis(i))
 
