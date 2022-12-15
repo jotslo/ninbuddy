@@ -4,7 +4,9 @@ import evdev
 
 import pygame
 
-pygame.joystick.init()
+pygame.init()
+
+#pygame.joystick.init()
 joystick = pygame.joystick.Joystick(0)
 
 joystick.init()
