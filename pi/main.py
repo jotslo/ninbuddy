@@ -32,7 +32,6 @@ Button Map:
 os.environ["SDL_VIDEODRIVER"] = "dummy"
 """
 nx = nxbt.Nxbt()
-pygame.init()
 
 controller_index = nx.create_controller(nxbt.PRO_CONTROLLER)
 
@@ -48,6 +47,7 @@ nx.press_buttons(controller_index, [nxbt.Buttons.B])
 
 print(nx.create_input_packet())"""
 
+pygame.init()
 joystick = pygame.joystick.Joystick(0)
 joystick.init()
 
