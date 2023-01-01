@@ -29,8 +29,9 @@ Button Map:
 (1,  0) - DPad Right
 """
 
-os.environ["SDL_VIDEODRIVER"] = "dummy"
-"""
+if not os.environ["SDL_VIDEODRIVER"]:
+    os.environ["SDL_VIDEODRIVER"] = "dummy"
+    
 nx = nxbt.Nxbt()
 
 controller_index = nx.create_controller(nxbt.PRO_CONTROLLER)
@@ -41,11 +42,9 @@ nx.wait_for_connection(controller_index)
 
 print("Connected")
 
-time.sleep(3)
+#time.sleep(3)
 
-nx.press_buttons(controller_index, [nxbt.Buttons.B])
-
-print(nx.create_input_packet())"""
+#nx.press_buttons(controller_index, [nxbt.Buttons.B])
 
 pygame.init()
 joystick = pygame.joystick.Joystick(0)
