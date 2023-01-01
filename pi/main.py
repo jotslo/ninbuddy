@@ -46,7 +46,7 @@ time.sleep(3)
 
 nx.press_buttons(controller_index, [nxbt.Buttons.B])
 
-"""pygame.init()
+pygame.init()
 joystick = pygame.joystick.Joystick(0)
 joystick.init()
 
@@ -67,7 +67,7 @@ while True:
 
 adapters = nx.get_available_adapters()
 
-print(len(adapters))"""
+print(len(adapters))
 
 
 
