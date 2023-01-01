@@ -32,7 +32,7 @@ Button Map:
 """if not os.environ["SDL_VIDEODRIVER"]:
     os.environ["SDL_VIDEODRIVER"] = "dummy" """
     
-nx = nxbt.Nxbt()
+"""nx = nxbt.Nxbt()
 
 controller_index = nx.create_controller(nxbt.PRO_CONTROLLER)
 
@@ -44,7 +44,7 @@ print("Connected")
 
 time.sleep(3)
 
-nx.press_buttons(controller_index, [nxbt.Buttons.B])
+nx.press_buttons(controller_index, [nxbt.Buttons.B])"""
 
 pygame.init()
 joystick = pygame.joystick.Joystick(0)
