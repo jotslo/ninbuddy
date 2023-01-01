@@ -29,8 +29,8 @@ Button Map:
 (1,  0) - DPad Right
 """
 
-if not os.environ["SDL_VIDEODRIVER"]:
-    os.environ["SDL_VIDEODRIVER"] = "dummy"
+"""if not os.environ["SDL_VIDEODRIVER"]:
+    os.environ["SDL_VIDEODRIVER"] = "dummy" """
     
 nx = nxbt.Nxbt()
 
