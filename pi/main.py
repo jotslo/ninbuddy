@@ -1,4 +1,4 @@
-#import pygame
+import pygame
 import os
 
 import nxbt
@@ -42,9 +42,9 @@ nx.wait_for_connection(controller_index)
 
 print("Connected")
 
-#time.sleep(3)
+time.sleep(3)
 
-#nx.press_buttons(controller_index, [nxbt.Buttons.B])
+nx.press_buttons(controller_index, [nxbt.Buttons.B])
 
 """pygame.init()
 joystick = pygame.joystick.Joystick(0)
