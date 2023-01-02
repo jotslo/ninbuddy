@@ -46,6 +46,20 @@ while True:
                 update_packet(["DPAD_DOWN"], True)
         
         elif event.type == pygame.JOYAXISMOTION:
+            if event.axis == 2 and event.value == 1.0:
+                update_packet(["ZL"], True)
+            elif event.axis == 5 and event.value == 1.0:
+                update_packet(["ZR"], True)
+            
+            elif event.axis == 0:
+                update_packet(["L_STICK", "X"], event.value * 100)
+            elif event.axis == 1:
+                update_packet(["L_STICK", "Y"], event.value * 100)
+            elif event.axis == 3:
+                update_packet(["R_STICK", "X"], event.value * 100)
+            elif event.axis == 4:
+                update_packet(["R_STICK", "Y"], event.value * 100)
+
             print(event.joy, event.axis, event.value)
         
         nx.set_controller_input(controller_index, data.packet)
