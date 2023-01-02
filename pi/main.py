@@ -52,13 +52,13 @@ while True:
                 update_packet(["ZR"], True)
             
             elif event.axis == 0:
-                update_packet(["L_STICK", "X"], event.value * 100)
+                update_packet(["L_STICK", "X_VALUE"], event.value * 100)
             elif event.axis == 1:
-                update_packet(["L_STICK", "Y"], event.value * 100)
+                update_packet(["L_STICK", "Y_VALUE"], event.value * 100)
             elif event.axis == 3:
-                update_packet(["R_STICK", "X"], event.value * 100)
+                update_packet(["R_STICK", "X_VALUE"], event.value * 100)
             elif event.axis == 4:
-                update_packet(["R_STICK", "Y"], event.value * 100)
+                update_packet(["R_STICK", "Y_VALUE"], event.value * 100)
 
             print(event.joy, event.axis, event.value)
         
