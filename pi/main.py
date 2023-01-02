@@ -11,15 +11,11 @@ def update_packet(location, state):
     else:
         data.packet[location[0]][location[1]] = state
 
-def update_joystick(event):
-    if event.axis == 0:
-        update_packet(["L_STICK", "X_VALUE"], event.value * 100)
-    elif event.axis == 1:
-        update_packet(["L_STICK", "Y_VALUE"], event.value * -100)
-    elif event.axis == 3:
-        update_packet(["R_STICK", "X_VALUE"], event.value * 100)
-    elif event.axis == 4:
-        update_packet(["R_STICK", "Y_VALUE"], event.value * -100)
+def update_joystick(joystick):
+    update_packet(["L_STICK", "X_VALUE"], joystick.get_axis(0) * 100)
+    update_packet(["L_STICK", "Y_VALUE"], joystick.get_axis(1) * -100)
+    update_packet(["R_STICK", "X_VALUE"], joystick.get_axis(3) * 100)
+    update_packet(["R_STICK", "Y_VALUE"], joystick.get_axis(4) * -100)
 
 nx = nxbt.Nxbt()
 data.setup(nx)
@@ -34,10 +30,9 @@ nx.wait_for_connection(controller_index)
 while True:
     current_time = time.time()
 
-    if current_time - data.last_event > 1/120 and data.cached_event:
-        update_joystick(data.cached_event)
-        data.cached_event = None
-        data.last_event = current_time
+    if current_time - data.last_movement > 1/120:
+        update_joystick(joystick)
+        data.last_movement = current_time
     
     nx.set_controller_input(controller_index, data.packet)
 
