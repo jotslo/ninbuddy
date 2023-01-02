@@ -10,7 +10,6 @@ def update_packet(location, state):
         data.packet[location[0]] = state
     else:
         data.packet[location[0]][location[1]] = state
-    
 
 def update_joystick(event):
     if event.axis == 0:
@@ -77,4 +76,3 @@ while True:
             #    update_joystick(event)
             #else:
             data.cached_event = event
-            data.last_event = current_time
