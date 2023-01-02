@@ -33,19 +33,19 @@ while True:
             print(f"{event.button} released")
         
         elif event.type == pygame.JOYHATMOTION:
-            update_packet(data.button_map["DPAD_UP"], False)
-            update_packet(data.button_map["DPAD_DOWN"], False)
-            update_packet(data.button_map["DPAD_LEFT"], False)
-            update_packet(data.button_map["DPAD_RIGHT"], False)
+            update_packet(["DPAD_UP"], False)
+            update_packet(["DPAD_DOWN"], False)
+            update_packet(["DPAD_LEFT"], False)
+            update_packet(["DPAD_RIGHT"], False)
 
             if event.value[0] == 1:
-                update_packet(data.button_map["DPAD_RIGHT"], True)
+                update_packet(["DPAD_RIGHT"], True)
             elif event.value[0] == -1:
-                update_packet(data.button_map["DPAD_LEFT"], True)
+                update_packet(["DPAD_LEFT"], True)
             if event.value[1] == 1:
-                update_packet(data.button_map["DPAD_UP"], True)
+                update_packet(["DPAD_UP"], True)
             elif event.value[1] == -1:
-                update_packet(data.button_map["DPAD_DOWN"], True)
+                update_packet(["DPAD_DOWN"], True)
             
             print(f"DPAD: {event.value}")
         
