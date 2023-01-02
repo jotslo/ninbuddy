@@ -56,7 +56,7 @@ while True:
             
             current_time = time.time()
 
-            if current_time - data.last_packet < 1/60 and event.value != 0.0:
+            if current_time - data.last_packet < 1/120 and event.value != 0.0:
                 continue
 
             data.last_packet = current_time
