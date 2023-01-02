@@ -2,7 +2,7 @@ packet = None
 button_map = None
 
 cached_event = None
-last_event = 999999999999999
+last_event = 0
 
 def setup(nx):
     global packet, button_map
