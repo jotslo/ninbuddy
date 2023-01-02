@@ -18,13 +18,11 @@ while True:
             0 #finished
         
         elif event.type == pygame.JOYBUTTONDOWN:
-            mapped_button = data.button_map[event.button]
-            data.packet[mapped_button] = True
+            data.button_map[event.button] = True
             print(f"{event.button} pressed")
         
         elif event.type == pygame.JOYBUTTONUP:
-            mapped_button = data.button_map[event.button]
-            data.packet[mapped_button] = False
+            data.button_map[event.button] = True
             print(f"{event.button} released")
         
         nx.set_controller_input(controller_index, data.packet)
