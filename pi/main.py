@@ -1,36 +1,5 @@
 import pygame
-import os
-
 import nxbt
-
-import time
-
-"""
-Button Map:
-00 - B
-01 - A
-02 - Y
-03 - X
-04 - L
-05 - R
-06 - ZL
-07 - ZR
-08 - Minus
-09 - Plus
-10 - LStick
-11 - RStick
-12 - Home
-13 - Capture
-
-# Hat Map:
-(0,  1) - DPad Up
-(0, -1) - DPad Down
-(-1, 0) - DPad Left
-(1,  0) - DPad Right
-"""
-
-"""if not os.environ["SDL_VIDEODRIVER"]:
-    os.environ["SDL_VIDEODRIVER"] = "dummy" """
     
 """nx = nxbt.Nxbt()
 
@@ -50,6 +19,8 @@ pygame.init()
 joystick = pygame.joystick.Joystick(0)
 joystick.init()
 
+print(joystick.get_name())
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -68,25 +39,3 @@ while True:
 adapters = nx.get_available_adapters()
 
 print(len(adapters))
-
-
-
-"""port = 1
-passkey = "0000"
-
-print("Scanning for devices...")
-nearby_devices = bluetooth.discover_devices(lookup_names=True)
-
-for addr, name in nearby_devices:
-    print("  %s - %s" % (addr, name))
-
-    if "Pro Controller" in name:
-        print("Found Pro Controller!")
-
-        subprocess.run(["rfkill", "unblock", "bluetooth"], check=True, shell=True)
-        subprocess.run("bluetoothctl", check=True, shell=True)
-        subprocess.run(["power", "on"], check=True, shell=True)
-        subprocess.run(["pair", addr], check=True, shell=True)
-        subprocess.run(["connect", addr], check=True, shell=True)
-        print("Connected!")
-        break"""
