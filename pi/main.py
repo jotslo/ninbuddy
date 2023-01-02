@@ -34,12 +34,13 @@ nx.wait_for_connection(controller_index)
 
 while True:
     current_time = time.time()
+
+    if current_time - data.last_event > 1/120 and data.cached_event:
+        update_joystick(data.cached_event)
+        data.cached_event = None
+        data.last_event = current_time
     
-    if current_time - data.last_event > 1/120:
-        if data.cached_event:
-            update_joystick(data.cached_event)
-            data.cached_event = None
-            data.last_event = current_time
+    nx.set_controller_input(controller_index, data.packet)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -72,10 +73,8 @@ while True:
             elif event.axis == 5:
                 update_packet(["ZR"], event.value == 1.0)
             
-            if current_time - data.last_event > 1/120 or event.value == 0.0:
-                update_joystick(event)
-            else:
-                data.cached_event = event
-                data.last_event = current_time
-        
-        nx.set_controller_input(controller_index, data.packet)
+            #if current_time - data.last_event > 1/120 or event.value == 0.0:
+            #    update_joystick(event)
+            #else:
+            data.cached_event = event
+            data.last_event = current_time
