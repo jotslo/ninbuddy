@@ -59,8 +59,6 @@ while True:
                 update_packet(["R_STICK", "X_VALUE"], event.value * 100)
             elif event.axis == 4:
                 update_packet(["R_STICK", "Y_VALUE"], event.value * -100)
-
-            print(event.joy, event.axis, event.value)
         
         nx.set_controller_input(controller_index, data.packet)
         #print(joystick.get_hat(0))
