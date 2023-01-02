@@ -16,5 +16,9 @@ def setup(nx):
         7: ["PLUS"],
         8: ["HOME"],
         9: ["L_STICK", "PRESSED"],
-        10: ["R_STICK", "PRESSED"]
+        10: ["R_STICK", "PRESSED"],
+        11: ["DPAD_UP"],
+        12: ["DPAD_DOWN"],
+        13: ["DPAD_LEFT"],
+        14: ["DPAD_RIGHT"]
     }
