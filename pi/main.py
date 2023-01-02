@@ -2,6 +2,7 @@ import pygame
 import nxbt
 import data
 import json
+import time
 
 def update_packet(location, state):
     if len(location) == 1:
@@ -50,15 +51,16 @@ while True:
                 update_packet(["ZL"], event.value == 1.0)
             elif event.axis == 5:
                 update_packet(["ZR"], event.value == 1.0)
-            
-            elif event.axis == 0:
-                update_packet(["L_STICK", "X_VALUE"], event.value * 100)
-            elif event.axis == 1:
-                update_packet(["L_STICK", "Y_VALUE"], event.value * -100)
-            elif event.axis == 3:
-                update_packet(["R_STICK", "X_VALUE"], event.value * 100)
-            elif event.axis == 4:
-                update_packet(["R_STICK", "Y_VALUE"], event.value * -100)
+            else:
+                if event.axis == 0:
+                    update_packet(["L_STICK", "X_VALUE"], event.value * 100)
+                elif event.axis == 1:
+                    update_packet(["L_STICK", "Y_VALUE"], event.value * -100)
+                elif event.axis == 3:
+                    update_packet(["R_STICK", "X_VALUE"], event.value * 100)
+                elif event.axis == 4:
+                    update_packet(["R_STICK", "Y_VALUE"], event.value * -100)
+                time.sleep(1/120)
         
         nx.set_controller_input(controller_index, data.packet)
         #print(joystick.get_hat(0))
