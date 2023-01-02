@@ -44,11 +44,13 @@ while True:
 
     for event in pygame.event.get():
         if event.type == pygame.JOYDEVICEADDED and pygame.joystick.get_count() == 1:
-            create_controller()
+            if not data.controller:
+                create_controller()
         
         elif event.type == pygame.JOYDEVICEREMOVED and pygame.joystick.get_count() == 0:
-            nx.remove_controller(data.controller)
-            data.controller = None
+            if data.controller:
+                nx.remove_controller(data.controller)
+                data.controller = None
         
         elif event.type == pygame.JOYBUTTONDOWN:
             update_packet(data.button_map[event.button], True)
