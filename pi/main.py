@@ -5,7 +5,7 @@ import json
 
 def update_packet(location, state):
     if len(location) == 1:
-        data.packet[location] = state
+        data.packet[location[0]] = state
     else:
         data.packet[location[0]][location[1]] = state
 
