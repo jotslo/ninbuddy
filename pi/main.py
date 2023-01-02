@@ -46,7 +46,7 @@ while True:
                 update_packet(["DPAD_DOWN"], True)
         
         elif event.type == pygame.JOYAXISMOTION:
-            print(event.axis, event.value)
+            print(event.joy, event.axis, event.value)
         
         nx.set_controller_input(controller_index, data.packet)
         #print(joystick.get_hat(0))
