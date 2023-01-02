@@ -1,6 +1,7 @@
 packet = None
 button_map = None
 last_movement = 0
+controller = None
 
 def setup(nx):
     global packet, button_map

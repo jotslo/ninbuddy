@@ -1,10 +1,11 @@
 import pygame
 import nxbt
 import data
-import json
 import time
-import threading
 import os
+
+global joystick
+os.environ["SDL_VIDEODRIVER"] = "dummy"
 
 def update_packet(location, state):
     if len(location) == 1:
@@ -18,17 +19,18 @@ def update_joystick(joystick):
     update_packet(["R_STICK", "X_VALUE"], joystick.get_axis(3) * 100)
     update_packet(["R_STICK", "Y_VALUE"], joystick.get_axis(4) * -100)
 
-os.environ["SDL_VIDEODRIVER"] = "dummy"
+def create_controller():
+    global joystick
+    joystick = pygame.joystick.Joystick(0)
+    data.controller = nx.create_controller(nxbt.PRO_CONTROLLER)
+    nx.wait_for_connection(data.controller)
 
 nx = nxbt.Nxbt()
 data.setup(nx)
 pygame.init()
 
-joystick = pygame.joystick.Joystick(0)
-joystick.init()
-
-controller_index = nx.create_controller(nxbt.PRO_CONTROLLER)
-nx.wait_for_connection(controller_index)
+if pygame.joystick.get_count() >= 1:
+    create_controller()
 
 while True:
     current_time = time.time()
@@ -37,11 +39,16 @@ while True:
         update_joystick(joystick)
         data.last_movement = current_time
     
-    nx.set_controller_input(controller_index, data.packet)
+    if data.controller:
+        nx.set_controller_input(0, data.packet)
 
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            0 #finished
+        if event.type == pygame.JOYDEVICEADDED and pygame.joystick.get_count() == 1:
+            create_controller()
+        
+        elif event.type == pygame.JOYDEVICEREMOVED and pygame.joystick.get_count() == 0:
+            nx.remove_controller(data.controller)
+            data.controller = None
         
         elif event.type == pygame.JOYBUTTONDOWN:
             update_packet(data.button_map[event.button], True)
