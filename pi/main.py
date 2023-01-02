@@ -4,6 +4,7 @@ import data
 import json
 import time
 import threading
+import os
 
 def update_packet(location, state):
     if len(location) == 1:
@@ -16,6 +17,8 @@ def update_joystick(joystick):
     update_packet(["L_STICK", "Y_VALUE"], joystick.get_axis(1) * -100)
     update_packet(["R_STICK", "X_VALUE"], joystick.get_axis(3) * 100)
     update_packet(["R_STICK", "Y_VALUE"], joystick.get_axis(4) * -100)
+
+os.environ["SDL_VIDEODRIVER"] = "dummy"
 
 nx = nxbt.Nxbt()
 data.setup(nx)
