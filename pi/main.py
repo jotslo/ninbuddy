@@ -1,6 +1,14 @@
 import pygame
 import nxbt
 import data
+import json
+
+def update_packet(location, state):
+    if len(location) == 1:
+        data.packet[location] = state
+    else:
+        data.packet[location[0]][location[1]] = state
+
 
 nx = nxbt.Nxbt()
 data.setup(nx)
@@ -18,11 +26,11 @@ while True:
             0 #finished
         
         elif event.type == pygame.JOYBUTTONDOWN:
-            data.button_map[event.button] = True
+            update_packet(data.button_map[event.button], True)
             print(f"{event.button} pressed")
         
         elif event.type == pygame.JOYBUTTONUP:
-            data.button_map[event.button] = True
+            update_packet(data.button_map[event.button], True)
             print(f"{event.button} released")
         
         nx.set_controller_input(controller_index, data.packet)
