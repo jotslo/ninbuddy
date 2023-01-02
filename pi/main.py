@@ -49,18 +49,25 @@ while True:
         elif event.type == pygame.JOYAXISMOTION:
             if event.axis == 2:
                 update_packet(["ZL"], event.value == 1.0)
+                continue
             elif event.axis == 5:
                 update_packet(["ZR"], event.value == 1.0)
-            else:
-                if event.axis == 0:
-                    update_packet(["L_STICK", "X_VALUE"], event.value * 100)
-                elif event.axis == 1:
-                    update_packet(["L_STICK", "Y_VALUE"], event.value * -100)
-                elif event.axis == 3:
-                    update_packet(["R_STICK", "X_VALUE"], event.value * 100)
-                elif event.axis == 4:
-                    update_packet(["R_STICK", "Y_VALUE"], event.value * -100)
-                time.sleep(1/120)
+                continue
+            
+            current_time = time.time()
+
+            if current_time - data.last_packet < 1/60 and event.value != 0.0:
+                continue
+
+            data.last_packet = current_time
+
+            if event.axis == 0:
+                update_packet(["L_STICK", "X_VALUE"], event.value * 100)
+            elif event.axis == 1:
+                update_packet(["L_STICK", "Y_VALUE"], event.value * -100)
+            elif event.axis == 3:
+                update_packet(["R_STICK", "X_VALUE"], event.value * 100)
+            elif event.axis == 4:
+                update_packet(["R_STICK", "Y_VALUE"], event.value * -100)
         
         nx.set_controller_input(controller_index, data.packet)
-        #print(joystick.get_hat(0))
