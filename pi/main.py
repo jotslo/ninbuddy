@@ -21,6 +21,7 @@ controller_index = nx.create_controller(nxbt.PRO_CONTROLLER)
 nx.wait_for_connection(controller_index)
 
 while True:
+    time.sleep(1/120)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             0 #finished
@@ -54,12 +55,12 @@ while True:
                 update_packet(["ZR"], event.value == 1.0)
                 continue
             
-            current_time = time.time()
+            """current_time = time.time()
 
             if current_time - data.last_packet < 1/120 and event.value != 0.0:
                 continue
 
-            data.last_packet = current_time
+            data.last_packet = current_time"""
 
             if event.axis == 0:
                 update_packet(["L_STICK", "X_VALUE"], event.value * 100)
