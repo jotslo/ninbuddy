@@ -36,7 +36,7 @@ if pygame.joystick.get_count() >= 1:
     create_controller()
 
 while True:
-    if data.controller:
+    if data.controller != None:
         current_time = time.time()
 
         if current_time - data.last_movement > 1/120:
@@ -57,7 +57,6 @@ while True:
                 data.controller = None
         
         elif event.type == pygame.JOYBUTTONDOWN:
-            print("button down!")
             update_packet(data.button_map[event.button], True)
         
         elif event.type == pygame.JOYBUTTONUP:
