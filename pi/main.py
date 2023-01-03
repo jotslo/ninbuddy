@@ -21,6 +21,8 @@ def update_joystick(joystick):
 
 def create_controller():
     global joystick
+
+    print("Connecting...")
     joystick = pygame.joystick.Joystick(0)
     joystick.init()
     data.controller = nx.create_controller(nxbt.PRO_CONTROLLER)
@@ -46,7 +48,6 @@ while True:
     for event in pygame.event.get():
         if event.type == pygame.JOYDEVICEADDED and pygame.joystick.get_count() == 1:
             if data.controller == None:
-                print("Connecting...")
                 create_controller()
         
         elif event.type == pygame.JOYDEVICEREMOVED and pygame.joystick.get_count() == 0:
@@ -56,6 +57,7 @@ while True:
                 data.controller = None
         
         elif event.type == pygame.JOYBUTTONDOWN:
+            print("button down!")
             update_packet(data.button_map[event.button], True)
         
         elif event.type == pygame.JOYBUTTONUP:
