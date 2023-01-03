@@ -45,11 +45,13 @@ while True:
 
     for event in pygame.event.get():
         if event.type == pygame.JOYDEVICEADDED and pygame.joystick.get_count() == 1:
-            if data.controller != None:
+            if data.controller == None:
+                print("Connecting...")
                 create_controller()
         
         elif event.type == pygame.JOYDEVICEREMOVED and pygame.joystick.get_count() == 0:
             if data.controller != None:
+                print("Removing...")
                 nx.remove_controller(data.controller)
                 data.controller = None
         
