@@ -24,6 +24,7 @@ def create_controller():
     joystick = pygame.joystick.Joystick(0)
     data.controller = nx.create_controller(nxbt.PRO_CONTROLLER)
     nx.wait_for_connection(data.controller)
+    joystick.init()
 
 nx = nxbt.Nxbt()
 data.setup(nx)
@@ -39,16 +40,16 @@ while True:
         if current_time - data.last_movement > 1/120:
             update_joystick(joystick)
             data.last_movement = current_time
-            
+
         nx.set_controller_input(0, data.packet)
 
     for event in pygame.event.get():
         if event.type == pygame.JOYDEVICEADDED and pygame.joystick.get_count() == 1:
-            if not data.controller:
+            if data.controller != None:
                 create_controller()
         
         elif event.type == pygame.JOYDEVICEREMOVED and pygame.joystick.get_count() == 0:
-            if data.controller:
+            if data.controller != None:
                 nx.remove_controller(data.controller)
                 data.controller = None
         
