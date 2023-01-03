@@ -33,13 +33,13 @@ if pygame.joystick.get_count() >= 1:
     create_controller()
 
 while True:
-    current_time = time.time()
-
-    if current_time - data.last_movement > 1/120:
-        update_joystick(joystick)
-        data.last_movement = current_time
-    
     if data.controller:
+        current_time = time.time()
+
+        if current_time - data.last_movement > 1/120:
+            update_joystick(joystick)
+            data.last_movement = current_time
+            
         nx.set_controller_input(0, data.packet)
 
     for event in pygame.event.get():
