@@ -1,4 +1,5 @@
 from flask import Flask, render_template, jsonify
+import threading
 import pygame
 import nxbt
 import data
@@ -48,7 +49,7 @@ def create_controller():
     state = "Controller connected!"
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=8000)
+    threading.Thread(target=lambda: app.run(host="0.0.0.0", port="8000", debug=True, use_reloader=False)).start()
 
 nx = nxbt.Nxbt()
 data.setup(nx)
