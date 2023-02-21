@@ -78,7 +78,7 @@ while True:
                 state = "Removing controller..."
                 nx.remove_controller(data.controller)
                 data.controller = None
-                state = "Waiting for controller..."
+            state = "Waiting for controller..."
         
         elif event.type == pygame.JOYBUTTONDOWN:
             update_packet(data.button_map[event.button], True)
