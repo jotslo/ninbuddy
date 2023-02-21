@@ -1,11 +1,29 @@
+from flask import Flask, render_template, jsonify
 import pygame
 import nxbt
 import data
 import time
 import os
 
+app = Flask(__name__)
+state = "Waiting for controller..."
+
 global joystick
 os.environ["SDL_VIDEODRIVER"] = "dummy"
+
+@app.route("/")
+def dashboard():
+    return render_template('dashboard.html')
+
+@app.route('/data')
+def get_data():
+    data = {'message': state}
+    return jsonify(data)
+
+@app.route('/main.js')
+def get_main_js():
+    with open('pi/templates/main.js', 'r') as f:
+        return f.read()
 
 def update_packet(location, state):
     if len(location) == 1:
@@ -20,13 +38,17 @@ def update_joystick(joystick):
     update_packet(["R_STICK", "Y_VALUE"], joystick.get_axis(4) * -100)
 
 def create_controller():
-    global joystick
+    global joystick, state
 
-    print("Connecting...")
+    state = "Connecting controller..."
     joystick = pygame.joystick.Joystick(0)
     joystick.init()
     data.controller = nx.create_controller(nxbt.PRO_CONTROLLER)
     nx.wait_for_connection(data.controller)
+    state = "Controller connected!"
+
+if __name__ == '__main__':
+    app.run(port=8000)
 
 nx = nxbt.Nxbt()
 data.setup(nx)
@@ -52,9 +74,10 @@ while True:
         
         elif event.type == pygame.JOYDEVICEREMOVED and pygame.joystick.get_count() == 0:
             if data.controller != None:
-                print("Removing...")
+                state = "Removing controller..."
                 nx.remove_controller(data.controller)
                 data.controller = None
+                state = "Waiting for controller..."
         
         elif event.type == pygame.JOYBUTTONDOWN:
             update_packet(data.button_map[event.button], True)
