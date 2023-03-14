@@ -18,5 +18,12 @@ def get_main_js():
     with open('pi/templates/main.js', 'r') as f:
         return f.read()
 
+
+@app.route('/stylesheet.css')
+def get_stylesheet():
+    # Return the contents of stylesheet.css as a CSS response
+    with open('pi/templates/stylesheet.css', 'r') as f:
+        return f.read()
+
 if __name__ == '__main__':
-    app.run(port=8000)
+    app.run(host="0.0.0.0", port=8000)

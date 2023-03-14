@@ -1,13 +1,20 @@
 <html>
     <head>
         <title>NinBuddy Dashboard</title>
+        <link rel="stylesheet" href="/stylesheet.css">
     </head>
     <body>
+        <img src="{{ url_for('static', filename='button_l.png') }}" style="width: 15%; height: 10%; position: absolute; top: 0; left: 0;">
+        <button id="game-controller-button" onmousedown="buttonPressed()" onmouseup="buttonReleased()" ontouchstart="buttonPressed()" ontouchend="buttonReleased()"></button>
+        <!--<div id="joystick-area"></div>
+
         <h1>
             <div id="msg" style="text-align:center">
                 Waiting for Raspberry Pi...
             </div>
         </h1>
+    -->
+        
         <script src="main.js"></script>
     </body>
 </html>
