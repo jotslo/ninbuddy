@@ -9,6 +9,10 @@ function updateDashboard() {
 }
 
 function absorbEvent(event) {
+    console.log("absorbed");
+    // set 'msg' text to the pointer position
+    //var msg = document.getElementById("msg");
+   // msg.innerHTML = "x: " + event.touches[0].pageX + ", y: " + event.touches[0].pageY;
     event.returnValue = false;
   }
   
