@@ -1,25 +1,26 @@
-var c = 0;
-
-function ray_casting(point, polygon){
-    var n=polygon.length,
-        is_in=false,
-        x=point[0],
-        y=point[1],
-        x1,x2,y1,y2;
-
-    for(var i=0; i < n-1; ++i){
-        x1=polygon[i][0];
-        x2=polygon[i+1][0];
-        y1=polygon[i][1];
-        y2=polygon[i+1][1];
-
-        if(y < y1 != y < y2 && x < (x2-x1) * (y-y1) / (y2-y1) + x1){
-            is_in=!is_in;
-        }
-    }
-
-    return is_in;
+const boundaries = {
+    "L": [[-200, 0], [150, 0], [150, 113], [-200, 113]],
+    "ZL": [[150, 0], [312, 0], [312, 86], [150, 86]]
 }
+
+function inside(point, vs) {
+    // ray-casting algorithm based on
+    // https://wrf.ecse.rpi.edu/Research/Short_Notes/pnpoly.html
+    
+    var x = point[0], y = point[1];
+    
+    var inside = false;
+    for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+        var xi = vs[i][0], yi = vs[i][1];
+        var xj = vs[j][0], yj = vs[j][1];
+        
+        var intersect = ((yi > y) != (yj > y))
+            && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+        if (intersect) inside = !inside;
+    }
+    
+    return inside;
+};
 
 function updateDashboard() {
     fetch('/data')
@@ -40,7 +41,13 @@ function touchStart(event) {
     const touch = event.touches[0];
     const point = [touch.clientX / window.innerWidth, touch.clientY / window.innerHeight];
 
-    document.getElementById('msg').textContent = point[0] + ", " + point[1];
+    if (inside(point, boundaries["L"])) {
+        document.getElementById('msg').textContent = "L";
+    } else if (inside(point, boundaries["ZL"])) {
+        document.getElementById('msg').textContent = "ZL";
+    } else {
+        document.getElementById('msg').textContent = "NONE";
+    }
 
     // prevent zooming, scrolling, selecting, etc.
     event.returnValue = false;
