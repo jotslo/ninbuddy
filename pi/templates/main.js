@@ -1,3 +1,19 @@
+/*
+Left Joystick
+-300, -300
+492, -300
+492, 800
+-300, 800
+
+Right Joystick
+493, 241
+1095, 241
+1095, 800
+493, 800
+*/
+
+const env = document.querySelector("#game-controller-button");
+
 var inputs = {
     "L": {"identifier": null,
         "boundaries": [[-200, 0], [150, 0], [150, 113], [-200, 113]]},
@@ -6,7 +22,31 @@ var inputs = {
     "R": {"identifier": null,
         "boundaries": [[1124, 0], [1500, 0], [1500, 113], [1124, 113]]},
     "ZR": {"identifier": null,
-        "boundaries": [[958, 0], [1124, 0], [1124, 86], [958, 86]]}
+        "boundaries": [[958, 0], [1124, 0], [1124, 86], [958, 86]]},
+    "A": {"identifier": null,
+        "boundaries": [[1026, 285], [1500, -180], [1500, 750]]},
+    "B": {"identifier": null,
+        "boundaries": [[1026, 285], [1243, 498], [1134, 606], [921, 391]]},
+    "Y": {"identifier": null,
+        "boundaries": [[1026, 285], [921, 391], [759, 228], [862, 126]]},
+    "X": {"identifier": null,
+        "boundaries": [[1026, 285], [862, 126], [1032, -31], [1192, 124]]},
+    "Up": {"identifier": null,
+        "boundaries": [[423, 430], [310, 331], [423, 236], [523, 334]]},
+    "Right": {"identifier": null,
+        "boundaries": [[423, 430], [523, 334], [635, 435], [535, 530]]},
+    "Down": {"identifier": null,
+        "boundaries": [[423, 430], [532, 536], [425, 643], [318, 546]]},
+    "Left": {"identifier": null,
+        "boundaries": [[423, 430], [310, 333], [210, 434], [312, 535]]},
+    "Minus": {"identifier": null,
+        "boundaries": [[424, 60], [546, 60], [546, 121], [478, 184], [424, 184]]},
+    "Plus": {"identifier": null,
+        "boundaries": [[672, 60], [796, 60], [796, 184], [733, 184], [672, 121]]},
+    "Screenshot": {"identifier": null,
+        "boundaries": [[546, 121], [604, 121], [604, 245], [478, 245], [478, 184]]},
+    "Home": {"identifier": null,
+        "boundaries": [[614, 121], [672, 121], [733, 184], [733, 245], [614, 245]]}
 }
 
 function inside(point, vs) {
@@ -36,11 +76,6 @@ function updateDashboard() {
             dashboardHeader.textContent = data.message;
         }
     );
-}
-
-function absorbEvent(event) {
-    //document.getElementById('msg').textContent = event.touches[0].clientX + ", " + event.touches[0].clientY;
-    event.returnValue = false;
 }
 
 function showInputs() {
@@ -100,26 +135,6 @@ function touchStart(event) {
     event.returnValue = false;
 }
 
-/*function touchStart(event) {
-    for ()
-
-    const touch = event.touches[0];
-    const point = [1280 * touch.clientX / window.innerWidth,
-        637 * touch.clientY / window.innerHeight];
-    
-    for (const key in inputs) {
-        if (inside(point, inputs[key]["boundaries"])) {
-            inputs[key]["identifier"] = touch.identifier;
-            break;
-        }
-    }
-
-    showInputs();
-
-    // prevent zooming, scrolling, selecting, etc.
-    event.returnValue = false;
-}*/
-
 function touchEnd(event) {
     for (const touchKey in event.changedTouches) {
         const touch = event.changedTouches[touchKey];
@@ -137,26 +152,10 @@ function touchEnd(event) {
     // prevent zooming, scrolling, selecting, etc.
     event.returnValue = false;
 }
-  
-let div1 = document.querySelector("#game-controller-button");
-div1.addEventListener("touchstart", touchStart);
-div1.addEventListener("touchmove", touchStart);
-div1.addEventListener("touchend", touchEnd);
-div1.addEventListener("touchcancel", touchEnd);
 
-/*var metaViewport = document.querySelector('meta[name="viewport"]');
-metaViewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, orientation=landscape');*/
-
-/* iOS re-orientation fix */
-if (navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i)) {
-    /* iOS hides Safari address bar */
-    window.addEventListener("load",function() {
-        setTimeout(function() {
-            window.scrollTo(0, 1);
-        }, 1000);
-    });
-}
-
-
+env.addEventListener("touchstart", touchStart);
+env.addEventListener("touchmove", touchStart);
+env.addEventListener("touchend", touchEnd);
+env.addEventListener("touchcancel", touchEnd);
 
 //setInterval(updateDashboard, 500);
