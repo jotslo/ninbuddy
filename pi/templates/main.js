@@ -39,7 +39,7 @@ function absorbEvent(event) {
 
 function touchStart(event) {
     const touch = event.touches[0];
-    const point = [touch.clientX / window.innerWidth, touch.clientY / window.innerHeight];
+    const point = [1280 * touch.clientX / window.innerWidth, 637 * touch.clientY / window.innerHeight];
 
     if (inside(point, boundaries["L"])) {
         document.getElementById('msg').textContent = "L";
