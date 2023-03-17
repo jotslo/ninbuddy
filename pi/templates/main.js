@@ -243,7 +243,7 @@ env.addEventListener("touchcancel", touchEnd);
 
 function sendInput() {
     if (readyForInput) {
-        //socket.emit("input-packet", inputs);
+        socket.emit("input-packet", inputs);
     }
 }
 
