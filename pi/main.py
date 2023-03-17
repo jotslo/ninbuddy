@@ -52,12 +52,15 @@ def update_joystick(joystick):
     update_packet(["R_STICK", "X_VALUE"], joystick.get_axis(3) * 100)
     update_packet(["R_STICK", "Y_VALUE"], joystick.get_axis(4) * -100)
 
-def create_controller():
+def create_controller(is_real):
     global joystick, state
 
     state = "Connecting controller..."
-    joystick = pygame.joystick.Joystick(0)
-    joystick.init()
+
+    if is_real:
+        joystick = pygame.joystick.Joystick(0)
+        joystick.init()
+
     data.controller = nx.create_controller(nxbt.PRO_CONTROLLER)
     nx.wait_for_connection(data.controller)
     state = "Controller connected!"
@@ -65,6 +68,11 @@ def create_controller():
 @socketio.on("connect")
 def on_connect():
     print("Connected!")
+
+    if data.controller == None:
+        create_controller(False)
+    
+    emit("ready-for-input", True)
 
 @socketio.on("disconnect")
 def on_disconnect():
@@ -74,6 +82,10 @@ def on_disconnect():
 def get_state():
     emit("get-state", state)
 
+@socketio.on("input-packet")
+def input_packet(packet):
+    print(packet)
+
 if __name__ == '__main__':
     threading.Thread(target=lambda: socketio.run(app, host="0.0.0.0", port="7999", debug=True, use_reloader=False)).start()
 
@@ -82,7 +94,7 @@ data.setup(nx)
 pygame.init()
 
 if pygame.joystick.get_count() >= 1:
-    create_controller()
+    create_controller(True)
 
 while True:
     if data.controller != None:
@@ -97,7 +109,7 @@ while True:
     for event in pygame.event.get():
         if event.type == pygame.JOYDEVICEADDED and pygame.joystick.get_count() == 1:
             if data.controller == None:
-                create_controller()
+                create_controller(True)
         
         elif event.type == pygame.JOYDEVICEREMOVED and pygame.joystick.get_count() == 0:
             if data.controller != None:

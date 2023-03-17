@@ -15,6 +15,7 @@ must be finished thursday
 */
 
 const env = document.querySelector("#game-controller-button");
+var readyForInput = false;
 var socket = io();
 
 // input data & identifiers in order of priority
@@ -240,15 +241,10 @@ env.addEventListener("touchmove", touchMove);
 env.addEventListener("touchend", touchEnd);
 env.addEventListener("touchcancel", touchEnd);
 
-function test() {
-    // for each input, debug the name
-    var c="";
-    for (const key in inputs) {
-        if (inputs[key]["identifier"] != null) {
-            c += key + ", ";
-        }
+function sendInput() {
+    if (readyForInput) {
+        socket.emit("input-packet", inputs);
     }
-    //debug(c);
 }
 
 // when get-state is received, update the dashboard
@@ -257,6 +253,9 @@ socket.on("get-state", function(state) {
     dashboardHeader.textContent = state;
 });
 
-//setInterval(test, 1000 / 60);
+socket.on("ready-for-input", function(state) {
+    readyForInput = state;
+})
 
+setInterval(sendInput, 1000 / 60);
 setInterval(updateDashboard, 500);
