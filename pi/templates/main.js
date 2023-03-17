@@ -259,13 +259,8 @@ function test() {
     //debug(c);
 }
 
-socket.on("connect", function() {
-    socket.emit("get-state");
-});
-
-// when get-state is received, update the state
-socket.on("get-state", function(state) {
-    debug(state);
+socket.on("state", function(data) {
+    debug(data);
 });
 
 
