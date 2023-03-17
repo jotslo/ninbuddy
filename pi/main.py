@@ -54,17 +54,18 @@ def update_joystick(joystick):
 
 def create_controller(is_real):
     global joystick, state
-
+    print(1)
     state = "Connecting controller..."
     data.is_real_controller = is_real
-
+    print(2)
     if is_real:
         joystick = pygame.joystick.Joystick(0)
         joystick.init()
-
+    print(3)
     data.controller = nx.create_controller(nxbt.PRO_CONTROLLER)
     nx.wait_for_connection(data.controller)
     state = "Controller connected!"
+    print(4)
 
 @socketio.on("connect")
 def on_connect():
