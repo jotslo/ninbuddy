@@ -76,7 +76,7 @@ while True:
     current_time = time.time()
 
     if current_time - data.last_state_update > 0.5:
-        emit("state", state)
+        emit("state", state, broadcast=True)
         data.last_state_update = current_time
 
     if data.controller != None:
