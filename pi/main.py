@@ -65,7 +65,7 @@ def create_controller(is_real):
     data.controller = nx.create_controller(nxbt.PRO_CONTROLLER)
     nx.wait_for_connection(data.controller)
     state = "Controller connected!"
-    emit("ready-for-input", True)
+    emit("ready-for-input", True, broadcast=True)
     print(4)
 
 @socketio.on("connect")
