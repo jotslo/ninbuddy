@@ -89,7 +89,7 @@ def input_packet(packet):
         print(i)
 
 if __name__ == '__main__':
-    threading.Thread(target=lambda: socketio.run(app, host="0.0.0.0", port="7998", debug=True, use_reloader=False)).start()
+    threading.Thread(target=lambda: socketio.run(app, host="0.0.0.0", port="7997", debug=True, use_reloader=False)).start()
 
 nx = nxbt.Nxbt()
 data.setup(nx)
