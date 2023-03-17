@@ -28,45 +28,45 @@ const env = document.querySelector("#game-controller-button");
 
 // input data & identifiers in order of priority
 var inputs = {
-    "L": {"identifier": null, "touchpoint": [0, 0],
+    "L": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
         "boundaries": [[-200, 0], [150, 0], [150, 113], [-200, 113]]},
-    "ZL": {"identifier": null, "touchpoint": [0, 0],
+    "ZL": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
         "boundaries": [[150, 0], [312, 0], [312, 86], [150, 86]]},
-    "R": {"identifier": null, "touchpoint": [0, 0],
+    "R": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
         "boundaries": [[1124, 0], [1500, 0], [1500, 113], [1124, 113]]},
-    "ZR": {"identifier": null, "touchpoint": [0, 0],
+    "ZR": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
         "boundaries": [[958, 0], [1124, 0], [1124, 86], [958, 86]]},
 
-    "A": {"identifier": null, "touchpoint": [0, 0],
+    "A": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
         "boundaries": [[1026, 285], [1500, -180], [1500, 750]]},
-    "B": {"identifier": null, "touchpoint": [0, 0],
+    "B": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
         "boundaries": [[1026, 285], [1243, 498], [1134, 606], [921, 391]]},
-    "Y": {"identifier": null, "touchpoint": [0, 0],
+    "Y": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
         "boundaries": [[1026, 285], [921, 391], [759, 228], [862, 126]]},
-    "X": {"identifier": null, "touchpoint": [0, 0],
+    "X": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
         "boundaries": [[1026, 285], [862, 126], [1032, -31], [1192, 124]]},
 
-    "Up": {"identifier": null, "touchpoint": [0, 0],
+    "Up": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
         "boundaries": [[423, 430], [310, 331], [423, 236], [523, 334]]},
-    "Right": {"identifier": null, "touchpoint": [0, 0],
+    "Right": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
         "boundaries": [[423, 430], [523, 334], [635, 435], [535, 530]]},
-    "Down": {"identifier": null, "touchpoint": [0, 0],
+    "Down": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
         "boundaries": [[423, 430], [532, 536], [425, 643], [318, 546]]},
-    "Left": {"identifier": null, "touchpoint": [0, 0],
+    "Left": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
         "boundaries": [[423, 430], [310, 333], [210, 434], [312, 535]]},
 
-    "Minus": {"identifier": null, "touchpoint": [0, 0],
+    "Minus": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
         "boundaries": [[424, 60], [546, 60], [546, 121], [478, 184], [424, 184]]},
-    "Plus": {"identifier": null, "touchpoint": [0, 0],
+    "Plus": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
         "boundaries": [[672, 60], [796, 60], [796, 184], [733, 184], [672, 121]]},
-    "Screenshot": {"identifier": null, "touchpoint": [0, 0],
+    "Screenshot": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
         "boundaries": [[546, 121], [604, 121], [604, 245], [478, 245], [478, 184]]},
-    "Home": {"identifier": null, "touchpoint": [0, 0],
+    "Home": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
         "boundaries": [[614, 121], [672, 121], [733, 184], [733, 245], [614, 245]]},
 
-    "LStick": {"identifier": null, "touchpoint": [0, 0],
+    "LStick": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0], 
         "boundaries": [[-300, -300], [492, -300], [492, 800], [-300, 800]]},
-    "RStick": {"identifier": null, "touchpoint": [0, 0],
+    "RStick": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
         "boundaries": [[493, 241], [1095, 241], [1095, 800], [493, 800]]},
 }
 
@@ -191,13 +191,17 @@ function touchMove(event) {
 
         if (inputKey) {
             if (inputKey.includes("Stick")) {
+                const input = inputs[inputKey];
                 const point = [1280 * touch.clientX / window.innerWidth,
                     637 * touch.clientY / window.innerHeight];
 
                 const innerStick = document.getElementById(inputKey + "-inner");
 
-                innerStick.style.left = (point[0] / 12.8 - 7.5) + "%";
-                innerStick.style.top = (point[1] / 6.37 - 7.5) + "%";
+                innerStick.style.left = (point[0] / 12.8 - 5) + "%";
+                innerStick.style.top = (point[1] / 6.37 - 10) + "%";
+
+                input["userinput"] = [point[0] - input["touchpoint"][0],
+                    point[1] - input["touchpoint"][1]];
             }
         }
     }
@@ -216,6 +220,7 @@ function touchEnd(event) {
             if (inputs[key]["identifier"] == touch.identifier) {
                 inputs[key]["identifier"] = null;
                 inputs[key]["touchpoint"] = [0, 0];
+                inputs[key]["userinput"] = [0, 0];
 
                 if (key.includes("Stick")) {
                     const innerStick = document.getElementById(key + "-inner");
@@ -252,7 +257,7 @@ function test() {
             c += key + ", ";
         }
     }
-    debug(c);
+    //debug(c);
 }
 
 setInterval(test, 1000 / 60);
