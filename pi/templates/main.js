@@ -259,8 +259,13 @@ function test() {
     //debug(c);
 }
 
-socket.on('connect', function() {
-    socket.emit('message', {data: 'I\'m connected!'});
+socket.on("connect", function() {
+    socket.emit("get-state");
+});
+
+// when get-state is received, update the state
+socket.on("get-state", function(state) {
+    debug(state);
 });
 
 
