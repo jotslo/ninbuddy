@@ -65,6 +65,7 @@ def create_controller(is_real):
     data.controller = nx.create_controller(nxbt.PRO_CONTROLLER)
     nx.wait_for_connection(data.controller)
     state = "Controller connected!"
+    emit("ready-for-input", True)
     print(4)
 
 @socketio.on("connect")
@@ -72,9 +73,7 @@ def on_connect():
     print("Connected!")
 
     if data.controller == None:
-        create_controller(False)
-    
-    emit("ready-for-input", True)
+        threading.Thread(target=lambda: create_controller(False)).start()
 
 @socketio.on("disconnect")
 def on_disconnect():
