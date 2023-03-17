@@ -7,6 +7,7 @@ import data
 import time
 import os
 import numpy
+import random
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "ninbuddy"
@@ -120,6 +121,8 @@ while True:
             if data.is_real_controller:
                 update_joystick(joystick)
                 data.last_movement = current_time
+            
+            data.packet["L_STICK"]["X_VALUE"] += random.randint(0, 1) == 0 and -0.001 or 0.001
 
             nx.set_controller_input(data.controller, data.packet)
 
