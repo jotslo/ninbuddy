@@ -238,8 +238,6 @@ function touchEnd(event) {
         }
     }
 
-    //showInputs();
-
     // prevent zooming, scrolling, selecting, etc.
     event.returnValue = false;
 }
