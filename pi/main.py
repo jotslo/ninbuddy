@@ -64,7 +64,7 @@ def create_controller():
 
 @socketio.on('message')
 def handle_message(data):
-    print('received message: ' + data)
+    print('received message: ', data)
 
 if __name__ == '__main__':
     threading.Thread(target=lambda: socketio.run(app, host="0.0.0.0", port="8000", debug=True, use_reloader=False)).start()
