@@ -6,6 +6,7 @@ import nxbt
 import data
 import time
 import os
+import numpy
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "ninbuddy"
@@ -85,8 +86,19 @@ def get_state():
 
 @socketio.on("input-packet")
 def input_packet(packet):
-    for i in packet:
-        print(i)
+    for button_name in packet:
+        if "STICK" in button_name:
+            if packet[button_name]["identifier"]:
+                data.packet[button_name]["X_VALUE"] = numpy.clip(-100, packet[button_name]["userinput"][0], 100)
+                data.packet[button_name]["Y_VALUE"] = numpy.clip(-100, packet[button_name]["userinput"][1], 100)
+            else:
+                data.packet[button_name]["X_VALUE"] = 0
+                data.packet[button_name]["Y_VALUE"] = 0
+        else:
+            if packet[button_name]["identifier"]:
+                data.packet[button_name] = True
+            else:
+                data.packet[button_name] = False
 
 if __name__ == '__main__':
     threading.Thread(target=lambda: socketio.run(app, host="0.0.0.0", port="7997", debug=True, use_reloader=False)).start()
