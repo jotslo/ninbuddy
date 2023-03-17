@@ -243,7 +243,17 @@ env.addEventListener("touchcancel", touchEnd);
 
 function sendInput() {
     if (readyForInput) {
-        socket.emit("input-packet", inputs);
+        var inputPacket = {};
+
+        for (const key in inputs) {
+            inputPacket[key] = {};
+            inputPacket[key]["identifier"] = inputs[key]["identifier"] != null ? 1 : 0;
+            if (key.includes("STICK")) {
+                inputPacket[key]["userinput"] = inputs[key]["userinput"];
+            }
+        }
+
+        socket.emit("input-packet", inputPacket);
     }
 }
 
@@ -257,5 +267,5 @@ socket.on("ready-for-input", function(state) {
     readyForInput = state;
 })
 
-setInterval(sendInput, 1 / 60);
+setInterval(sendInput, 1 / 30);
 setInterval(updateDashboard, 500);
