@@ -258,6 +258,6 @@ function test() {
     //debug(c);
 }
 
-setInterval(test, 1000 / 60);
+//setInterval(test, 1000 / 60);
 
-//setInterval(updateDashboard, 500);
+setInterval(updateDashboard, 500);
