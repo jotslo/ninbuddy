@@ -63,7 +63,7 @@ def create_controller():
     state = "Controller connected!"
 
 @socketio.on("get-state")
-def get_state(data):
+def get_state():
     emit("get-state", state)
 
 if __name__ == '__main__':
