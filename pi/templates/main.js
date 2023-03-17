@@ -10,43 +10,64 @@ Right Joystick
 1095, 241
 1095, 800
 493, 800
+
+when user moves joystick, update position by correlating with original position
+fix whatever is happening right now
+then send data to server
+on server, send data to switch as if its a controller
+
+implement rotate page
+implement waiting for controller to connect page
+implement controller connected page
+
+must be finished thursday
+
 */
 
 const env = document.querySelector("#game-controller-button");
 
+// input data & identifiers in order of priority
 var inputs = {
-    "L": {"identifier": null,
+    "L": {"identifier": null, "touchpoint": [0, 0],
         "boundaries": [[-200, 0], [150, 0], [150, 113], [-200, 113]]},
-    "ZL": {"identifier": null,
+    "ZL": {"identifier": null, "touchpoint": [0, 0],
         "boundaries": [[150, 0], [312, 0], [312, 86], [150, 86]]},
-    "R": {"identifier": null,
+    "R": {"identifier": null, "touchpoint": [0, 0],
         "boundaries": [[1124, 0], [1500, 0], [1500, 113], [1124, 113]]},
-    "ZR": {"identifier": null,
+    "ZR": {"identifier": null, "touchpoint": [0, 0],
         "boundaries": [[958, 0], [1124, 0], [1124, 86], [958, 86]]},
-    "A": {"identifier": null,
+
+    "A": {"identifier": null, "touchpoint": [0, 0],
         "boundaries": [[1026, 285], [1500, -180], [1500, 750]]},
-    "B": {"identifier": null,
+    "B": {"identifier": null, "touchpoint": [0, 0],
         "boundaries": [[1026, 285], [1243, 498], [1134, 606], [921, 391]]},
-    "Y": {"identifier": null,
+    "Y": {"identifier": null, "touchpoint": [0, 0],
         "boundaries": [[1026, 285], [921, 391], [759, 228], [862, 126]]},
-    "X": {"identifier": null,
+    "X": {"identifier": null, "touchpoint": [0, 0],
         "boundaries": [[1026, 285], [862, 126], [1032, -31], [1192, 124]]},
-    "Up": {"identifier": null,
+
+    "Up": {"identifier": null, "touchpoint": [0, 0],
         "boundaries": [[423, 430], [310, 331], [423, 236], [523, 334]]},
-    "Right": {"identifier": null,
+    "Right": {"identifier": null, "touchpoint": [0, 0],
         "boundaries": [[423, 430], [523, 334], [635, 435], [535, 530]]},
-    "Down": {"identifier": null,
+    "Down": {"identifier": null, "touchpoint": [0, 0],
         "boundaries": [[423, 430], [532, 536], [425, 643], [318, 546]]},
-    "Left": {"identifier": null,
+    "Left": {"identifier": null, "touchpoint": [0, 0],
         "boundaries": [[423, 430], [310, 333], [210, 434], [312, 535]]},
-    "Minus": {"identifier": null,
+
+    "Minus": {"identifier": null, "touchpoint": [0, 0],
         "boundaries": [[424, 60], [546, 60], [546, 121], [478, 184], [424, 184]]},
-    "Plus": {"identifier": null,
+    "Plus": {"identifier": null, "touchpoint": [0, 0],
         "boundaries": [[672, 60], [796, 60], [796, 184], [733, 184], [672, 121]]},
-    "Screenshot": {"identifier": null,
+    "Screenshot": {"identifier": null, "touchpoint": [0, 0],
         "boundaries": [[546, 121], [604, 121], [604, 245], [478, 245], [478, 184]]},
-    "Home": {"identifier": null,
-        "boundaries": [[614, 121], [672, 121], [733, 184], [733, 245], [614, 245]]}
+    "Home": {"identifier": null, "touchpoint": [0, 0],
+        "boundaries": [[614, 121], [672, 121], [733, 184], [733, 245], [614, 245]]},
+
+    "LStick": {"identifier": null, "touchpoint": [0, 0],
+        "boundaries": [[-300, -300], [492, -300], [492, 800], [-300, 800]]},
+    "RStick": {"identifier": null, "touchpoint": [0, 0],
+        "boundaries": [[493, 241], [1095, 241], [1095, 800], [493, 800]]},
 }
 
 function inside(point, vs) {
@@ -68,6 +89,10 @@ function inside(point, vs) {
     return inside;
 };
 
+function debug(msg) {
+    document.getElementById("msg").textContent = msg;
+}
+
 function updateDashboard() {
     fetch('/data')
         .then(response => response.json())
@@ -86,6 +111,18 @@ function showInputs() {
             document.getElementById("msg").textContent += key + ", ";
         }
     }
+}
+
+function getInputFromIdentifier(identifier) {
+    for (const inputKey in inputs) {
+        const input = inputs[inputKey];
+
+        if (input["identifier"] == identifier) {
+            return inputKey;
+        }
+    }
+
+    return null;
 }
 
 function getNewestTouches(event) {
@@ -121,41 +158,103 @@ function touchStart(event) {
             637 * touch.clientY / window.innerHeight];
         
         for (const key in inputs) {
-            if (inside(point, inputs[key]["boundaries"])) {
+            if (inside(point, inputs[key]["boundaries"]) && inputs[key]["identifier"] == null) {
                 inputs[key]["identifier"] = touch.identifier;
+                inputs[key]["touchpoint"] = point;
+
+                if (key.includes("Stick")) {
+                    const innerStick = document.getElementById(key + "-inner");
+                    const outerStick = document.getElementById(key + "-outer");
+
+                    outerStick.style.left = (point[0] / 12.8 - 7.5) + "%";
+                    outerStick.style.top = (point[1] / 6.37 - 15) + "%";
+
+                    innerStick.style.left = (point[0] / 12.8 - 5) + "%";
+                    innerStick.style.top = (point[1] / 6.37 - 10) + "%";
+                }
+
                 break;
             }
         }
     }
 
-    // debugging purposes
-    showInputs();
+    // prevent zooming, scrolling, selecting, etc.
+    event.returnValue = false;
+}
+
+function touchMove(event) {
+    const activeTouches = Array.from(event.touches);
+    
+    for (const touchKey in activeTouches) {
+        const touch = event.touches[touchKey];
+        const inputKey = getInputFromIdentifier(touch.identifier);
+
+        if (inputKey) {
+            if (inputKey.includes("Stick")) {
+                const point = [1280 * touch.clientX / window.innerWidth,
+                    637 * touch.clientY / window.innerHeight];
+
+                const innerStick = document.getElementById(inputKey + "-inner");
+
+                innerStick.style.left = (point[0] / 12.8 - 7.5) + "%";
+                innerStick.style.top = (point[1] / 6.37 - 7.5) + "%";
+            }
+        }
+    }
 
     // prevent zooming, scrolling, selecting, etc.
     event.returnValue = false;
 }
 
 function touchEnd(event) {
-    for (const touchKey in event.changedTouches) {
-        const touch = event.changedTouches[touchKey];
+    const endedTouches = Array.from(event.changedTouches);
+
+    for (const touchKey in endedTouches) {
+        const touch = endedTouches[touchKey];
 
         for (const key in inputs) {
             if (inputs[key]["identifier"] == touch.identifier) {
                 inputs[key]["identifier"] = null;
+                inputs[key]["touchpoint"] = [0, 0];
+
+                if (key.includes("Stick")) {
+                    const innerStick = document.getElementById(key + "-inner");
+                    const outerStick = document.getElementById(key + "-outer");
+
+                    outerStick.style.left = key == "LStick" ? "6%" : "53.5%";
+                    outerStick.style.top = key == "LStick" ? "20%" : "60%";
+
+                    innerStick.style.left = key == "LStick" ? "8.5%" : "56%";
+                    innerStick.style.top = key == "LStick" ? "25%" : "65%";
+                }
+
                 break;
             }
         }
     }
 
-    showInputs();
+    //showInputs();
 
     // prevent zooming, scrolling, selecting, etc.
     event.returnValue = false;
 }
 
 env.addEventListener("touchstart", touchStart);
-env.addEventListener("touchmove", touchStart);
+env.addEventListener("touchmove", touchMove);
 env.addEventListener("touchend", touchEnd);
 env.addEventListener("touchcancel", touchEnd);
+
+function test() {
+    // for each input, debug the name
+    var c="";
+    for (const key in inputs) {
+        if (inputs[key]["identifier"] != null) {
+            c += key + ", ";
+        }
+    }
+    debug(c);
+}
+
+setInterval(test, 1000 / 60);
 
 //setInterval(updateDashboard, 500);
