@@ -1,4 +1,5 @@
 from flask import Flask, render_template, jsonify
+from flask_socketio import SocketIO, emit
 import threading
 import pygame
 import nxbt
@@ -7,6 +8,9 @@ import time
 import os
 
 app = Flask(__name__)
+app.config["SECRET_KEY"] = "ninbuddy"
+socketio = SocketIO(app)
+
 state = "Waiting for controller..."
 
 global joystick
@@ -14,11 +18,15 @@ os.environ["SDL_VIDEODRIVER"] = "dummy"
 
 @app.route("/")
 def dashboard():
-    return render_template('dashboard.html')
+    return render_template("dashboard.html")
 
 @app.route('/data')
 def get_data():
-    data = {'message': state}
+    data = {
+        "message": state,
+        "real_controller": data.controller != None
+    }
+
     return jsonify(data)
 
 @app.route('/main.js')
@@ -54,8 +62,12 @@ def create_controller():
     nx.wait_for_connection(data.controller)
     state = "Controller connected!"
 
+@socketio.on('message')
+def handle_message(data):
+    print('received message: ' + data)
+
 if __name__ == '__main__':
-    threading.Thread(target=lambda: app.run(host="0.0.0.0", port="8000", debug=True, use_reloader=False)).start()
+    threading.Thread(target=lambda: socketio.run(app, host="0.0.0.0", port="8000", debug=True, use_reloader=False)).start()
 
 nx = nxbt.Nxbt()
 data.setup(nx)
@@ -64,7 +76,6 @@ pygame.init()
 if pygame.joystick.get_count() >= 1:
     create_controller()
 
-state = "3"
 while True:
     if data.controller != None:
         current_time = time.time()

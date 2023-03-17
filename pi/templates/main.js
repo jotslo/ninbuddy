@@ -25,6 +25,7 @@ must be finished thursday
 */
 
 const env = document.querySelector("#game-controller-button");
+var socket = io();
 
 // input data & identifiers in order of priority
 var inputs = {
@@ -258,6 +259,11 @@ function test() {
     //debug(c);
 }
 
+socket.on('connect', function() {
+    socket.emit('message', {data: 'I\'m connected!'});
+});
+
+
 //setInterval(test, 1000 / 60);
 
-setInterval(updateDashboard, 500);
+//setInterval(updateDashboard, 500);
