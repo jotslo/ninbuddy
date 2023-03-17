@@ -1,15 +1,5 @@
 /*
-Left Joystick
--300, -300
-492, -300
-492, 800
--300, 800
 
-Right Joystick
-493, 241
-1095, 241
-1095, 800
-493, 800
 
 when user moves joystick, update position by correlating with original position
 fix whatever is happening right now

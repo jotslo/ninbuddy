@@ -62,6 +62,14 @@ def create_controller():
     nx.wait_for_connection(data.controller)
     state = "Controller connected!"
 
+@socketio.on("connect")
+def on_connect():
+    print("Connected!")
+
+@socketio.on("disconnect")
+def on_disconnect():
+    print("Disconnected!")
+
 @socketio.on("get-state")
 def get_state():
     emit("get-state", state)
@@ -77,7 +85,6 @@ if pygame.joystick.get_count() >= 1:
     create_controller()
 
 while True:
-    state = state == "x" and "y" or "x"
     if data.controller != None:
         current_time = time.time()
 
