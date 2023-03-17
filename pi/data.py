@@ -3,6 +3,7 @@ button_map = None
 last_movement = 0
 controller = None
 last_state_update = 0
+is_real_controller = False
 
 def setup(nx):
     global packet, button_map
