@@ -89,10 +89,10 @@ def input_packet(packet):
     for button_name in packet:
         if "STICK" in button_name:
             if packet[button_name]["identifier"]:
-                print("x: ", numpy.clip(-50, packet[button_name]["userinput"][0], 50))
-                print("y: ", numpy.clip(-50, packet[button_name]["userinput"][1], 50))
-                data.packet[button_name]["X_VALUE"] = numpy.clip(-50, packet[button_name]["userinput"][0], 50)
-                data.packet[button_name]["Y_VALUE"] = numpy.clip(-50, packet[button_name]["userinput"][1], 50)
+                print("x: ", packet[button_name]["userinput"][0])
+                print("y: ", packet[button_name]["userinput"][1])
+                data.packet[button_name]["X_VALUE"] = packet[button_name]["userinput"][0]
+                data.packet[button_name]["Y_VALUE"] = packet[button_name]["userinput"][1]
             else:
                 data.packet[button_name]["X_VALUE"] = 0
                 data.packet[button_name]["Y_VALUE"] = 0
