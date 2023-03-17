@@ -257,5 +257,5 @@ socket.on("ready-for-input", function(state) {
     readyForInput = state;
 })
 
-setInterval(sendInput, 500);
+setInterval(sendInput, 1000 / 60);
 setInterval(updateDashboard, 500);
