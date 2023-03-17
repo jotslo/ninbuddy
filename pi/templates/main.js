@@ -38,27 +38,27 @@ var inputs = {
     "X": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
         "boundaries": [[1026, 285], [862, 126], [1032, -31], [1192, 124]]},
 
-    "Up": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
+    "DPAD_UP": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
         "boundaries": [[423, 430], [310, 331], [423, 236], [523, 334]]},
-    "Right": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
+    "DPAD_RIGHT": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
         "boundaries": [[423, 430], [523, 334], [635, 435], [535, 530]]},
-    "Down": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
+    "DPAD_DOWN": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
         "boundaries": [[423, 430], [532, 536], [425, 643], [318, 546]]},
-    "Left": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
+    "DPAD_LEFT": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
         "boundaries": [[423, 430], [310, 333], [210, 434], [312, 535]]},
 
-    "Minus": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
+    "MINUS": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
         "boundaries": [[424, 60], [546, 60], [546, 121], [478, 184], [424, 184]]},
-    "Plus": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
+    "PLUS": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
         "boundaries": [[672, 60], [796, 60], [796, 184], [733, 184], [672, 121]]},
-    "Screenshot": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
+    "SCREENSHOT": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
         "boundaries": [[546, 121], [604, 121], [604, 245], [478, 245], [478, 184]]},
-    "Home": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
+    "HOME": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
         "boundaries": [[614, 121], [672, 121], [733, 184], [733, 245], [614, 245]]},
 
-    "LStick": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0], 
+    "L_STICK": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0], 
         "boundaries": [[-300, -300], [492, -300], [492, 800], [-300, 800]]},
-    "RStick": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
+    "R_STICK": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
         "boundaries": [[493, 241], [1095, 241], [1095, 800], [493, 800]]},
 }
 
@@ -156,7 +156,7 @@ function touchStart(event) {
                 inputs[key]["identifier"] = touch.identifier;
                 inputs[key]["touchpoint"] = point;
 
-                if (key.includes("Stick")) {
+                if (key.includes("STICK")) {
                     const innerStick = document.getElementById(key + "-inner");
                     const outerStick = document.getElementById(key + "-outer");
 
@@ -184,7 +184,7 @@ function touchMove(event) {
         const inputKey = getInputFromIdentifier(touch.identifier);
 
         if (inputKey) {
-            if (inputKey.includes("Stick")) {
+            if (inputKey.includes("STICK")) {
                 const input = inputs[inputKey];
                 const point = [1280 * touch.clientX / window.innerWidth,
                     637 * touch.clientY / window.innerHeight];
@@ -216,15 +216,15 @@ function touchEnd(event) {
                 inputs[key]["touchpoint"] = [0, 0];
                 inputs[key]["userinput"] = [0, 0];
 
-                if (key.includes("Stick")) {
+                if (key.includes("STICK")) {
                     const innerStick = document.getElementById(key + "-inner");
                     const outerStick = document.getElementById(key + "-outer");
 
-                    outerStick.style.left = key == "LStick" ? "6%" : "53.5%";
-                    outerStick.style.top = key == "LStick" ? "20%" : "60%";
+                    outerStick.style.left = key == "L_STICK" ? "6%" : "53.5%";
+                    outerStick.style.top = key == "L_STICK" ? "20%" : "60%";
 
-                    innerStick.style.left = key == "LStick" ? "8.5%" : "56%";
-                    innerStick.style.top = key == "LStick" ? "25%" : "65%";
+                    innerStick.style.left = key == "L_STICK" ? "8.5%" : "56%";
+                    innerStick.style.top = key == "L_STICK" ? "25%" : "65%";
                 }
 
                 break;

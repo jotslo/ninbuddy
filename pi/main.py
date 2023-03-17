@@ -85,7 +85,8 @@ def get_state():
 
 @socketio.on("input-packet")
 def input_packet(packet):
-    print(packet)
+    for i in packet:
+        print(i)
 
 if __name__ == '__main__':
     threading.Thread(target=lambda: socketio.run(app, host="0.0.0.0", port="7998", debug=True, use_reloader=False)).start()
@@ -99,14 +100,14 @@ if pygame.joystick.get_count() >= 1:
 
 while True:
     if data.controller != None:
-        if data.is_real_controller:
-            current_time = time.time()
+        current_time = time.time()
 
-            if current_time - data.last_movement > 1/120:
+        if current_time - data.last_movement > 1/120:
+            if data.is_real_controller:
                 update_joystick(joystick)
                 data.last_movement = current_time
 
-                nx.set_controller_input(data.controller, data.packet)
+            nx.set_controller_input(data.controller, data.packet)
 
     for event in pygame.event.get():
         if event.type == pygame.JOYDEVICEADDED and pygame.joystick.get_count() == 1:
