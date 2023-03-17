@@ -77,6 +77,7 @@ if pygame.joystick.get_count() >= 1:
     create_controller()
 
 while True:
+    state = state == "x" and "y" or "x"
     if data.controller != None:
         current_time = time.time()
 
