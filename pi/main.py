@@ -106,7 +106,7 @@ while True:
                 update_joystick(joystick)
                 data.last_movement = current_time
 
-        nx.set_controller_input(data.controller, data.packet)
+                nx.set_controller_input(data.controller, data.packet)
 
     for event in pygame.event.get():
         if event.type == pygame.JOYDEVICEADDED and pygame.joystick.get_count() == 1:
