@@ -92,8 +92,8 @@ def input_packet(packet):
             if packet[button_name]["identifier"]:
                 print("x: ", packet[button_name]["userinput"][0])
                 print("y: ", packet[button_name]["userinput"][1])
-                data.packet[button_name]["X_VALUE"] = packet[button_name]["userinput"][0]
-                data.packet[button_name]["Y_VALUE"] = packet[button_name]["userinput"][1]
+                data.packet[button_name]["X_VALUE"] = packet[button_name]["userinput"][0] / 5
+                data.packet[button_name]["Y_VALUE"] = packet[button_name]["userinput"][1] / 5
             else:
                 data.packet[button_name]["X_VALUE"] = 0
                 data.packet[button_name]["Y_VALUE"] = 0
@@ -121,8 +121,6 @@ while True:
             if data.is_real_controller:
                 update_joystick(joystick)
                 data.last_movement = current_time
-            
-            data.packet["L_STICK"]["X_VALUE"] += random.randint(0, 1) == 0 and -0.001 or 0.001
 
             nx.set_controller_input(data.controller, data.packet)
 
