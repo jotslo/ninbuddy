@@ -23,13 +23,13 @@ def get_data():
 
 @app.route('/main.js')
 def get_main_js():
-    with open('pi/templates/main.js', 'r') as f:
+    with open('templates/main.js', 'r') as f:
         return f.read()
 
 @app.route('/stylesheet.css')
 def get_stylesheet():
     # Return the contents of stylesheet.css as a CSS response
-    with open('pi/templates/stylesheet.css', 'r') as f:
+    with open('templates/stylesheet.css', 'r') as f:
         return f.read()
 
 def update_packet(location, state):
