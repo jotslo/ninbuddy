@@ -95,13 +95,15 @@ function debug(msg) {
 }
 
 function updateDashboard() {
-    fetch('/data')
+    /*fetch('/data')
         .then(response => response.json())
         .then(data => {
             const dashboardHeader = document.getElementById('msg');
             dashboardHeader.textContent = data.message;
         }
-    );
+    );*/
+
+    socket.emit("get-state");
 }
 
 function showInputs() {
@@ -259,11 +261,12 @@ function test() {
     //debug(c);
 }
 
-socket.on("state", function(data) {
-    debug(data);
+// when get-state is received, update the dashboard
+socket.on("get-state", function(state) {
+    const dashboardHeader = document.getElementById('msg');
+    dashboardHeader.textContent = state;
 });
-
 
 //setInterval(test, 1000 / 60);
 
-//setInterval(updateDashboard, 500);
+setInterval(updateDashboard, 500);
