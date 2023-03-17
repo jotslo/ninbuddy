@@ -59,13 +59,12 @@ if __name__ == '__main__':
 
 nx = nxbt.Nxbt()
 data.setup(nx)
-state = "1"
 pygame.init()
-state = "2"
 
 if pygame.joystick.get_count() >= 1:
     create_controller()
 
+state = "3"
 while True:
     if data.controller != None:
         current_time = time.time()
