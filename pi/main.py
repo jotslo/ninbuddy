@@ -62,10 +62,6 @@ def create_controller():
     nx.wait_for_connection(data.controller)
     state = "Controller connected!"
 
-@socketio.on("get-state")
-def handle_message(data):
-    emit("get-state", state)
-
 if __name__ == '__main__':
     threading.Thread(target=lambda: socketio.run(app, host="0.0.0.0", port="8000", debug=True, use_reloader=False)).start()
 
@@ -77,9 +73,13 @@ if pygame.joystick.get_count() >= 1:
     create_controller()
 
 while True:
-    if data.controller != None:
-        current_time = time.time()
+    current_time = time.time()
 
+    if current_time - data.last_state_update > 0.5:
+        emit("state", state)
+        data.last_state_update = current_time
+
+    if data.controller != None:
         if current_time - data.last_movement > 1/120:
             update_joystick(joystick)
             data.last_movement = current_time
