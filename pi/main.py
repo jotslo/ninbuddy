@@ -90,8 +90,6 @@ def input_packet(packet):
     for button_name in packet:
         if "STICK" in button_name:
             if packet[button_name]["identifier"]:
-                print("x: ", packet[button_name]["userinput"][0])
-                print("y: ", packet[button_name]["userinput"][1])
                 data.packet[button_name]["X_VALUE"] = packet[button_name]["userinput"][0] / 5
                 data.packet[button_name]["Y_VALUE"] = packet[button_name]["userinput"][1] / 5
             else:

@@ -1,16 +1,12 @@
 /*
 
-
-when user moves joystick, update position by correlating with original position
-fix whatever is happening right now
-then send data to server
-on server, send data to switch as if its a controller
+convert joystick input from square to circle to prevent exceeding max input
+find solution to reducing latency
 
 implement rotate page
 implement waiting for controller to connect page
 implement controller connected page
 
-must be finished thursday
 
 */
 
@@ -267,5 +263,5 @@ socket.on("ready-for-input", function(state) {
     readyForInput = state;
 })
 
-setInterval(sendInput, 1 / 30);
+setInterval(sendInput, 1 / 60);
 setInterval(updateDashboard, 500);
