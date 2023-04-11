@@ -87,7 +87,8 @@ def get_state():
 
 @socketio.on("input-packet")
 def input_packet(packet):
-    for button_name in packet:
+    print(packet)
+    """for button_name in packet:
         if "STICK" in button_name:
             if packet[button_name]["identifier"]:
                 data.packet[button_name]["X_VALUE"] = packet[button_name]["userinput"][0] / 5
@@ -99,7 +100,7 @@ def input_packet(packet):
             if packet[button_name]["identifier"]:
                 data.packet[button_name] = True
             else:
-                data.packet[button_name] = False
+                data.packet[button_name] = False"""
 
 if __name__ == '__main__':
     threading.Thread(target=lambda: socketio.run(app, host="0.0.0.0", port="7996", debug=True, use_reloader=False)).start()

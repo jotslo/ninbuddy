@@ -14,6 +14,8 @@ const env = document.querySelector("#game-controller-button");
 var readyForInput = false;
 var socket = io();
 
+var inputPacket = {};
+
 // input data & identifiers in order of priority
 var inputs = {
     "L": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
@@ -152,6 +154,8 @@ function touchStart(event) {
                 inputs[key]["identifier"] = touch.identifier;
                 inputs[key]["touchpoint"] = point;
 
+                inputPacket[key] = true;
+
                 if (key.includes("STICK")) {
                     const innerStick = document.getElementById(key + "-inner");
                     const outerStick = document.getElementById(key + "-outer");
@@ -192,6 +196,8 @@ function touchMove(event) {
 
                 input["userinput"] = [point[0] - input["touchpoint"][0],
                     point[1] - input["touchpoint"][1]];
+
+                inputPacket[inputKey] = input["userinput"];
             }
         }
     }
@@ -211,6 +217,8 @@ function touchEnd(event) {
                 inputs[key]["identifier"] = null;
                 inputs[key]["touchpoint"] = [0, 0];
                 inputs[key]["userinput"] = [0, 0];
+
+                inputPacket[key] = null;
 
                 if (key.includes("STICK")) {
                     const innerStick = document.getElementById(key + "-inner");
@@ -238,7 +246,7 @@ env.addEventListener("touchend", touchEnd);
 env.addEventListener("touchcancel", touchEnd);
 
 function sendInput() {
-    if (readyForInput) {
+    /*if (readyForInput) {
         var inputPacket = {};
 
         for (const key in inputs) {
@@ -250,6 +258,15 @@ function sendInput() {
         }
 
         socket.emit("input-packet", inputPacket);
+    }*/
+
+    if (readyForInput) {
+        if (Object.keys(inputPacket).length === 0) {
+            return;
+        }
+
+        socket.emit("input-packet", inputPacket);
+        inputPacket = {};
     }
 }
 
@@ -264,4 +281,4 @@ socket.on("ready-for-input", function(state) {
 })
 
 setInterval(sendInput, 1 / 60);
-setInterval(updateDashboard, 500);
+//setInterval(updateDashboard, 500);
