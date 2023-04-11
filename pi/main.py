@@ -91,16 +91,18 @@ def joystick_input(packet):
 
 @socketio.on("button-down")
 def button_down(packet):
+    update_packet(packet, True)
     print("DOWN", packet)
 
 @socketio.on("button-up")
 def button_up(packet):
+    update_packet(packet, False)
     print("UP", packet)
 
-@socketio.on("input-packet")
+"""@socketio.on("input-packet")
 def input_packet(packet):
     print("BTN", packet)
-    """for button_name in packet:
+    for button_name in packet:
         if "STICK" in button_name:
             if packet[button_name]["identifier"]:
                 data.packet[button_name]["X_VALUE"] = packet[button_name]["userinput"][0] / 5
