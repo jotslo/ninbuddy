@@ -87,11 +87,16 @@ def get_state():
 
 @socketio.on("joystick-input")
 def joystick_input(packet):
+    packet["L_STICK"][0] = numpy.clip(packet["L_STICK"], -100, 100)
+    packet["L_STICK"][1] = numpy.clip(packet["L_STICK"], -100, 100)
+    packet["R_STICK"][0] = numpy.clip(packet["R_STICK"], -100, 100)
+    packet["R_STICK"][1] = numpy.clip(packet["R_STICK"], -100, 100)
+
     update_packet(["L_STICK", "X_VALUE"], packet["L_STICK"][0])
     update_packet(["L_STICK", "Y_VALUE"], packet["L_STICK"][1])
     update_packet(["R_STICK", "X_VALUE"], packet["R_STICK"][0])
     update_packet(["R_STICK", "Y_VALUE"], packet["R_STICK"][1])
-
+    
     print("JOY", packet)
 
 @socketio.on("button-down")
