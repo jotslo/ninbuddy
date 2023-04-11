@@ -18,6 +18,9 @@ state = "Waiting for controller..."
 global joystick
 os.environ["SDL_VIDEODRIVER"] = "dummy"
 
+def clamp(num, min_value, max_value):
+   return max(min(num, max_value), min_value)
+
 @app.route("/")
 def dashboard():
     return render_template("dashboard.html")
@@ -87,10 +90,10 @@ def get_state():
 
 @socketio.on("joystick-input")
 def joystick_input(packet):
-    packet["L_STICK"][0] = numpy.clip(packet["L_STICK"], -100, 100)
-    packet["L_STICK"][1] = numpy.clip(packet["L_STICK"], -100, 100)
-    packet["R_STICK"][0] = numpy.clip(packet["R_STICK"], -100, 100)
-    packet["R_STICK"][1] = numpy.clip(packet["R_STICK"], -100, 100)
+    packet["L_STICK"][0] = clamp(packet["L_STICK"][0], -100, 100)
+    packet["L_STICK"][1] = clamp(packet["L_STICK"][1], -100, 100)
+    packet["R_STICK"][0] = clamp(packet["R_STICK"][0], -100, 100)
+    packet["R_STICK"][1] = clamp(packet["R_STICK"][1], -100, 100)
 
     update_packet(["L_STICK", "X_VALUE"], packet["L_STICK"][0])
     update_packet(["L_STICK", "Y_VALUE"], packet["L_STICK"][1])
