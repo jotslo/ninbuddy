@@ -85,9 +85,21 @@ def on_disconnect():
 def get_state():
     emit("get-state", state)
 
+@socketio.on("joystick-input")
+def joystick_input(packet):
+    print("JOY", packet)
+
+@socketio.on("button-down")
+def button_down(packet):
+    print("DOWN", packet)
+
+@socketio.on("button-up")
+def button_up(packet):
+    print("UP", packet)
+
 @socketio.on("input-packet")
 def input_packet(packet):
-    print(packet)
+    print("BTN", packet)
     """for button_name in packet:
         if "STICK" in button_name:
             if packet[button_name]["identifier"]:

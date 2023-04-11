@@ -16,6 +16,13 @@ var socket = io();
 
 var inputPacket = {};
 
+var joystickInput = {
+    "L_STICK": [0, 0],
+    "R_STICK": [0, 0]
+}
+
+var lastJoystickInput = {}
+
 // input data & identifiers in order of priority
 var inputs = {
     "L": {"identifier": null, "touchpoint": [0, 0], "userinput": [0, 0],
@@ -154,7 +161,7 @@ function touchStart(event) {
                 inputs[key]["identifier"] = touch.identifier;
                 inputs[key]["touchpoint"] = point;
 
-                inputPacket[key] = true;
+                //inputPacket[key] = true;
 
                 if (key.includes("STICK")) {
                     const innerStick = document.getElementById(key + "-inner");
@@ -165,6 +172,9 @@ function touchStart(event) {
 
                     innerStick.style.left = (point[0] / 12.8 - 5) + "%";
                     innerStick.style.top = (point[1] / 6.37 - 10) + "%";
+                }
+                else {
+                    socket.emit("button-down", key);
                 }
 
                 break;
@@ -197,7 +207,7 @@ function touchMove(event) {
                 input["userinput"] = [point[0] - input["touchpoint"][0],
                     point[1] - input["touchpoint"][1]];
 
-                inputPacket[inputKey] = input["userinput"];
+                joystickInput[inputKey] = input["userinput"];
             }
         }
     }
@@ -218,9 +228,9 @@ function touchEnd(event) {
                 inputs[key]["touchpoint"] = [0, 0];
                 inputs[key]["userinput"] = [0, 0];
 
-                inputPacket[key] = null;
-
                 if (key.includes("STICK")) {
+                    joystickInput[key] = [0, 0];
+
                     const innerStick = document.getElementById(key + "-inner");
                     const outerStick = document.getElementById(key + "-outer");
 
@@ -229,6 +239,9 @@ function touchEnd(event) {
 
                     innerStick.style.left = key == "L_STICK" ? "8.5%" : "56%";
                     innerStick.style.top = key == "L_STICK" ? "25%" : "65%";
+                }
+                else {
+                    socket.emit("button-up", key);
                 }
 
                 break;
@@ -261,12 +274,10 @@ function sendInput() {
     }*/
 
     if (readyForInput) {
-        if (Object.keys(inputPacket).length === 0) {
-            return;
+        if (JSON.stringify(joystickInput) != lastJoystickInput) {
+            socket.emit("joystick-input", joystickInput);
+            lastJoystickInput = JSON.stringify(joystickInput);
         }
-
-        socket.emit("input-packet", inputPacket);
-        inputPacket = {};
     }
 }
 
