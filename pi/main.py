@@ -91,12 +91,12 @@ def joystick_input(packet):
 
 @socketio.on("button-down")
 def button_down(packet):
-    update_packet(packet, True)
+    update_packet([packet], True)
     print("DOWN", packet)
 
 @socketio.on("button-up")
 def button_up(packet):
-    update_packet(packet, False)
+    update_packet([packet], False)
     print("UP", packet)
 
 """@socketio.on("input-packet")
