@@ -11,6 +11,8 @@ implement controller connected page
 */
 
 const env = document.querySelector("#game-controller-button");
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
 var readyForInput = false;
 var socket = io();
 
@@ -99,7 +101,7 @@ function updateDashboard() {
         }
     );*/
 
-    socket.emit("get-state");
+    //socket.emit("get-state");
 }
 
 function showInputs() {
@@ -283,17 +285,13 @@ function sendInput() {
 
 // when get-state is received, update the dashboard
 socket.on("get-state", function(state) {
-    const dashboardHeader = document.getElementById('msg');
-    dashboardHeader.textContent = state;
+    const output = document.getElementById("centred-text");
+    output.textContent = state;
 });
 
 socket.on("ready-for-input", function(state) {
     readyForInput = state;
 })
-
-if (!/Android|iPhone/i.test(navigator.userAgent)) {
-    
-}
 
 setInterval(sendInput, 1 / 60);
 //setInterval(updateDashboard, 500);

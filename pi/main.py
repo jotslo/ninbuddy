@@ -14,6 +14,7 @@ app.config["SECRET_KEY"] = "ninbuddy"
 socketio = SocketIO(app)
 
 state = "Waiting for controller..."
+is_mobile_connected = False
 
 global joystick
 os.environ["SDL_VIDEODRIVER"] = "dummy"
@@ -49,11 +50,18 @@ def get_stylesheet():
     with open('templates/stylesheet.css', 'r') as f:
         return f.read()
 
-def update_packet(location, state):
+def update_state(new_state):
+    global state
+    state = new_state
+
+    if is_mobile_connected:
+        emit("get-state", new_state, broadcast=True)
+
+def update_packet(location, value):
     if len(location) == 1:
-        data.packet[location[0]] = state
+        data.packet[location[0]] = value
     else:
-        data.packet[location[0]][location[1]] = state
+        data.packet[location[0]][location[1]] = value
 
 def update_joystick(joystick):
     update_packet(["L_STICK", "X_VALUE"], joystick.get_axis(0) * 100)
@@ -64,8 +72,7 @@ def update_joystick(joystick):
 def create_controller(is_real):
     global joystick, state
 
-    state = "Connecting controller..."
-    emit("get-state", state, broadcast=True)
+    update_state("Connecting to console...")
     data.is_real_controller = is_real
 
     if is_real:
@@ -74,23 +81,30 @@ def create_controller(is_real):
 
     data.controller = nx.create_controller(nxbt.PRO_CONTROLLER)
     nx.wait_for_connection(data.controller)
-    state = "Controller connected!"
-    emit("ready-for-input", True, broadcast=True)
+    update_state("Connected to console!")
 
 @socketio.on("connect")
 def on_connect():
-    print("Connected!")
+    global is_mobile_connected
+    print("User has connected!")
+    is_mobile_connected = True
 
     if data.controller == None:
         create_controller(False)
 
 @socketio.on("disconnect")
 def on_disconnect():
-    print("Disconnected!")
+    global is_mobile_connected
+    print("User has disconnected!")
 
-@socketio.on("get-state")
-def get_state():
-    emit("get-state", state)
+    if data.controller != None:
+        update_state("Removing controller...")
+        nx.remove_controller(data.controller)
+        data.controller = None
+    
+    is_mobile_connected = False
+    update_state("Waiting for controller...")
+
 
 @socketio.on("joystick-input")
 def joystick_input(packet):
@@ -161,10 +175,10 @@ while True:
         
         elif event.type == pygame.JOYDEVICEREMOVED and pygame.joystick.get_count() == 0:
             if data.controller != None:
-                state = "Removing controller..."
+                update_state("Removing controller...")
                 nx.remove_controller(data.controller)
                 data.controller = None
-            state = "Waiting for controller..."
+            update_state("Waiting for controller...")
         
         elif event.type == pygame.JOYBUTTONDOWN:
             update_packet(data.button_map[event.button], True)
