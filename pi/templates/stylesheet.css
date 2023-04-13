@@ -13,7 +13,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 2em;
+    font-size: 1em;
     text-align: center;
     z-index: 9999;
 }
