@@ -54,7 +54,8 @@ def update_state(new_state):
     state = new_state
 
     if is_mobile_connected:
-        emit("get-state", new_state, broadcast=True)
+        pass
+        #emit("get-state", new_state, broadcast=True)
 
 def update_packet(location, value):
     if len(location) == 1:
