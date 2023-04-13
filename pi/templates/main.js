@@ -93,7 +93,13 @@ function debug(msg) {
 }
 
 function remainConnected() {
-    socket.emit("is-connected");
+    fetch('/ping-server')
+        .then(response => response.json())
+        .then(data => {
+            const output = document.getElementById("centred-text");
+            output.textContent = data.message;
+        }
+    );
 }
 
 function updateDashboard() {

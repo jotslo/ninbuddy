@@ -30,11 +30,10 @@ def dashboard():
 def wrong_device():
     return render_template("wrong-device.html")
 
-@app.route('/data')
+@app.route('/ping-server')
 def get_data():
     data = {
-        "message": state,
-        "real_controller": data.controller != None
+        "message": state
     }
 
     return jsonify(data)
@@ -105,7 +104,7 @@ def on_disconnect():
     is_mobile_connected = False
     update_state("Waiting for controller...")"""
 
-def disconnected():
+"""def disconnected():
     global is_mobile_connected
     print("User has disconnected!")
 
@@ -133,7 +132,7 @@ def is_connected():
         time.sleep(5)
 
         if time.time() - data.last_mobile_ping >= 5:
-            disconnected()
+            disconnected()"""
 
 
 @socketio.on("joystick-input")
