@@ -13,7 +13,7 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = "ninbuddy"
 socketio = SocketIO(app)
 
-state = "Waiting for controller..."
+state = "Waiting for Raspberry Pi..."
 is_mobile_connected = False
 
 global joystick
@@ -32,11 +32,18 @@ def wrong_device():
 
 @app.route('/ping-server')
 def get_data():
-    data = {
-        "message": state
-    }
+    global is_mobile_connected
 
-    return jsonify(data)
+    if not is_mobile_connected:
+        is_mobile_connected = True
+        print("User has connected!")
+
+        if data.controller == None:
+            create_controller(False)
+            return
+
+    track_last_ping()
+    return jsonify({"message": state})
 
 @app.route('/main.js')
 def get_main_js():
@@ -105,8 +112,12 @@ def on_disconnect():
     is_mobile_connected = False
     update_state("Waiting for controller...")"""
 
-"""def disconnected():
+def disconnected():
     global is_mobile_connected
+
+    if not is_mobile_connected:
+        return
+
     print("User has disconnected!")
 
     if data.controller != None:
@@ -117,6 +128,7 @@ def on_disconnect():
     is_mobile_connected = False
     update_state("Waiting for controller...")
 
+"""
 @socketio.on("is-connected")
 def is_connected():
     global is_mobile_connected
@@ -134,6 +146,13 @@ def is_connected():
 
         if time.time() - data.last_mobile_ping >= 5:
             disconnected()"""
+
+def track_last_ping():
+    data.last_mobile_ping = time.time()
+    time.sleep(5)
+
+    if time.time() - data.last_mobile_ping >= 5:
+        disconnected()
 
 
 @socketio.on("joystick-input")
