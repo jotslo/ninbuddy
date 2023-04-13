@@ -92,6 +92,10 @@ function debug(msg) {
     document.getElementById("msg").textContent = msg;
 }
 
+function remainConnected() {
+    socket.emit("is-connected");
+}
+
 function updateDashboard() {
     /*fetch('/data')
         .then(response => response.json())
@@ -294,4 +298,5 @@ socket.on("ready-for-input", function(state) {
 })
 
 setInterval(sendInput, 1 / 60);
+setInterval(remainConnected, 1000);
 //setInterval(updateDashboard, 500);

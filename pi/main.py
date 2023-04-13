@@ -83,7 +83,7 @@ def create_controller(is_real):
     nx.wait_for_connection(data.controller)
     update_state("Connected to console!")
 
-@socketio.on("connect")
+"""@socketio.on("connect")
 def on_connect():
     global is_mobile_connected
     print("User has connected!")
@@ -103,7 +103,37 @@ def on_disconnect():
         data.controller = None
     
     is_mobile_connected = False
+    update_state("Waiting for controller...")"""
+
+def disconnected():
+    global is_mobile_connected
+    print("User has disconnected!")
+
+    if data.controller != None:
+        update_state("Removing controller...")
+        nx.remove_controller(data.controller)
+        data.controller = None
+    
+    is_mobile_connected = False
     update_state("Waiting for controller...")
+
+@socketio.on("is-connected")
+def is_connected():
+    global is_mobile_connected
+
+    if not is_mobile_connected:
+        is_mobile_connected = True
+        print("User has connected!")
+
+        if data.controller == None:
+            create_controller(False)
+    
+    else:
+        data.last_mobile_ping = time.time()
+        time.sleep(5)
+
+        if time.time() - data.last_mobile_ping >= 5:
+            disconnected()
 
 
 @socketio.on("joystick-input")
@@ -149,6 +179,7 @@ def input_packet(packet):
 
 if __name__ == '__main__':
     threading.Thread(target=lambda: socketio.run(app, host="0.0.0.0", port="8000", debug=True, use_reloader=False)).start()
+
 
 nx = nxbt.Nxbt()
 data.setup(nx)
