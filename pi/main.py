@@ -39,7 +39,7 @@ def get_data():
         print("User has connected!")
 
         if data.controller == None:
-            create_controller(False)
+            threading.Thread(target=create_controller, args=(False,)).start()
             return
     
     threading.Thread(target=track_last_ping).start()
@@ -197,7 +197,7 @@ def input_packet(packet):
                 data.packet[button_name] = False"""
 
 if __name__ == '__main__':
-    threading.Thread(target=lambda: socketio.run(app, host="0.0.0.0", port="1234", debug=True, use_reloader=False, threaded=True)).start()
+    threading.Thread(target=lambda: socketio.run(app, host="0.0.0.0", port="1234", debug=True, use_reloader=False)).start()
 
 
 nx = nxbt.Nxbt()
