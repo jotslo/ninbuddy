@@ -301,8 +301,9 @@ socket.on("get-state", function(state) {
 
 socket.on("ready-for-input", function(state) {
     readyForInput = state;
-})
+});
 
-setInterval(sendInput, 1 / 60);
-setInterval(remainConnected, 1000);
-//setInterval(updateDashboard, 500);
+window.addEventListener('load', function () {
+    setInterval(sendInput, 1 / 60);
+    setInterval(remainConnected, 1000);
+});
