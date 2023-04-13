@@ -25,6 +25,10 @@ def clamp(num, min_value, max_value):
 def dashboard():
     return render_template("dashboard.html")
 
+@app.route("/wrong-device")
+def wrong_device():
+    return render_template("wrong-device.html")
+
 @app.route('/data')
 def get_data():
     data = {

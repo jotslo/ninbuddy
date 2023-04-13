@@ -291,5 +291,9 @@ socket.on("ready-for-input", function(state) {
     readyForInput = state;
 })
 
+if (!/Android|iPhone/i.test(navigator.userAgent)) {
+    
+}
+
 setInterval(sendInput, 1 / 60);
 //setInterval(updateDashboard, 500);
