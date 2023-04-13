@@ -40,7 +40,7 @@ def get_data():
 
         if data.controller == None:
             threading.Thread(target=create_controller, args=(False,)).start()
-            return
+            return jsonify({"message": state})
     
     threading.Thread(target=track_last_ping).start()
     return jsonify({"message": state})
