@@ -3,7 +3,6 @@
     left: 0;
     width: 100%;
     height: 100%;
-    opacity: 0.01;
     background-color: rgba(255, 255, 255, 0);
     z-index: 9999;
     position: absolute;
@@ -20,6 +19,6 @@
     font-family: 'Helvetica', sans-serif;
 }
 
-/*.controls {
-    display: none;
-}*/
+.controls {
+    opacity: 0.01;
+}
