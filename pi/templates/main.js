@@ -98,6 +98,10 @@ function remainConnected() {
         .then(data => {
             const output = document.getElementById("centred-text");
             output.textContent = data.message;
+
+            if (data.message == "Connected to console!") { 
+                readyForInput = true;
+            }
         }
     );
 }
@@ -163,6 +167,10 @@ function getNewestTouches(event) {
 function touchStart(event) {
     const newTouches = getNewestTouches(event);
 
+    if (!readyForInput) {
+        return;
+    }
+
     for (const touchKey in newTouches) {
         const touch = newTouches[touchKey];
         const point = [1280 * touch.clientX / window.innerWidth,
@@ -200,6 +208,10 @@ function touchStart(event) {
 
 function touchMove(event) {
     const activeTouches = Array.from(event.touches);
+
+    if (!readyForInput) {
+        return;
+    }
     
     for (const touchKey in activeTouches) {
         const touch = event.touches[touchKey];
@@ -230,6 +242,10 @@ function touchMove(event) {
 
 function touchEnd(event) {
     const endedTouches = Array.from(event.changedTouches);
+
+    if (!readyForInput) {
+        return;
+    }
 
     for (const touchKey in endedTouches) {
         const touch = endedTouches[touchKey];
