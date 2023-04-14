@@ -93,7 +93,7 @@ function debug(msg) {
 }
 
 function remainConnected() {
-    fetch('/ping-server')
+    fetch('/ping-server?' + new URLSearchParams({"is_mobile": isMobile}))
         .then(response => response.json())
         .then(data => {
             const output = document.getElementById("centred-text");
@@ -167,6 +167,9 @@ function getNewestTouches(event) {
 function touchStart(event) {
     const newTouches = getNewestTouches(event);
 
+    // prevent zooming, scrolling, selecting, etc.
+    event.returnValue = false;
+
     if (!readyForInput) {
         return;
     }
@@ -201,13 +204,13 @@ function touchStart(event) {
             }
         }
     }
-
-    // prevent zooming, scrolling, selecting, etc.
-    event.returnValue = false;
 }
 
 function touchMove(event) {
     const activeTouches = Array.from(event.touches);
+
+    // prevent zooming, scrolling, selecting, etc.
+    event.returnValue = false;
 
     if (!readyForInput) {
         return;
@@ -235,13 +238,13 @@ function touchMove(event) {
             }
         }
     }
-
-    // prevent zooming, scrolling, selecting, etc.
-    event.returnValue = false;
 }
 
 function touchEnd(event) {
     const endedTouches = Array.from(event.changedTouches);
+
+    // prevent zooming, scrolling, selecting, etc.
+    event.returnValue = false;
 
     if (!readyForInput) {
         return;
@@ -276,9 +279,6 @@ function touchEnd(event) {
             }
         }
     }
-
-    // prevent zooming, scrolling, selecting, etc.
-    event.returnValue = false;
 }
 
 env.addEventListener("touchstart", touchStart);

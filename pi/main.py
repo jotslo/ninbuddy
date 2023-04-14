@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 from flask_socketio import SocketIO, emit
 import threading
 import pygame
@@ -33,6 +33,10 @@ def wrong_device():
 @app.route('/ping-server')
 def get_data():
     global is_mobile_connected
+    is_mobile = request.args.get("is_mobile", default = False, type = bool)
+
+    if not is_mobile:
+        return jsonify({"message": state})
 
     if not is_mobile_connected:
         is_mobile_connected = True
