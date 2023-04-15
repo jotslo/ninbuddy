@@ -13,7 +13,7 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = "ninbuddy"
 socketio = SocketIO(app)
 
-state = "Please connect a controller or mobile device."
+state = "Waiting for controller..."
 is_mobile_connected = False
 
 global joystick

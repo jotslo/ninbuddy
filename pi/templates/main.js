@@ -99,7 +99,7 @@ function remainConnected() {
             const output = document.getElementById("centred-text");
             const controls = document.getElementsByClassName("controls");
 
-            if (data.message == "Connected to console!") {
+            if (data.message == "Connected to console!" && isMobile) {
                 readyForInput = true;
                 output.textContent = "";
 
