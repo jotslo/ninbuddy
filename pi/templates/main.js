@@ -98,10 +98,23 @@ function remainConnected() {
         .then(response => response.json())
         .then(data => {
             const output = document.getElementById("centred-text");
-            output.textContent = data.message;
+            const controls = document.getElementsByClassName("controls");
 
-            if (data.message == "Connected to console!") { 
+            if (data.message == "Connected to console!") {
                 readyForInput = true;
+                output.textContent = "";
+
+                for (var i = 0; i < controls.length; i++) {
+                    controls[i].style.opacity = 1;
+                }
+            }
+            
+            else {
+                output.textContent = data.message;
+
+                for (var i = 0; i < controls.length; i++) {
+                    controls[i].style.opacity = 0.001;
+                }
             }
         }
     );

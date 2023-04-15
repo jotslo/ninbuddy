@@ -35,6 +35,8 @@ def get_data():
     global is_mobile_connected
     is_mobile = request.args.get("is_mobile", default = False, type = bool)
 
+    print(is_mobile)
+
     if not is_mobile:
         return jsonify({"message": state})
 
