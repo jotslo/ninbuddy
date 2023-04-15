@@ -92,28 +92,35 @@ function debug(msg) {
     document.getElementById("msg").textContent = msg;
 }
 
+function setControlsOpacity(opacity) {
+    const controls = document.getElementsByClassName("controls");
+
+    for (var i = 0; i < controls.length; i++) {
+        controls[i].style.opacity = opacity;
+    }
+}
+
 function remainConnected() {
     fetch('/ping-server?' + new URLSearchParams({"is_mobile": isMobile}))
         .then(response => response.json())
         .then(data => {
             const output = document.getElementById("centred-text");
-            const controls = document.getElementsByClassName("controls");
 
             if (data.message == "Connected to console!" && isMobile) {
-                readyForInput = true;
-                output.textContent = "";
-
-                for (var i = 0; i < controls.length; i++) {
-                    controls[i].style.opacity = 1;
+                if (screen.orientation.type.includes("landscape")) {
+                    readyForInput = true;
+                    output.textContent = "";
+                    setControlsOpacity(1);
+                }
+                else {
+                    output.textContent = "Rotate to landscape to play!";
+                    setControlsOpacity(0.001);
                 }
             }
 
             else {
                 output.textContent = data.message;
-
-                for (var i = 0; i < controls.length; i++) {
-                    controls[i].style.opacity = 0.001;
-                }
+                setControlsOpacity(0.001);
             }
         }
     );
