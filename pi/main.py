@@ -33,7 +33,7 @@ def wrong_device():
 @app.route('/ping-server')
 def get_data():
     global is_mobile_connected
-    is_mobile = request.args.get("is_mobile", default = False, type = bool)
+    is_mobile = request.args.get("is_mobile", default = False)
 
     print(is_mobile)
 
