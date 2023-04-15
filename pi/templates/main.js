@@ -13,6 +13,8 @@ implement controller connected page
 const env = document.querySelector("#game-controller-button");
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
+var mediaQuery = window.matchMedia("(orientation: portrait)");
+
 var readyForInput = false;
 var socket = io();
 
@@ -107,14 +109,15 @@ function remainConnected() {
             const output = document.getElementById("centred-text");
 
             if (data.message == "Connected to console!" && isMobile) {
-                if (screen.orientation.type.includes("landscape")) {
+                // if portrait
+                if (mediaQuery.matches) {
+                    output.textContent = "Rotate to landscape to play!";
+                    setControlsOpacity(0.001);
+                }
+                else {
                     readyForInput = true;
                     output.textContent = "";
                     setControlsOpacity(1);
-                }
-                else {
-                    output.textContent = "Rotate to landscape to play!";
-                    setControlsOpacity(0.001);
                 }
             }
 
