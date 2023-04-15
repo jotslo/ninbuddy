@@ -206,7 +206,7 @@ def input_packet(packet):
                 data.packet[button_name] = False"""
 
 if __name__ == '__main__':
-    threading.Thread(target=lambda: socketio.run(app, host="0.0.0.0", port="8000")).start()
+    threading.Thread(target=lambda: socketio.run(app, host="0.0.0.0", port="9000")).start()
 
 
 nx = nxbt.Nxbt()
