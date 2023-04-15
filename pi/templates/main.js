@@ -122,6 +122,7 @@ function remainConnected() {
             }
 
             else {
+                readyForInput = false;
                 output.textContent = data.message;
                 setControlsOpacity(0.001);
             }
