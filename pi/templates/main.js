@@ -93,7 +93,6 @@ function debug(msg) {
 }
 
 function remainConnected() {
-    console.log(isMobile);
     fetch('/ping-server?' + new URLSearchParams({"is_mobile": isMobile}))
         .then(response => response.json())
         .then(data => {
@@ -108,7 +107,7 @@ function remainConnected() {
                     controls[i].style.opacity = 1;
                 }
             }
-            
+
             else {
                 output.textContent = data.message;
 

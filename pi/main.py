@@ -33,9 +33,7 @@ def wrong_device():
 @app.route('/ping-server')
 def get_data():
     global is_mobile_connected
-    is_mobile = request.args.get("is_mobile", default = False)
-
-    print(is_mobile)
+    is_mobile = request.args.get("is_mobile", default = False) == "true"
 
     if not is_mobile:
         return jsonify({"message": state})
@@ -128,7 +126,12 @@ def disconnected():
 
     if data.controller != None:
         update_state("Removing controller...")
-        nx.remove_controller(data.controller)
+
+        try:
+            nx.remove_controller(data.controller)
+        except KeyError:
+            print("Controller removed during connection.")
+
         data.controller = None
     
     is_mobile_connected = False
