@@ -17,7 +17,7 @@ app.config["SECRET_KEY"] = "ninbuddy"
 socketio = SocketIO(app)
 
 # if video driver is not set, set it to dummy
-if not os.environ["SDL_VIDEODRIVER"]:
+if "SDL_VIDEODRIVER" not in os.environ:
     os.environ["SDL_VIDEODRIVER"] = "dummy"
 
 @app.route("/")
