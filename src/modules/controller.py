@@ -10,6 +10,8 @@ is_real_controller = False
 is_mobile_connected = False
 
 def update_packet(location, value):
+    global packet
+    
     if len(location) == 1:
         packet[location[0]] = value
     else:
