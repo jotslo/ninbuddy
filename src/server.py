@@ -1,5 +1,3 @@
-
-import threading
 import pygame
 import nxbt
 import time
@@ -7,7 +5,10 @@ import os
 import numpy
 import random
 
-from modules import data, functions, controller, web_handler
+from threading import Thread
+
+from modules import data, functions, controller
+from modules.web_handler import app, socketio
 
 global joystick
 
@@ -17,7 +18,7 @@ global joystick
 if "SDL_VIDEODRIVER" not in os.environ:
     os.environ["SDL_VIDEODRIVER"] = "dummy"
 
-
+Thread(target=lambda: socketio.run(app, host="0.0.0.0", port="9000")).start()
 
 ### move nxbt stuff to controller.py
 #data.setup(nx)
