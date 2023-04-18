@@ -21,7 +21,7 @@ def update_packet(location, value):
         packet[location[0]][location[1]] = value
 
 def connect(indicator):
-    global joystick, is_real_controller, state, device, input_devices
+    global joystick, is_real_controller, state, device, input_devices, is_disconnecting
     
     input_devices.append(indicator)
 
@@ -32,7 +32,7 @@ def connect(indicator):
         state = "Connected to console!"
 
 def disconnect(indicator):
-    global state, is_mobile_connected, device, input_devices
+    global state, is_mobile_connected, device, input_devices, is_disconnecting
 
     if indicator in input_devices:
         input_devices.remove(indicator)
