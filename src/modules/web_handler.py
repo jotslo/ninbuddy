@@ -64,5 +64,3 @@ def button_up(packet):
     controller.update_packet([packet], False)
     print("UP", packet)
 
-if __name__ == '__main__':
-    Thread(target=lambda: socketio.run(app, host="0.0.0.0", port="9000")).start()
