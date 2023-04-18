@@ -1,42 +1,42 @@
 <html>
     <head>
         <title>NinBuddy Dashboard</title>
-        <link rel="stylesheet" href="{{ url_for('templates', filename='stylesheet.css') }}">
+        <link rel="stylesheet" href="/static/css/stylesheet.css">
     </head>
     <body>
         <!--L, ZL, R, ZR-->
-        <img src="{{ url_for('images', filename='button_l.png') }}" style="width: 13%; height: 11%; position: absolute; top: 0; left: 0;" class="controls">
-        <img src="{{ url_for('images', filename='button_zl2.png') }}" style="width: 10.15%; height: 11%; position: absolute; top: 0; left: 10.5%;" class="controls">
-        <img src="{{ url_for('images', filename='button_r.png') }}" style="width: 13%; height: 11%; position: absolute; top: 0; left: 87%;" class="controls">
-        <img src="{{ url_for('images', filename='button_zr2.png') }}" style="width: 10.15%; height: 11%; position: absolute; top: 0; left: 79.35%;" class="controls">
+        <img src="/static/images/button_l.png" style="width: 13%; height: 11%; position: absolute; top: 0; left: 0;" class="controls">
+        <img src="/static/images/button_zl2.png" style="width: 10.15%; height: 11%; position: absolute; top: 0; left: 10.5%;" class="controls">
+        <img src="/static/images/button_r.png" style="width: 13%; height: 11%; position: absolute; top: 0; left: 87%;" class="controls">
+        <img src="/static/images/button_zr2.png" style="width: 10.15%; height: 11%; position: absolute; top: 0; left: 79.35%;" class="controls">
 
         <!--X, A, B, Y-->
-        <img src="{{ url_for('images', filename='button_x.png') }}" style="width: 10%; height: 20%; position: absolute; top: 20%; left: 75%;" class="controls">
-        <img src="{{ url_for('images', filename='button_a.png') }}" style="width: 10%; height: 20%; position: absolute; top: 35%; left: 84%;" class="controls">
-        <img src="{{ url_for('images', filename='button_b.png') }}" style="width: 10%; height: 20%; position: absolute; top: 50%; left: 75%;" class="controls">
-        <img src="{{ url_for('images', filename='button_y.png') }}" style="width: 10%; height: 20%; position: absolute; top: 35%; left: 66%;" class="controls">
+        <img src="/static/images/button_x.png" style="width: 10%; height: 20%; position: absolute; top: 20%; left: 75%;" class="controls">
+        <img src="/static/images/button_a.png" style="width: 10%; height: 20%; position: absolute; top: 35%; left: 84%;" class="controls">
+        <img src="/static/images/button_b.png" style="width: 10%; height: 20%; position: absolute; top: 50%; left: 75%;" class="controls">
+        <img src="/static/images/button_y.png" style="width: 10%; height: 20%; position: absolute; top: 35%; left: 66%;" class="controls">
 
         <!--Up, Right, Down, Left-->
-        <img src="{{ url_for('images', filename='dpad_up.png') }}" style="width: 10%; height: 20%; position: absolute; top: 42.5%; left: 28%;" class="controls">
-        <img src="{{ url_for('images', filename='dpad_right.png') }}" style="width: 10%; height: 20%; position: absolute; top: 57.5%; left: 37%;" class="controls">
-        <img src="{{ url_for('images', filename='dpad_down.png') }}" style="width: 10%; height: 20%; position: absolute; top: 72.5%; left: 28%;" class="controls">
-        <img src="{{ url_for('images', filename='dpad_left.png') }}" style="width: 10%; height: 20%; position: absolute; top: 57.5%; left: 19%;" class="controls">
+        <img src="/static/images/dpad_up.png" style="width: 10%; height: 20%; position: absolute; top: 42.5%; left: 28%;" class="controls">
+        <img src="/static/images/dpad_right.png" style="width: 10%; height: 20%; position: absolute; top: 57.5%; left: 37%;" class="controls">
+        <img src="/static/images/dpad_down.png" style="width: 10%; height: 20%; position: absolute; top: 72.5%; left: 28%;" class="controls">
+        <img src="/static/images/dpad_left.png" style="width: 10%; height: 20%; position: absolute; top: 57.5%; left: 19%;" class="controls">
 
         <!--Left Joystick-->
-        <img src="{{ url_for('images', filename='joystick.png') }}" style="width: 15%; height: 30%; position: absolute; top: 20%; left: 6%;" id="L_STICK-outer" class="controls">
-        <img src="{{ url_for('images', filename='joystick.png') }}" style="width: 10%; height: 20%; position: absolute; top: 25%; left: 8.5%;" id="L_STICK-inner" class="controls">
+        <img src="/static/images/joystick.png" style="width: 15%; height: 30%; position: absolute; top: 20%; left: 6%;" id="L_STICK-outer" class="controls">
+        <img src="/static/images/joystick.png" style="width: 10%; height: 20%; position: absolute; top: 25%; left: 8.5%;" id="L_STICK-inner" class="controls">
 
         <!--Right Joystick-->
-        <img src="{{ url_for('images', filename='joystick.png') }}" style="width: 15%; height: 30%; position: absolute; top: 60%; left: 53.5%;" id="R_STICK-outer" class="controls">
-        <img src="{{ url_for('images', filename='joystick.png') }}" style="width: 10%; height: 20%; position: absolute; top: 65%; left: 56%;" id="R_STICK-inner" class="controls">
+        <img src="/static/images/joystick.png" style="width: 15%; height: 30%; position: absolute; top: 60%; left: 53.5%;" id="R_STICK-outer" class="controls">
+        <img src="/static/images/joystick.png" style="width: 10%; height: 20%; position: absolute; top: 65%; left: 56%;" id="R_STICK-inner" class="controls">
 
         <!--Minus, Plus-->
-        <img src="{{ url_for('images', filename='button_minus.png') }}" style="width: 5%; height: 10%; position: absolute; top: 15%; left: 35%;" class="controls">
-        <img src="{{ url_for('images', filename='button_plus.png') }}" style="width: 5%; height: 10%; position: absolute; top: 15%; left: 55%;" class="controls">
+        <img src="/static/images/button_minus.png" style="width: 5%; height: 10%; position: absolute; top: 15%; left: 35%;" class="controls">
+        <img src="/static/images/button_plus.png" style="width: 5%; height: 10%; position: absolute; top: 15%; left: 55%;" class="controls">
 
         <!--Screenshot, Home-->
-        <img src="{{ url_for('images', filename='button_ss.png') }}" style="width: 5%; height: 10%; position: absolute; top: 23%; left: 40%;" class="controls">
-        <img src="{{ url_for('images', filename='button_home.png') }}" style="width: 5%; height: 10%; position: absolute; top: 23%; left: 50%;" class="controls">
+        <img src="/static/images/button_ss.png" style="width: 5%; height: 10%; position: absolute; top: 23%; left: 40%;" class="controls">
+        <img src="/static/images/button_home.png" style="width: 5%; height: 10%; position: absolute; top: 23%; left: 50%;" class="controls">
 
         <button id="game-controller-button"></button>
 
@@ -47,6 +47,6 @@
         </h1>
         
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
-        <script src="{{ url_for('templates', filename='client.js') }}"></script>
+        <script src="/static/js/client.js"></script>
     </body>
 </html>
