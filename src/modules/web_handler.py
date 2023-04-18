@@ -38,6 +38,7 @@ def get_data():
 
 
 def track_last_ping():
+    global last_mobile_ping
     last_mobile_ping = time.time()
     time.sleep(5)
 
