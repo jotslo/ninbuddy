@@ -9,11 +9,13 @@ from modules import controller, data
 if "SDL_VIDEODRIVER" not in os.environ:
     os.environ["SDL_VIDEODRIVER"] = "dummy"
 
+last_movement = 0
+
 global joystick
 
 def listen():
     pygame.init()
-    
+
     if pygame.joystick.get_count() >= 1:
         joystick = pygame.joystick.Joystick(0)
         joystick.init()
@@ -23,10 +25,10 @@ def listen():
         if controller.controller != None:
             current_time = time.time()
 
-            if current_time - data.last_movement > 1/120:
+            if current_time - last_movement > 1/120:
                 if  controller.is_real_controller:
                     controller.update_joystick(joystick)
-                    data.last_movement = current_time
+                    last_movement = current_time
 
                 controller.nx.set_controller_input( controller.controller, controller.packet)
 
@@ -66,5 +68,3 @@ def listen():
                     controller.update_packet(["ZL"], event.value == 1.0)
                 elif event.axis == 5:
                     controller.update_packet(["ZR"], event.value == 1.0)
-                
-                data.cached_event = event

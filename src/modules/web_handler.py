@@ -1,12 +1,14 @@
 from flask import Flask, render_template, jsonify, request
 from flask_socketio import SocketIO, emit
 
-from modules import controller, data
+from modules import controller
 from threading import Thread
 import time
 
 # clamp a number between a min and max
 clamp = lambda n, _min, _max: max(min(n, _max), _min)
+
+last_mobile_ping = 0
 
 app = Flask(__name__, static_url_path="/static")
 app.config["SECRET_KEY"] = "ninbuddy"
@@ -36,10 +38,10 @@ def get_data():
 
 
 def track_last_ping():
-    data.last_mobile_ping = time.time()
+    last_mobile_ping = time.time()
     time.sleep(5)
 
-    if time.time() - data.last_mobile_ping >= 5:
+    if time.time() - last_mobile_ping >= 5:
         controller.disconnect()
 
 
@@ -68,4 +70,4 @@ def button_up(packet):
     print("UP", packet)
 
 def start():
-    Thread(target=lambda: socketio.run(app, host="0.0.0.0", port="9000")).start()
+    Thread(target=lambda: socketio.run(app, host="0.0.0.0", port="8000")).start()
