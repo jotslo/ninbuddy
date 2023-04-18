@@ -1,5 +1,4 @@
-from flask import Flask, render_template, jsonify, request
-from flask_socketio import SocketIO, emit
+
 import threading
 import pygame
 import nxbt
@@ -9,12 +8,14 @@ import numpy
 import random
 
 from modules import data, functions
+from modules.app import app, socketio
+
+from flask import Flask, render_template, jsonify, request
+from flask_socketio import SocketIO, emit
 
 global joystick
 
-app = Flask(__name__, static_url_path="/static")
-app.config["SECRET_KEY"] = "ninbuddy"
-socketio = SocketIO(app)
+
 
 # if video driver is not set, set it to dummy
 if "SDL_VIDEODRIVER" not in os.environ:
@@ -120,9 +121,6 @@ def button_down(packet):
 def button_up(packet):
     update_packet([packet], False)
     print("UP", packet)
-
-if __name__ == '__main__':
-    threading.Thread(target=lambda: socketio.run(app, host="0.0.0.0", port="9000")).start()
 
 nx = nxbt.Nxbt()
 data.setup(nx)
