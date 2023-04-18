@@ -2,7 +2,7 @@ import nxbt
 
 nx = nxbt.Nxbt()
 
-packet = None
+packet = nx.create_input_packet()
 controller = None
 
 state = "Waiting for controller..."
@@ -11,7 +11,7 @@ is_mobile_connected = False
 
 def update_packet(location, value):
     global packet
-    
+
     if len(location) == 1:
         packet[location[0]] = value
     else:
