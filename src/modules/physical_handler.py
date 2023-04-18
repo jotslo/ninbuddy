@@ -13,6 +13,13 @@ last_movement = 0
 
 global joystick
 
+def update_joystick():
+    global joystick
+    controller.update_packet(["L_STICK", "X_VALUE"], joystick.get_axis(0) * 100)
+    controller.update_packet(["L_STICK", "Y_VALUE"], joystick.get_axis(1) * -100)
+    controller.update_packet(["R_STICK", "X_VALUE"], joystick.get_axis(3) * 100)
+    controller.update_packet(["R_STICK", "Y_VALUE"], joystick.get_axis(4) * -100)
+
 def listen():
     global last_movement, joystick
     pygame.init()
@@ -20,28 +27,28 @@ def listen():
     if pygame.joystick.get_count() >= 1:
         joystick = pygame.joystick.Joystick(0)
         joystick.init()
-        controller.connect(True)
+        controller.connect(0)
 
     while True:
-        if controller.controller != None:
+        if controller.device != None:
             current_time = time.time()
 
             if current_time - last_movement > 1/120:
-                if  controller.is_real_controller:
-                    controller.update_joystick(joystick)
+                if controller.is_real_controller:
+                    update_joystick(joystick)
                     last_movement = current_time
 
-                controller.nx.set_controller_input( controller.controller, controller.packet)
+                controller.nx.set_controller_input( controller.device, controller.packet)
 
         for event in pygame.event.get():
             if event.type == pygame.JOYDEVICEADDED and pygame.joystick.get_count() == 1:
-                if  controller.controller == None:
+                if controller.device == None:
                     joystick = pygame.joystick.Joystick(0)
                     joystick.init()
-                    controller.connect(True)
+                    controller.connect(0)
             
             elif event.type == pygame.JOYDEVICEREMOVED and pygame.joystick.get_count() == 0:
-                controller.disconnect()
+                controller.disconnect(0)
             
             elif event.type == pygame.JOYBUTTONDOWN:
                 controller.update_packet(data.button_map[event.button], True)
