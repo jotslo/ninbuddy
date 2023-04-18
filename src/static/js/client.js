@@ -1,15 +1,3 @@
-/*
-
-convert joystick input from square to circle to prevent exceeding max input
-find solution to reducing latency
-
-implement rotate page
-implement waiting for controller to connect page
-implement controller connected page
-
-
-*/
-
 const env = document.querySelector("#game-controller-button");
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
