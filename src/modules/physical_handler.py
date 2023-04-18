@@ -14,6 +14,7 @@ last_movement = 0
 global joystick
 
 def listen():
+    global last_movement
     pygame.init()
 
     if pygame.joystick.get_count() >= 1:
