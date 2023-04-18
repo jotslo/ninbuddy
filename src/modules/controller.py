@@ -22,7 +22,7 @@ def update_joystick(joystick):
     update_packet(["R_STICK", "Y_VALUE"], joystick.get_axis(4) * -100)
 
 def connect(is_real):
-    global joystick
+    global joystick, is_real_controller, state
 
     state = "Connecting to console..."
     is_real_controller = is_real
@@ -32,6 +32,8 @@ def connect(is_real):
     state = "Connected to console!"
 
 def disconnect():
+    global state
+
     if not is_mobile_connected:
         return
 
