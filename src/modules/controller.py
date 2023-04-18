@@ -26,10 +26,10 @@ def connect(indicator):
     input_devices.append(indicator)
 
     if len(input_devices) == 1 and not is_disconnecting:
-        state = "Connecting user to console..."
+        state = "Connecting to console..."
         device = nx.create_controller(nxbt.PRO_CONTROLLER)
         nx.wait_for_connection(device)
-        state = "Connected user to console!"
+        state = "Connected to console!"
 
 def disconnect(indicator):
     global state, is_mobile_connected, device, input_devices
@@ -45,7 +45,7 @@ def disconnect(indicator):
             pass
 
         if device != None:
-            state = "Disconnecting user from console..."
+            state = "Disconnecting from console..."
             nx.remove_controller(device)
             device = None
 
