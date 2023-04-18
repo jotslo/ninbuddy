@@ -1,9 +1,12 @@
 from flask import Flask, render_template, jsonify, request
 from flask_socketio import SocketIO, emit
 
-from modules import controller, data, functions
+from modules import controller, data
 from threading import Thread
 import time
+
+# clamp a number between a min and max
+clamp = lambda n, _min, _max: max(min(n, _max), _min)
 
 app = Flask(__name__, static_url_path="/static")
 app.config["SECRET_KEY"] = "ninbuddy"
@@ -42,10 +45,10 @@ def track_last_ping():
 
 @socketio.on("joystick-input")
 def joystick_input(packet):
-    packet["L_STICK"][0] = functions.clamp(packet["L_STICK"][0], -100, 100)
-    packet["L_STICK"][1] = functions.clamp(packet["L_STICK"][1], -100, 100)
-    packet["R_STICK"][0] = functions.clamp(packet["R_STICK"][0], -100, 100)
-    packet["R_STICK"][1] = functions.clamp(packet["R_STICK"][1], -100, 100)
+    packet["L_STICK"][0] = clamp(packet["L_STICK"][0], -100, 100)
+    packet["L_STICK"][1] = clamp(packet["L_STICK"][1], -100, 100)
+    packet["R_STICK"][0] = clamp(packet["R_STICK"][0], -100, 100)
+    packet["R_STICK"][1] = clamp(packet["R_STICK"][1], -100, 100)
 
     controller.update_packet(["L_STICK", "X_VALUE"], packet["L_STICK"][0])
     controller.update_packet(["L_STICK", "Y_VALUE"], -packet["L_STICK"][1])
@@ -64,3 +67,5 @@ def button_up(packet):
     controller.update_packet([packet], False)
     print("UP", packet)
 
+def start():
+    Thread(target=lambda: socketio.run(app, host="0.0.0.0", port="9000")).start()
