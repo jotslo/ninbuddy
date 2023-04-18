@@ -5,6 +5,9 @@ controller = None
 last_mobile_ping = 0
 is_real_controller = False
 
+is_mobile_connected = False
+state = "Waiting for controller..."
+
 def setup(nx):
     global packet, button_map
     packet = nx.create_input_packet()
