@@ -21,29 +21,26 @@ def dashboard():
 @app.route('/ping-server')
 def get_data():
     is_mobile = request.args.get("is_mobile", default = False) == "true"
+    uuid = request.args.get("uuid")
 
     if not is_mobile:
-        return jsonify({"message":  controller.state})
-
-    if not controller.is_mobile_connected:
-        controller.is_mobile_connected = True
-        print("User has connected!")
-
-        if controller.controller == None:
-            Thread(target=controller.connect, args=(False,)).start()
-            return jsonify({"message":  controller.state})
+        return jsonify({"message": controller.state})
     
-    Thread(target=track_last_ping).start()
-    return jsonify({"message":  controller.state})
+    if uuid not in controller.input_devices:
+        Thread(target=controller.connect, args=(uuid,)).start()
+        return jsonify({"message": controller.state})
+    
+    Thread(target=track_last_ping, args=(uuid,)).start()
+    return jsonify({"message": controller.state})
 
 
-def track_last_ping():
+def track_last_ping(uuid):
     global last_mobile_ping
     last_mobile_ping = time.time()
     time.sleep(5)
 
     if time.time() - last_mobile_ping >= 5:
-        controller.disconnect()
+        controller.disconnect(uuid)
 
 
 @socketio.on("joystick-input")

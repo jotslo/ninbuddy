@@ -1,13 +1,16 @@
-import nxbt
+import nxbt, time
 
 nx = nxbt.Nxbt()
 
 packet = nx.create_input_packet()
-controller = None
+device = None
+input_devices = []
 
 state = "Waiting for controller..."
 is_real_controller = False
 is_mobile_connected = False
+
+is_disconnecting = False
 
 def update_packet(location, value):
     global packet
@@ -17,40 +20,35 @@ def update_packet(location, value):
     else:
         packet[location[0]][location[1]] = value
 
-def update_joystick(joystick):
-    update_packet(["L_STICK", "X_VALUE"], joystick.get_axis(0) * 100)
-    update_packet(["L_STICK", "Y_VALUE"], joystick.get_axis(1) * -100)
-    update_packet(["R_STICK", "X_VALUE"], joystick.get_axis(3) * 100)
-    update_packet(["R_STICK", "Y_VALUE"], joystick.get_axis(4) * -100)
-
-def connect(is_real):
-    global joystick, is_real_controller, state, controller
-
-    state = "Connecting to console..."
-    is_real_controller = is_real
-
-    controller = nx.create_controller(nxbt.PRO_CONTROLLER)
-    nx.wait_for_connection(controller)
-    state = "Connected to console!"
-
-def disconnect():
-    global state, is_mobile_connected, controller
-
-    if not is_mobile_connected:
-        return
-
-    print("User has disconnected!")
-
-    if controller != None:
-        state = "Removing controller..."
-
-        try:
-            nx.remove_controller(controller)
-        except KeyError:
-            print("Controller removed during connection.")
-
-        controller = None
+def connect(indicator):
+    global joystick, is_real_controller, state, device, input_devices
     
-    is_mobile_connected = False
-    state = "Waiting for controller..."
+    input_devices.append(indicator)
 
+    if len(input_devices) == 1 and not is_disconnecting:
+        state = "Connecting user to console..."
+        device = nx.create_controller(nxbt.PRO_CONTROLLER)
+        nx.wait_for_connection(device)
+        state = "Connected user to console!"
+
+def disconnect(indicator):
+    global state, is_mobile_connected, device, input_devices
+
+    if indicator in input_devices:
+        input_devices.remove(indicator)
+
+    if len(input_devices) == 0 and not is_disconnecting:
+        is_disconnecting = True
+
+        while "Connected" not in state:
+            time.sleep(0.1)
+            pass
+
+        if device != None:
+            state = "Disconnecting user from console..."
+            nx.remove_controller(device)
+            device = None
+
+        state = "Waiting for controller..."
+    
+    is_disconnecting = False
