@@ -22,7 +22,7 @@ if "SDL_VIDEODRIVER" not in os.environ:
 
 @app.route("/")
 def dashboard():
-    return render_template("dashboard.html")
+    return render_template("web/dashboard.html")
 
 @app.route('/ping-server')
 def get_data():
