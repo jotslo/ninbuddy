@@ -26,8 +26,13 @@ def get_data():
     if not is_mobile:
         return jsonify({"message": controller.state})
     
-    if uuid not in controller.input_devices:
+    """if uuid not in controller.input_devices:
         Thread(target=controller.connect, args=(uuid,)).start()
+        return jsonify({"message": controller.state})"""
+    
+    if not (controller.is_mobile_connected or controller.is_physical_connected):
+        controller.is_mobile_connected = True
+        Thread(target=controller.connect).start()
         return jsonify({"message": controller.state})
     
     Thread(target=track_last_ping, args=(uuid,)).start()
@@ -40,7 +45,9 @@ def track_last_ping(uuid):
     time.sleep(5)
 
     if time.time() - last_mobile_ping >= 5:
-        controller.disconnect(uuid)
+        last_mobile_ping = time.time()
+        controller.is_mobile_connected = False
+        controller.attempt_disconnect()
 
 
 @socketio.on("joystick-input")

@@ -20,21 +20,30 @@ def update_joystick():
     controller.update_packet(["R_STICK", "X_VALUE"], joystick.get_axis(3) * 100)
     controller.update_packet(["R_STICK", "Y_VALUE"], joystick.get_axis(4) * -100)
 
+def connect_physical():
+    if controller.is_physical_connected:
+        return
+
+    joystick = pygame.joystick.Joystick(0)
+    joystick.init()
+    
+    if not controller.is_mobile_connected:
+        controller.is_physical_connected = True
+        controller.connect()
+
 def listen():
     global last_movement, joystick
     pygame.init()
 
     if pygame.joystick.get_count() >= 1:
-        joystick = pygame.joystick.Joystick(0)
-        joystick.init()
-        controller.connect(0)
+        connect_physical()
 
     while True:
         if controller.device != None:
             current_time = time.time()
 
             if current_time - last_movement > 1/120:
-                if controller.is_real_controller:
+                if controller.is_physical_connected:
                     update_joystick(joystick)
                     last_movement = current_time
 
@@ -42,13 +51,11 @@ def listen():
 
         for event in pygame.event.get():
             if event.type == pygame.JOYDEVICEADDED and pygame.joystick.get_count() == 1:
-                if controller.device == None:
-                    joystick = pygame.joystick.Joystick(0)
-                    joystick.init()
-                    controller.connect(0)
+                connect_physical()
             
             elif event.type == pygame.JOYDEVICEREMOVED and pygame.joystick.get_count() == 0:
-                controller.disconnect(0)
+                controller.is_physical_connected = False
+                controller.attempt_disconnect()
             
             elif event.type == pygame.JOYBUTTONDOWN:
                 controller.update_packet(data.button_map[event.button], True)
