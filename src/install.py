@@ -16,11 +16,11 @@ green = "\033[32m"
 reset = "\033[0m"
 
 print(f"{red}{bold}### NinBuddy by Josh Lotriet{reset}")
-print(f"{green}{bold}### INSTALLATION{reset}\n")
+print(f"{green}{bold}### DOWNLOADING...{reset}\n")
 
 if os.geteuid() != 0:
     print(f"{red}{bold}ERROR: You must run this script as root.{reset}")
-    print("Use 'sudo python3 install.py' to run this script as root.")
+    print(f"Use 'sudo {sys.executable} install.py' to run this script as root.")
     sys.exit(1)
 
 home_dir = os.environ["HOME"]
