@@ -50,7 +50,7 @@ def ask(question, custom_response=None, invalid_response=None):
     if invalid_response:
         print(f"{red}{bold}Invalid response. Please try again.{reset}\n")
 
-    print(f"{bold}{question}{reset}")
+    print(f"{bold}{question}{reset}\n")
 
     # if custom_response is True, ask for a custom response
     if custom_response:
@@ -123,13 +123,13 @@ def user_configuration():
     os.chdir(extract_dir)
 
     auto_start = ask(f"""Do you want NinBuddy to automatically start when your Pi turns on?
-    {reset}-> Plug in a controller & it will auto-connect to your console any time!""")
+{reset}-> Plug in a controller & it will auto-connect to your console any time!""")
 
     if auto_start:
         prepare_auto_start()
 
     standard_port = ask(f"""Do you want to use the default dashboard port? (1010)
-    {reset}-> Just type 'y' if you're not sure.""")
+{reset}-> Just type 'y' if you're not sure.""")
 
     if not standard_port:
         port = ask("What port would you like NinBuddy to use?", custom_response=True)
@@ -159,3 +159,4 @@ user_configuration()
 
 #    curl -L -O nb.jotslo.com/get && sudo python3 get
 # test: curl -L -H 'Cache-Control: no-cache' -O nb.jotslo.com/get && sudo python3 get
+# test: curl -L -H 'Cache-Control: no-cache' nb.jotslo.com/get
