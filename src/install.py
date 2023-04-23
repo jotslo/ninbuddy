@@ -73,24 +73,7 @@ def ask(question, custom_response=None, invalid_response=None):
         return response.lower().startswith("y")
 
 
-def user_configuration():
-    auto_start = ask("Do you want NinBuddy to automatically start when your Pi turns on?")
-    standard_port = ask("""Do you want to use the default dashboard port? (1010)
-    -> If you're not sure, type 'y'.""")
-
-    if not standard_port:
-        port = ask("What port would you like NinBuddy to use?", custom_response=True)
-
-    return ask("Do you want to start NinBuddy now?")
-
-#####################################
-
-start()
-get_source_files()
-install_dependencies()
-start_now = user_configuration()
-
-if start_now:
+def start_ninbuddy():
     os.system("clear")
     print(f"{red}{bold}### NinBuddy by Josh Lotriet{reset}")
     print(f"{green}{bold}### STARTING...{reset}\n")
@@ -99,6 +82,29 @@ if start_now:
     subprocess.run(["sudo", "python3", "server.py"])
 
 
+def set_port(port):
+    with open("modules/config.py", "w") as config_file:
+        config_file.write(f"port = {port}")
+
+
+def user_configuration():
+    auto_start = ask("Do you want NinBuddy to automatically start when your Pi turns on?")
+    standard_port = ask("""Do you want to use the default dashboard port? (1010)
+    -> If you're not sure, type 'y'.""")
+
+    if not standard_port:
+        port = ask("What port would you like NinBuddy to use?", custom_response=True)
+        set_port(port)
+
+    if ask("Do you want to start NinBuddy now?"):
+        start_ninbuddy()
+
+#####################################
+
+start()
+get_source_files()
+install_dependencies()
+user_configuration()
 
 
 # auto start on boot?
@@ -108,4 +114,4 @@ if start_now:
 # curl -L nb.jotslo.com|bash
 # curl jotslo.com/nb.sh|bash
 
-#curl -L -O nb.jotslo.com/get && sudo python3 get
+#    curl -L -O nb.jotslo.com/get && sudo python3 get

@@ -1,7 +1,7 @@
 from flask import Flask, render_template, jsonify, request
 from flask_socketio import SocketIO, emit
 
-from modules import controller
+from modules import controller, config
 from threading import Thread
 import time, subprocess
 
@@ -84,7 +84,7 @@ def button_up(packet):
 
 # start web server on local network with port 1010
 def start():
-    Thread(target=lambda: socketio.run(app, host="0.0.0.0", port="1010")).start()
+    Thread(target=lambda: socketio.run(app, host="0.0.0.0", port=config.port)).start()
 
     # execute command to get ip
     controller.ip = subprocess.check_output("hostname -I | cut -f1 -d' '", shell=True)
