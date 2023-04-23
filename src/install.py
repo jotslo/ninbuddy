@@ -95,8 +95,8 @@ if start_now:
     print(f"{red}{bold}### NinBuddy by Josh Lotriet{reset}")
     print(f"{green}{bold}### STARTING...{reset}\n")
 
-    subprocess.run(["cd", f"{extract_dir}/src",
-        "&&", "sudo", "python3", "server.py"])
+    os.chdir(f"{extract_dir}/src")
+    subprocess.run(["sudo", "python3", "server.py"])
 
 
 
