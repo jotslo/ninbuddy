@@ -88,6 +88,15 @@ def start_ninbuddy():
     subprocess.run(["sudo", "python3", "server.py"])
 
 
+def install_complete():
+    os.system("clear")
+    print(f"{red}{bold}### NinBuddy by Josh Lotriet{reset}")
+    print(f"{green}{bold}### INSTALLATION COMPLETE!{reset}\n")
+
+    print("1. Type 'cd {extract_dir}' to go to the NinBuddy directory")
+    print("2. Type 'sudo python3 server.py' to start the software")
+
+
 def set_port(port):
     with open("modules/config.py", "w") as config_file:
         config_file.write(f"port = {port}")
@@ -95,7 +104,7 @@ def set_port(port):
 
 def user_configuration():
     os.chdir(extract_dir)
-    
+
     auto_start = ask("Do you want NinBuddy to automatically start when your Pi turns on?")
     standard_port = ask("""Do you want to use the default dashboard port? (1010)
     -> If you're not sure, type 'y'.""")
@@ -106,6 +115,10 @@ def user_configuration():
 
     if ask("Do you want to start NinBuddy now?"):
         start_ninbuddy()
+        return
+    
+    install_complete()
+
 
 #####################################
 
