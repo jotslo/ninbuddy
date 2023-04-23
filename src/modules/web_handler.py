@@ -82,19 +82,14 @@ def button_up(packet):
     controller.update_packet([packet], False)
     print("UP", packet)
 
-# start web server on local network with port 8000
-def run():
-    Thread(target=lambda: socketio.run(app, host="0.0.0.0", port="1010")).start()
+# when server is ready, output url to console
+@socketio.on("connect")
+def on_connect():
+    if request.namespace.socketio.server.eio.state == "running":
+        print("NinBuddy Dashboard is now ready!")
+        print("Go to: http://" + request.remote_addr + ":1010")
+        print("Mobile devices can be used as controllers.")
 
-    # wait for web server to start
-    time.sleep(1)
-    
-    # output ip address for user to connect to
-    # this won't work if not connected to a local network
-    print("NinBuddy Dashboard is now ready!")
-    print("Go to: http://" + request.remote_addr + ":1010")
-    print("Mobile devices can be used as controllers.")
-
-# start web server in a separate thread
+# start web server on local network with port 1010
 def start():
-    Thread(target=run).start()
+    Thread(target=lambda: socketio.run(app, host="0.0.0.0", port="1010")).start()
