@@ -103,7 +103,7 @@ def set_port(port):
 
 
 def prepare_auto_start():
-    command = f"sudo {extract_dir}/installer/start.sh\n"
+    command = f"cd {extract_dir} && sudo python3 server.py\n"
 
     with open(f"{extract_dir}/installer/start.sh", "w") as start_file:
         start_file.write(f"cd {extract_dir}\nsudo python3 server.py")
@@ -112,7 +112,7 @@ def prepare_auto_start():
         lines = rc_file.readlines()
     
     if command not in lines:
-        lines[-1] = f"cd {extract_dir} && sudo python3 server.py\n"
+        lines[-1] = command
         lines.append("exit 0\n")
 
         with open("/etc/rc.local", "w") as rc_file:

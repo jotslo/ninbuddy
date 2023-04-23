@@ -24,6 +24,8 @@ reset = "\033[0m"
 # ip of raspberry pi
 ip = None
 
+extract_dir = f"/home/{os.environ.get('SUDO_USER')}/ninbuddy"
+
 def update_state(new_state):
     global state
     state = new_state
@@ -33,8 +35,15 @@ def update_state(new_state):
     print(f"{red}{bold}### NinBuddy by Josh Lotriet{reset}")
     print(f"{green}{bold}### STARTED{reset}\n")
     print(f"{bold}> {state}{reset}\n")
-    print("To use a mobile device as a controller...")
-    print(f"Go to: http://{ip.decode().strip()}:{config.port}")
+
+    # instructions for user to connect to switch
+    print("Go to 'Change Grip/Order' on your Switch to connect.")
+    print("Next, plug in any controller to your Raspberry Pi.\n")
+
+    # if ip is valid, output connection details for user
+    if ip.decode().strip().startswith("192.168."):
+        print("To use a mobile device as a controller...")
+        print(f"Go to: {bold}http://{ip.decode().strip()}:{config.port}{reset} on your phone.\n")
 
 # update packet with new joystick values
 def update_packet(location, value):
