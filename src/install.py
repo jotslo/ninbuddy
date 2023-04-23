@@ -70,10 +70,14 @@ def ask(question, custom_response=None, invalid_response=None):
         print("Type 'y' for yes, or 'n' for no.")
         response = input("\n> ")
 
-        if len(response) < 1:
-            return ask(question, invalid_response=True)
+        if response.lower().startswith("y"):
+            return True
+        elif response.lower().startswith("n"):
+            return False
+        
+        # if response is invalid, ask again
+        return ask(question, invalid_response=True)
 
-        return response.lower().startswith("y")
 
 
 def start_ninbuddy():
