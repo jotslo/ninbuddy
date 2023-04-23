@@ -12,10 +12,11 @@ os.system("clear")
 
 red = "\033[31m"
 bold = "\033[1m"
-yellow = "\033[33m"
+green = "\033[32m"
 reset = "\033[0m"
 
 print(f"{red}{bold}### NinBuddy by Josh Lotriet{reset}")
+print(f"{green}{bold}### INSTALLATION{reset}\n")
 
 if os.geteuid() != 0:
     print(f"{red}{bold}ERROR: You must run this script as root.{reset}")
@@ -42,7 +43,7 @@ subprocess.run([pip_path, "install", "pygame==2.1.2"])
 os.system("clear")
 
 print(f"{red}{bold}### NinBuddy by Josh Lotriet{reset}")
-print(f"{yellow}{bold}### CONFIGURATION{reset}\n")
+print(f"{green}{bold}### CONFIGURATION{reset}\n")
 
 print(f"{bold}Do you want NinBuddy to automatically start when your Pi turns on?{reset}")
 print("Type 'y' for yes, or 'n' for no.")
