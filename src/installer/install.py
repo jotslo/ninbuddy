@@ -117,20 +117,19 @@ def prepare_auto_start():
 
         with open("/etc/rc.local", "w") as rc_file:
             rc_file.writelines(lines)
-    
-    os.system(f"chmod +x {extract_dir}/installer/start.sh")
 
 
 def user_configuration():
     os.chdir(extract_dir)
 
-    auto_start = ask("Do you want NinBuddy to automatically start when your Pi turns on?")
+    auto_start = ask(f"""Do you want NinBuddy to automatically start when your Pi turns on?
+    {reset}-> Plug in a controller & it will auto-connect to your console any time!""")
 
     if auto_start:
         prepare_auto_start()
 
-    standard_port = ask("""Do you want to use the default dashboard port? (1010)
-    -> If you're not sure, type 'y'.""")
+    standard_port = ask(f"""Do you want to use the default dashboard port? (1010)
+    {reset}-> Just type 'y' if you're not sure.""")
 
     if not standard_port:
         port = ask("What port would you like NinBuddy to use?", custom_response=True)
