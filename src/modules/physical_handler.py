@@ -1,13 +1,7 @@
 import pygame
 import time
-import os
 
 from modules import controller, input_maps
-
-# if video driver is not set, set it to dummy value
-# this allows us to use pygame without a display
-if "SDL_VIDEODRIVER" not in os.environ:
-    os.environ["SDL_VIDEODRIVER"] = "dummy"
 
 # store last movement time & joystick object
 last_movement = 0
