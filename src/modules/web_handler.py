@@ -87,9 +87,7 @@ def start():
     Thread(target=lambda: socketio.run(app, host="0.0.0.0", port="1010")).start()
 
     # execute command to get ip
-    ip = subprocess.check_output("hostname -I | cut -f1 -d' '", shell=True)
+    controller.ip = subprocess.check_output("hostname -I | cut -f1 -d' '", shell=True)
 
     # print instructions for connecting to dashboard
-    print("NinBuddy Dashboard is starting up.")
-    print("To use a mobile device as a controller,")
-    print("Go to: http://" + ip.decode().strip() + ":1010")
+    controller.update_state("Waiting for controller.")

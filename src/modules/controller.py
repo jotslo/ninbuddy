@@ -1,4 +1,4 @@
-import nxbt, time
+import nxbt, time, os
 
 # start nxbt and get format for input packet
 # input packet is sent to switch each frame
@@ -13,6 +13,27 @@ state = "Waiting for controller..."
 is_physical_connected = False
 is_mobile_connected = False
 is_disconnecting = False
+
+# declare colours for console output
+red = "\033[31m"
+bold = "\033[1m"
+green = "\033[32m"
+reset = "\033[0m"
+
+# ip of raspberry pi
+ip = None
+
+def update_state(new_state):
+    global state
+    state = new_state
+
+    os.system("clear")
+
+    print(f"{red}{bold}### NinBuddy by Josh Lotriet{reset}")
+    print(f"{green}{bold}### STARTED{reset}\n")
+    print(f"{bold}> {state}{reset}\n")
+    print("To use a mobile device as a controller...")
+    print("Go to: http://" + ip.decode().strip() + ":1010")
 
 # update packet with new joystick values
 def update_packet(location, value):
@@ -31,10 +52,10 @@ def connect():
     
     # if ready to connect, update states & connect via nxbt
     if not is_disconnecting:
-        state = "Connecting to console..."
+        update_state("Connecting to console...")
         device = nx.create_controller(nxbt.PRO_CONTROLLER)
         nx.wait_for_connection(device)
-        state = "Connected to console!"
+        update_state("Connected to console!")
 
 # attempt to disconnect from switch, if possible
 def attempt_disconnect():
@@ -55,9 +76,9 @@ def attempt_disconnect():
 
     # if connected, disconnect from controller and update vars accordingly
     if device != None:
-        state = "Disconnecting from console..."
+        update_state("Disconnecting from console...")
         nx.remove_controller(device)
         device = None
 
-        state = "Waiting for controller..."
+        update_state("Waiting for controller...")
         is_disconnecting = False
