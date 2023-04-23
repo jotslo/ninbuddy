@@ -104,8 +104,8 @@ def set_port(port):
 
 def prepare_auto_start():
     command = f"sudo {extract_dir}/installer/start.sh\n"
-    
-    with open("installer/start.sh", "w") as start_file:
+
+    with open(f"{extract_dir}/installer/start.sh", "w") as start_file:
         start_file.write(f"cd {extract_dir}\nsudo python3 server.py")
     
     with open("/etc/rc.local", "r") as rc_file:
@@ -115,7 +115,7 @@ def prepare_auto_start():
         with open("/etc/rc.local", "a") as rc_file:
             rc_file.write(command)
     
-    os.system("chmod +x installer/start.sh")
+    os.system(f"chmod +x {extract_dir}/installer/start.sh")
 
 
 def user_configuration():
