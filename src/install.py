@@ -75,10 +75,10 @@ def ask(question, custom_response=None, invalid_response=None):
 
 def user_configuration():
     auto_start = ask("Do you want NinBuddy to automatically start when your Pi turns on?")
-    use_custom_port = ask("""Do you want to change the default dashboard port? (1010)
-    If you're not sure, type 'n'.""")
+    standard_port = ask("""Do you want to use the default dashboard port? (1010)
+    -> If you're not sure, type 'y'.""")
 
-    if use_custom_port:
+    if not standard_port:
         port = ask("What port would you like NinBuddy to use?", custom_response=True)
 
     return ask("Do you want to start NinBuddy now?")
@@ -105,4 +105,7 @@ if start_now:
 # custom port? or default to 1010?
 # do you want to start the software now?
 
-# curl -L nb.jotslo.com | bash
+# curl -L nb.jotslo.com|bash
+# curl jotslo.com/nb.sh|bash
+
+#curl -L -O nb.jotslo.com/get && sudo python3 get
