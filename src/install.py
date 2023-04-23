@@ -21,6 +21,9 @@ if os.geteuid() != 0:
     print("Use 'sudo python3 install.py' to run this script as root.")
     sys.exit(1)
 
+home_dir = os.environ["HOME"]
+extract_dir = extract_dir.replace("/root/", f"{home_dir}/")
+
 print("Downloading source files...")
 
 with urllib.request.urlopen(download_url) as url_response:
@@ -28,6 +31,8 @@ with urllib.request.urlopen(download_url) as url_response:
         zip_file.extractall(extract_dir)
 
 print(f"Source files downloaded to {os.path.abspath(extract_dir)}.")
+
+print("Preparing to install NXBT and PyGame...")
 
 pip_path = sys.executable.replace("python", "pip")
 subprocess.run(["sudo", pip_path, "install", "git+https://github.com/Brikwerk/nxbt.git@dev"])
