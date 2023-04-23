@@ -8,7 +8,7 @@ import subprocess
 download_url = "https://github.com/jotslo/ninbuddy/releases/download/v0.1-alpha/ninbuddy.zip"
 extract_dir = os.path.expanduser("~/ninbuddy")
 
-os.system("cls")
+os.system("clear")
 
 red = "\033[31m"
 bold = "\033[1m"
