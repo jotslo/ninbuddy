@@ -23,9 +23,6 @@ def start():
         sys.exit(1)
 
 def get_source_files():
-    home_dir = os.environ["HOME"]
-    extract_dir = extract_dir.replace("/root/", f"{home_dir}/")
-
     print(f"{green}{bold}### PLEASE WAIT...{reset}\n")
     print("Downloading source files...")
 
