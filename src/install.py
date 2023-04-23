@@ -40,21 +40,53 @@ pip_path = sys.executable.replace("python", "pip")
 subprocess.run(["sudo", pip_path, "install", "git+https://github.com/Brikwerk/nxbt.git@dev"])
 subprocess.run([pip_path, "install", "pygame==2.1.2"])
 
-os.system("clear")
+def ask(question, custom_response=None, invalid_response=None):
+    os.system("clear")
+    print(f"{red}{bold}### NinBuddy by Josh Lotriet{reset}")
+    print(f"{green}{bold}### CONFIGURATION{reset}\n")
 
-print(f"{red}{bold}### NinBuddy by Josh Lotriet{reset}")
-print(f"{green}{bold}### CONFIGURATION{reset}\n")
+    print(f"{bold}{question}{reset}")
 
-print(f"{bold}Do you want NinBuddy to automatically start when your Pi turns on?{reset}")
-print("Type 'y' for yes, or 'n' for no.")
+    # if custom_response is True, ask for a custom response
+    if custom_response:
 
-response = input("\n> ")
+        # if invalid_response is True, print an error message
+        if invalid_response:
+            print("Invalid response. Please try again.")
 
-if response.lower().startswith("y"):
-    print("ok!")
-else:
-    print("oh!")
+        print("Type the number of your choice, between 1000 & 60000")
+        response = input("\n> ")
 
+        if response.isdigit():
+            int_response = int(response)
+            if 1000 <= int_response <= 60000:
+                return int_response
+                
+        # if response is invalid, ask again
+        return ask(question, custom_response=True, invalid_response=True)
+    
+    # if custom_response is False, ask for a yes or no response
+    else:
+        print("Type 'y' for yes, or 'n' for no.")
+        response = input("\n> ")
+
+        return response.lower().startswith("y")
+
+
+auto_start = ask("Do you want NinBuddy to automatically start when your Pi turns on?")
+use_custom_port = ask("Do you want to NinBuddy to use a port other than 1010? If you're not sure, type 'n'.")
+
+if use_custom_port:
+    port = ask("What port would you like NinBuddy to use?", custom_response=True)
+
+print(auto_start)
+print(use_custom_port)
+print(port)
+
+# auto start on boot?
+# custom port? or default to 1010?
+# do you want to start the software now?
 
 # curl -O https://raw.githubusercontent.com/jotslo/ninbuddy/main/src/install.py && sudo python3 install.py
 # curl -O https://nb.jotslo.com && sudo python3 install.py
+# curl -O https://joshl.io/nb.py && sudo python3 install.py
