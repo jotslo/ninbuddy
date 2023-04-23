@@ -38,10 +38,12 @@ def connect():
 
 # attempt to disconnect from switch, if possible
 def attempt_disconnect():
-    global state, is_mobile_connected, is_physical_connected, device, input_devices, is_disconnecting
+    global state, is_mobile_connected, is_physical_connected, device, input_devices, is_disconnecting, packet
 
     # if another device is still connected or is already disconnecting, ignore
+    # reset packet to prevent infinite input, if user is still holding buttons
     if is_mobile_connected or is_physical_connected or is_disconnecting:
+        packet = nx.create_input_packet()
         return
     
     # set disconnecting state and wait for connection to be removed
