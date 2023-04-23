@@ -105,6 +105,4 @@ if start_now:
 # custom port? or default to 1010?
 # do you want to start the software now?
 
-# curl -O https://raw.githubusercontent.com/jotslo/ninbuddy/main/src/install.py && sudo python3 install.py
-# curl -O https://nb.jotslo.com && sudo python3 install.py
-# curl -O https://joshl.io/nb.py && sudo python3 install.py
+# curl -L nb.jotslo.com | bash
