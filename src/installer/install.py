@@ -5,7 +5,7 @@ import io
 import sys
 import subprocess
 
-download_url = "https://github.com/jotslo/ninbuddy/releases/download/v0.1-alpha/ninbuddy.zip"
+download_url = "https://github.com/jotslo/ninbuddy/releases/download/v0.1.1-alpha/ninbuddy.zip"
 extract_dir = f"/home/{os.environ.get('SUDO_USER')}/ninbuddy"
 
 red = "\033[31m"
