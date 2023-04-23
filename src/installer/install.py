@@ -102,10 +102,30 @@ def set_port(port):
         config_file.write(f"port = {port}")
 
 
+def prepare_auto_start():
+    command = f"sudo {extract_dir}/installer/start.sh\n"
+    
+    with open("installer/start.sh", "w") as start_file:
+        start_file.write(f"cd {extract_dir}\nsudo python3 server.py")
+    
+    with open("/etc/rc.local", "r") as rc_file:
+        lines = rc_file.readlines()
+    
+    if command not in lines:
+        with open("/etc/rc.local", "a") as rc_file:
+            rc_file.write(command)
+    
+    os.system("chmod +x installer/start.sh")
+
+
 def user_configuration():
     os.chdir(extract_dir)
 
     auto_start = ask("Do you want NinBuddy to automatically start when your Pi turns on?")
+
+    if auto_start:
+        prepare_auto_start()
+
     standard_port = ask("""Do you want to use the default dashboard port? (1010)
     -> If you're not sure, type 'y'.""")
 
