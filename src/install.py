@@ -45,15 +45,14 @@ def ask(question, custom_response=None, invalid_response=None):
     print(f"{red}{bold}### NinBuddy by Josh Lotriet{reset}")
     print(f"{green}{bold}### CONFIGURATION{reset}\n")
 
+    # if invalid_response is True, print an error message
+    if invalid_response:
+        print(f"{red}{bold}Invalid response. Please try again.{reset}\n")
+
     print(f"{bold}{question}{reset}")
 
     # if custom_response is True, ask for a custom response
     if custom_response:
-
-        # if invalid_response is True, print an error message
-        if invalid_response:
-            print("Invalid response. Please try again.")
-
         print("Type the number of your choice, between 1000 & 60000")
         response = input("\n> ")
 
@@ -74,7 +73,8 @@ def ask(question, custom_response=None, invalid_response=None):
 
 
 auto_start = ask("Do you want NinBuddy to automatically start when your Pi turns on?")
-use_custom_port = ask("Do you want to NinBuddy to use a port other than 1010? If you're not sure, type 'n'.")
+use_custom_port = ask("""Do you want to NinBuddy to use a port other than 1010?
+If you're not sure, type 'n'.""")
 
 if use_custom_port:
     port = ask("What port would you like NinBuddy to use?", custom_response=True)
