@@ -3,7 +3,7 @@ from flask_socketio import SocketIO, emit
 
 from modules import controller
 from threading import Thread
-import time
+import time, subprocess
 
 # clamp a number between a min and max
 clamp = lambda n, _min, _max: max(min(n, _max), _min)
@@ -82,14 +82,14 @@ def button_up(packet):
     controller.update_packet([packet], False)
     print("UP", packet)
 
-# when server is ready, output url to console
-@socketio.on("connect")
-def on_connect():
-    if request.namespace.socketio.server.eio.state == "running":
-        print("NinBuddy Dashboard is now ready!")
-        print("Go to: http://" + request.remote_addr + ":1010")
-        print("Mobile devices can be used as controllers.")
-
 # start web server on local network with port 1010
 def start():
     Thread(target=lambda: socketio.run(app, host="0.0.0.0", port="1010")).start()
+
+    # execute command to get ip
+    ip = subprocess.check_output("hostname -I | cut -f1 -d' '", shell=True)
+
+    # print instructions for connecting to dashboard
+    print("NinBuddy Dashboard is starting up...")
+    print("Go to: http://" + ip.decode().strip() + ":1010")
+    print("Mobile devices can be used as controllers.")
