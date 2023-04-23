@@ -82,7 +82,7 @@ def button_up(packet):
     controller.update_packet([packet], False)
     print("UP", packet)
 
-# start web server on local network with port 1010
+# start web server on local network with defined port
 def start():
     Thread(target=lambda: socketio.run(app, host="0.0.0.0", port=config.port)).start()
 

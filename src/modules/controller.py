@@ -1,4 +1,5 @@
 import nxbt, time, os
+from modules import config
 
 # start nxbt and get format for input packet
 # input packet is sent to switch each frame
@@ -33,7 +34,7 @@ def update_state(new_state):
     print(f"{green}{bold}### STARTED{reset}\n")
     print(f"{bold}> {state}{reset}\n")
     print("To use a mobile device as a controller...")
-    print("Go to: http://" + ip.decode().strip() + ":1010")
+    print(f"Go to: http://{ip.decode().strip()}:{config.port}")
 
 # update packet with new joystick values
 def update_packet(location, value):
