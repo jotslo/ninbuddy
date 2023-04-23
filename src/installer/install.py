@@ -93,7 +93,7 @@ def install_complete():
     print(f"{red}{bold}### NinBuddy by Josh Lotriet{reset}")
     print(f"{green}{bold}### INSTALLATION COMPLETE!{reset}\n")
 
-    print("1. Type 'cd {extract_dir}' to go to the NinBuddy directory")
+    print(f"1. Type 'cd {extract_dir}' to go to the NinBuddy directory")
     print("2. Type 'sudo python3 server.py' to start the software")
 
 
@@ -112,8 +112,11 @@ def prepare_auto_start():
         lines = rc_file.readlines()
     
     if command not in lines:
-        with open("/etc/rc.local", "a") as rc_file:
-            rc_file.write(command)
+        lines[-2] = f"cd {extract_dir} && sudo python3 server.py"
+        lines.append("exit 0")
+
+        with open("/etc/rc.local", "w") as rc_file:
+            rc_file.writelines(lines)
     
     os.system(f"chmod +x {extract_dir}/installer/start.sh")
 
