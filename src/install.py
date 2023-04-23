@@ -12,6 +12,7 @@ os.system("clear")
 
 red = "\033[31m"
 bold = "\033[1m"
+yellow = "\033[33m"
 reset = "\033[0m"
 
 print(f"{red}{bold}### NinBuddy by Josh Lotriet{reset}")
@@ -38,7 +39,21 @@ pip_path = sys.executable.replace("python", "pip")
 subprocess.run(["sudo", pip_path, "install", "git+https://github.com/Brikwerk/nxbt.git@dev"])
 subprocess.run([pip_path, "install", "pygame==2.1.2"])
 
-print("Config...")
+os.system("clear")
+
+print(f"{red}{bold}### NinBuddy by Josh Lotriet{reset}")
+print(f"{yellow}{bold}### CONFIGURATION{reset}\n")
+
+print(f"{bold}Do you want NinBuddy to automatically start when your Pi turns on?{reset}")
+print("Type 'y' for yes, or 'n' for no.")
+
+response = input("\n> ")
+
+if response.lower().startswith("y"):
+    print("ok!")
+else:
+    print("oh!")
+
 
 # curl -O https://raw.githubusercontent.com/jotslo/ninbuddy/main/src/install.py && sudo python3 install.py
 # curl -O https://nb.jotslo.com && sudo python3 install.py
