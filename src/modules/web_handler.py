@@ -90,6 +90,6 @@ def start():
     ip = subprocess.check_output("hostname -I | cut -f1 -d' '", shell=True)
 
     # print instructions for connecting to dashboard
-    print("NinBuddy Dashboard is starting up...")
+    print("NinBuddy Dashboard is starting up.")
+    print("To use a mobile device as a controller,")
     print("Go to: http://" + ip.decode().strip() + ":1010")
-    print("Mobile devices can be used as controllers.")
