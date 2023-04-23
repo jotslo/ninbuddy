@@ -34,7 +34,7 @@ def get_source_files():
 
 
 def install_dependencies():
-    print("Preparing to install NXBT and PyGame...")
+    print("Preparing to install dependencies...")
 
     pip_path = sys.executable.replace("python", "pip")
     subprocess.run(["sudo", pip_path, "install", "git+https://github.com/Brikwerk/nxbt.git@dev"])
@@ -81,14 +81,22 @@ def user_configuration():
     if use_custom_port:
         port = ask("What port would you like NinBuddy to use?", custom_response=True)
 
-    start_now = ask("Do you want to start NinBuddy now?")
+    return ask("Do you want to start NinBuddy now?")
 
 #####################################
 
 start()
 get_source_files()
 install_dependencies()
-user_configuration()
+start_now = user_configuration()
+
+if start_now:
+    os.system("clear")
+    print(f"{red}{bold}### NinBuddy by Josh Lotriet{reset}")
+    print(f"{green}{bold}### STARTING...{reset}\n")
+
+    subprocess.run(["cd", f"{extract_dir}/src",
+        "&&", "sudo", "python3", "server.py"])
 
 
 
