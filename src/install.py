@@ -16,7 +16,6 @@ green = "\033[32m"
 reset = "\033[0m"
 
 print(f"{red}{bold}### NinBuddy by Josh Lotriet{reset}")
-print(f"{green}{bold}### DOWNLOADING...{reset}\n")
 
 if os.geteuid() != 0:
     print(f"{red}{bold}ERROR: You must run this script as root.{reset}")
@@ -26,6 +25,7 @@ if os.geteuid() != 0:
 home_dir = os.environ["HOME"]
 extract_dir = extract_dir.replace("/root/", f"{home_dir}/")
 
+print(f"{green}{bold}### PLEASE WAIT...{reset}\n")
 print("Downloading source files...")
 
 with urllib.request.urlopen(download_url) as url_response:
