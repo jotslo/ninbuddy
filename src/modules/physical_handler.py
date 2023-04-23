@@ -21,9 +21,6 @@ def update_joystick():
 
         # update last movement time
         last_movement = current_time
-    
-    # update input packet sent to switch accordingly
-    controller.nx.set_controller_input(controller.device, controller.packet)
 
 # connect physical controller
 def connect_physical():
@@ -60,6 +57,9 @@ def listen():
         # if physical controller is connected, update joystick each frame
         if controller.device != None and controller.is_physical_connected:
             update_joystick()
+        
+        # update input packet sent to switch each frame
+        controller.nx.set_controller_input(controller.device, controller.packet)
 
         # for each event in pygame event queue
         for event in pygame.event.get():

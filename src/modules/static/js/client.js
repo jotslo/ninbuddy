@@ -174,6 +174,7 @@ function remainConnected() {
 
                 // if device is in portrait mode, tell user to rotate
                 if (mediaQuery.matches) {
+                    readyForInput = false;
                     output.textContent = "Rotate to landscape to play!";
                     setControlsOpacity(0.001); // hide controls (not 0 to prevent infinite page load)
                 }
