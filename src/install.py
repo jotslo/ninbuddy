@@ -19,7 +19,7 @@ print(f"{red}{bold}### NinBuddy by Josh Lotriet{reset}")
 
 if os.geteuid() != 0:
     print(f"{red}{bold}ERROR: You must run this script as root.{reset}")
-    print(f"Use 'sudo {sys.executable} install.py' to run this script as root.")
+    print(f"To fix, type 'sudo {sys.executable} install.py'")
     sys.exit(1)
 
 home_dir = os.environ["HOME"]
