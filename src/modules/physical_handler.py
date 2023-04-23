@@ -71,6 +71,7 @@ def listen():
             
             # if physical controller is removed, attempt to disconnect from switch
             elif event.type == pygame.JOYDEVICEREMOVED and pygame.joystick.get_count() == 0:
+                joystick.quit()
                 controller.is_physical_connected = False
                 controller.attempt_disconnect()
             
