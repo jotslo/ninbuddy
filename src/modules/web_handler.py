@@ -84,12 +84,15 @@ def button_up(packet):
 
 # start web server on local network with port 8000
 def run():
-    socketio.run(app, host="0.0.0.0", port="8000")
+    Thread(target=lambda: socketio.run(app, host="0.0.0.0", port="1010")).start()
+
+    # wait for web server to start
+    time.sleep(1)
     
     # output ip address for user to connect to
     # this won't work if not connected to a local network
-    print("The NinBuddy web page is now ready!")
-    print("Go to: http://" + request.remote_addr + ":8000")
+    print("NinBuddy Dashboard is now ready!")
+    print("Go to: http://" + request.remote_addr + ":1010")
     print("Mobile devices can be used as controllers.")
 
 # start web server in a separate thread
