@@ -30,11 +30,11 @@ def get_data():
     if not is_mobile:
         return jsonify({"message": controller.state})
     
-    # if no controller is connected, connect a new controller to switch
-    if not (controller.is_mobile_connected or controller.is_physical_connected or controller.is_disconnecting):
+    if not controller.is_mobile_connected:
         controller.is_mobile_connected = True
-        Thread(target=controller.connect).start()
-        return jsonify({"message": controller.state})
+    
+        if not controller.is_physical_connected and not controller.is_disconnecting:
+            Thread(target=controller.connect).start()
     
     # otherwise, update the last ping time and return the controller state
     Thread(target=track_last_ping).start()

@@ -42,10 +42,11 @@ def connect_physical():
     # initialise the connected physical controller
     joystick = pygame.joystick.Joystick(0)
     joystick.init()
+
+    controller.is_physical_connected = True
     
     # if mobile device isn't in-use, use physical controller
     if not controller.is_mobile_connected:
-        controller.is_physical_connected = True
         controller.connect()
 
 # listen for physical controller input
