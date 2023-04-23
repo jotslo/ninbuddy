@@ -112,7 +112,7 @@ def prepare_auto_start():
         lines = rc_file.readlines()
     
     if command not in lines:
-        lines[-2] = f"cd {extract_dir} && sudo python3 server.py"
+        lines[-1] = f"cd {extract_dir} && sudo python3 server.py"
         lines.append("exit 0")
 
         with open("/etc/rc.local", "w") as rc_file:
