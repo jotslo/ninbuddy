@@ -55,11 +55,12 @@ def listen():
     while True:
 
         # if physical controller is connected, update joystick each frame
-        if controller.device != None and controller.is_physical_connected:
-            update_joystick()
+        if controller.device != None:
+            if controller.is_physical_connected:
+                update_joystick()
         
-        # update input packet sent to switch each frame
-        controller.nx.set_controller_input(controller.device, controller.packet)
+            # update input packet sent to switch each frame
+            controller.nx.set_controller_input(controller.device, controller.packet)
 
         # for each event in pygame event queue
         for event in pygame.event.get():
