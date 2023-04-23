@@ -112,8 +112,8 @@ def prepare_auto_start():
         lines = rc_file.readlines()
     
     if command not in lines:
-        lines[-1] = f"cd {extract_dir} && sudo python3 server.py"
-        lines.append("exit 0")
+        lines[-1] = f"cd {extract_dir} && sudo python3 server.py\n"
+        lines.append("exit 0\n")
 
         with open("/etc/rc.local", "w") as rc_file:
             rc_file.writelines(lines)
@@ -159,3 +159,4 @@ user_configuration()
 # curl jotslo.com/nb.sh|bash
 
 #    curl -L -O nb.jotslo.com/get && sudo python3 get
+# test: curl -L -H 'Cache-Control: no-cache' -O nb.jotslo.com/get && sudo python3 get
