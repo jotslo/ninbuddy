@@ -65,24 +65,13 @@ def add_to_queue(location, value):
     global packet_queue
 
     if location not in packet_queue:
-        packet_queue[location] = [value]
+        packet_queue[location] = [value, None]
         return
     
-    packet_queue[location] += [value]
+    packet_queue[location] += [value, None]
 
 
 def set_input():
-    global last_input
-
-    current_time = time.time()
-
-    # prevent input from being sent too fast
-    # this ensures all buttons presses are registered
-    if current_time - last_input < 1 / 60:
-        return
-    
-    last_input = current_time
-
     if len(packet_queue) > 0:
         print(packet_queue)
 
@@ -92,7 +81,8 @@ def set_input():
         if len(queue) == 0:
             continue
 
-        packet[button] = queue[0]
+        if queue[0] != None:
+            packet[button] = queue[0]
 
         queue.pop(0)
 
