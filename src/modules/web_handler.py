@@ -34,10 +34,14 @@ def get_data():
         controller.is_mobile_connected = True
     
         if not controller.is_physical_connected and not controller.is_disconnecting:
-            Thread(target=controller.connect).start()
+            conn = Thread(target=controller.connect)
+            conn.daemon = True
+            conn.start()
     
     # otherwise, update the last ping time and return the controller state
-    Thread(target=track_last_ping).start()
+    track = Thread(target=track_last_ping)
+    track.daemon = True
+    track.start()
     return jsonify({"message": controller.state})
 
 # update last mobile ping time each second
@@ -114,7 +118,9 @@ def button_up(packet):
 
 # start web server on local network with defined port
 def start():
-    Thread(target=lambda: socketio.run(app, host="0.0.0.0", port=config.port)).start()
+    socket = Thread(target=lambda: socketio.run(app, host="0.0.0.0", port=config.port))
+    socket.daemon = True
+    socket.start()
 
     # execute command to get ip
     controller.ip = subprocess.check_output("hostname -I | cut -f1 -d' '", shell=True)

@@ -39,7 +39,9 @@ def connect_physical():
     
     # if mobile device isn't in-use, use physical controller
     if not controller.is_mobile_connected:
-        Thread(target=controller.connect).start()
+        conn = Thread(target=controller.connect)
+        conn.daemon = True
+        conn.start()
 
 # listen for physical controller input
 def listen():
@@ -74,7 +76,9 @@ def listen():
                 elif event.type == pygame.JOYDEVICEREMOVED and pygame.joystick.get_count() == 0:
                     joystick.quit()
                     controller.is_physical_connected = False
-                    Thread(target=controller.attempt_disconnect).start()
+                    disconn = Thread(target=controller.attempt_disconnect)
+                    disconn.daemon = True
+                    disconn.start()
                 
                 # if controller button is pressed, update packet accordingly
                 elif event.type == pygame.JOYBUTTONDOWN:
@@ -112,6 +116,6 @@ def listen():
                         controller.update_packet(["ZL"], event.value >= 0.75)
                     elif event.axis == 5:
                         controller.update_packet(["ZR"], event.value >= 0.75)
-                        
+
             except Exception as exception:
                 print("ERROR", exception)
