@@ -6,6 +6,8 @@ from modules import config
 nx = nxbt.Nxbt()
 packet = nx.create_input_packet()
 
+packet_queue = {}
+
 # variables containing current controller and its visual state
 device = None
 state = "Waiting for controller..."
@@ -55,6 +57,29 @@ def update_packet(location, value):
         packet[location[0]] = value
     else:
         packet[location[0]][location[1]] = value
+
+def add_to_queue(location, value):
+    global packet_queue
+
+    if location not in packet_queue:
+        packet_queue[location] = [value]
+        return
+    
+    packet_queue[location].append(value)
+
+
+def set_input():
+    for button in packet_queue:
+        queue = packet_queue[button]
+
+        packet[button] = queue[0]
+
+        queue.pop(0)
+
+        if len(queue) == 0:
+            packet_queue.pop(button)
+            
+    nx.set_controller_input(device, packet)
 
 # connect new generated controller to switch
 def connect():
