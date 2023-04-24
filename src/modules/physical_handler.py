@@ -61,7 +61,7 @@ def listen():
                 update_joystick()
         
             # update input packet sent to switch each frame
-            controller.nx.set_controller_input(controller.device, controller.packet)
+            controller.set_input()
 
         # for each event in pygame event queue
         for event in pygame.event.get():
