@@ -92,8 +92,7 @@ def set_input():
         if len(queue) == 0:
             continue
 
-        if queue[0]:
-            packet[button] = queue[0]
+        packet[button] = queue[0]
 
         queue.pop(0)
 
