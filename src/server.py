@@ -17,9 +17,6 @@ reset = "\033[0m"
 if "SDL_VIDEODRIVER" not in environ:
     environ["SDL_VIDEODRIVER"] = "dummy"
 
-# import modules that handle web and physical controller input
-from modules import web_handler, physical_handler
-
 # if file is ran directly, start web server and listen for physical controller input
 if __name__ == "__main__":
     # if user is not root, exit with error
@@ -28,6 +25,9 @@ if __name__ == "__main__":
         print(f"{red}{bold}ERROR: You must run this script as root.{reset}")
         print(f"To fix, type 'sudo {executable} install.py'")
         exit(1)
+    
+    # import modules that handle web and physical controller input
+    from modules import web_handler, physical_handler
 
     web_handler.start()
     physical_handler.listen()
