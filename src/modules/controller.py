@@ -8,6 +8,8 @@ packet = nx.create_input_packet()
 
 packet_queue = {}
 
+last_input = 0
+
 # variables containing current controller and its visual state
 device = None
 state = "Waiting for controller..."
@@ -62,15 +64,23 @@ def update_packet(location, value):
 def add_to_queue(location, value):
     global packet_queue
 
-    # value, None to reduce hz between button presses
     if location not in packet_queue:
-        packet_queue[location] = [value, None]
+        packet_queue[location] = [value]
         return
     
-    packet_queue[location] += [value, None]
+    packet_queue[location] += [value]
 
 
 def set_input():
+    current_time = time.time()
+
+    # prevent input from being sent too fast
+    # this ensures all buttons presses are registered
+    if current_time - last_input < 1 / 60:
+        return
+    
+    last_input = current_time
+
     for button in packet_queue:
         queue = packet_queue[button]
 
