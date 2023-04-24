@@ -82,6 +82,10 @@ def listen():
                 
                 # if controller button is pressed, update packet accordingly
                 elif event.type == pygame.JOYBUTTONDOWN:
+                    # get name of controller
+                    name = joystick.get_name()
+                    print(name)
+
                     controller.update_packet(input_maps.button_map[event.button], True)
                 
                 # if controller button is released, update packet accordingly
