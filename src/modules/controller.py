@@ -72,6 +72,8 @@ def add_to_queue(location, value):
 
 
 def set_input():
+    global last_input
+    
     current_time = time.time()
 
     # prevent input from being sent too fast
