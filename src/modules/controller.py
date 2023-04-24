@@ -62,11 +62,12 @@ def update_packet(location, value):
 def add_to_queue(location, value):
     global packet_queue
 
+    # value, None to reduce hz between button presses
     if location not in packet_queue:
-        packet_queue[location] = [value]
+        packet_queue[location] = [value, None]
         return
     
-    packet_queue[location].append(value)
+    packet_queue[location] += [value, None]
 
 
 def set_input():
@@ -76,7 +77,9 @@ def set_input():
         if len(queue) == 0:
             continue
 
-        packet[button] = queue[0]
+        if queue[0]:
+            packet[button] = queue[0]
+
         queue.pop(0)
 
     nx.set_controller_input(device, packet)
