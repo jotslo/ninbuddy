@@ -65,50 +65,53 @@ def listen():
 
         # for each event in pygame event queue
         for event in pygame.event.get():
+            try:
+                # if new physical controller is added for the first time, connect to switch
+                if event.type == pygame.JOYDEVICEADDED and pygame.joystick.get_count() == 1:
+                    connect_physical()
+                
+                # if physical controller is removed, attempt to disconnect from switch
+                elif event.type == pygame.JOYDEVICEREMOVED and pygame.joystick.get_count() == 0:
+                    joystick.quit()
+                    controller.is_physical_connected = False
+                    Thread(target=controller.attempt_disconnect).start()
+                
+                # if controller button is pressed, update packet accordingly
+                elif event.type == pygame.JOYBUTTONDOWN:
+                    controller.update_packet(input_maps.button_map[event.button], True)
+                
+                # if controller button is released, update packet accordingly
+                elif event.type == pygame.JOYBUTTONUP:
+                    controller.update_packet(input_maps.button_map[event.button], False)
+                
+                # if controller dpad is moved, update packet accordingly
+                elif event.type == pygame.JOYHATMOTION:
 
-            # if new physical controller is added for the first time, connect to switch
-            if event.type == pygame.JOYDEVICEADDED and pygame.joystick.get_count() == 1:
-                connect_physical()
-            
-            # if physical controller is removed, attempt to disconnect from switch
-            elif event.type == pygame.JOYDEVICEREMOVED and pygame.joystick.get_count() == 0:
-                joystick.quit()
-                controller.is_physical_connected = False
-                Thread(target=controller.attempt_disconnect).start()
-            
-            # if controller button is pressed, update packet accordingly
-            elif event.type == pygame.JOYBUTTONDOWN:
-                controller.update_packet(input_maps.button_map[event.button], True)
-            
-            # if controller button is released, update packet accordingly
-            elif event.type == pygame.JOYBUTTONUP:
-                controller.update_packet(input_maps.button_map[event.button], False)
-            
-            # if controller dpad is moved, update packet accordingly
-            elif event.type == pygame.JOYHATMOTION:
+                    # reset dpad values
+                    controller.update_packet(["DPAD_UP"], False)
+                    controller.update_packet(["DPAD_DOWN"], False)
+                    controller.update_packet(["DPAD_LEFT"], False)
+                    controller.update_packet(["DPAD_RIGHT"], False)
 
-                # reset dpad values
-                controller.update_packet(["DPAD_UP"], False)
-                controller.update_packet(["DPAD_DOWN"], False)
-                controller.update_packet(["DPAD_LEFT"], False)
-                controller.update_packet(["DPAD_RIGHT"], False)
+                    # update dpad values based on current values
+                    if event.value[0] == 1:
+                        controller.update_packet(["DPAD_RIGHT"], True)
+                    elif event.value[0] == -1:
+                        controller.update_packet(["DPAD_LEFT"], True)
+                    if event.value[1] == 1:
+                        controller.update_packet(["DPAD_UP"], True)
+                    elif event.value[1] == -1:
+                        controller.update_packet(["DPAD_DOWN"], True)
+                
+                # if controller trigger buttons are moved, update packet accordingly
 
-                # update dpad values based on current values
-                if event.value[0] == 1:
-                    controller.update_packet(["DPAD_RIGHT"], True)
-                elif event.value[0] == -1:
-                    controller.update_packet(["DPAD_LEFT"], True)
-                if event.value[1] == 1:
-                    controller.update_packet(["DPAD_UP"], True)
-                elif event.value[1] == -1:
-                    controller.update_packet(["DPAD_DOWN"], True)
-            
-            # if controller trigger buttons are moved, update packet accordingly
-
-            # ZL & ZR are buttons unlike most controllers,
-            # so only apply user input if pressed past 75% of the way down
-            elif event.type == pygame.JOYAXISMOTION:
-                if event.axis == 2:
-                    controller.update_packet(["ZL"], event.value >= 0.75)
-                elif event.axis == 5:
-                    controller.update_packet(["ZR"], event.value >= 0.75)
+                # ZL & ZR are buttons unlike most controllers,
+                # so only apply user input if pressed past 75% of the way down
+                elif event.type == pygame.JOYAXISMOTION:
+                    if event.axis == 2:
+                        controller.update_packet(["ZL"], event.value >= 0.75)
+                    elif event.axis == 5:
+                        controller.update_packet(["ZR"], event.value >= 0.75)
+                        
+            except Exception as exception:
+                print("ERROR", exception)
