@@ -1,5 +1,5 @@
 # main file to run on raspberry pi
-from os import environ, geteuid
+from os import environ, geteuid, system
 from sys import executable, exit
 
 # prevent pygame from outputting extraneous info
@@ -29,5 +29,11 @@ if __name__ == "__main__":
     # import modules that handle web and physical controller input
     from modules import web_handler, physical_handler
 
-    web_handler.start()
-    physical_handler.listen()
+    try:
+        web_handler.start()
+        physical_handler.listen()
+    
+    # if user presses CTRL+C, exit software
+    except KeyboardInterrupt:
+        system("clear")
+        exit(0)

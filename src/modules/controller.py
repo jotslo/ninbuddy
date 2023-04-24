@@ -48,6 +48,9 @@ def update_state(new_state):
     if ip.decode().strip().startswith("192.168."):
         print("To use a mobile device as a controller...")
         print(f"Go to: {bold}http://{ip.decode().strip()}:{config.port}{reset} on your phone.\n")
+    
+    # how to exit software
+    print("Press CTRL+C to exit.\n")
 
 # update packet with new joystick values
 def update_packet(location, value):
