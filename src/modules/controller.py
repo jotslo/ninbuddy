@@ -30,7 +30,7 @@ def update_state(new_state):
     global state
     state = new_state
 
-    # os.system("clear")
+    os.system("clear")
 
     print(f"{red}{bold}### NinBuddy by Josh Lotriet{reset}")
     print(f"{green}{bold}### STARTED{reset}\n")
@@ -61,12 +61,6 @@ def connect():
     global joystick, state, device, input_devices, is_disconnecting
     
     # if ready to connect, update states & connect via nxbt
-
-    print("CONNECT")
-    print(f"disconnecting? {is_disconnecting}")
-    print(f"mobile connected? {is_mobile_connected}")
-    print(f"physical connected? {is_physical_connected}")
-
     if not is_disconnecting:
         update_state("Connecting to console...")
         device = nx.create_controller(nxbt.PRO_CONTROLLER)
@@ -86,11 +80,6 @@ def attempt_disconnect():
     
     # set disconnecting state and wait for connection to be removed
     is_disconnecting = True
-
-    print("DISCONNECT")
-    print(f"disconnecting? {is_disconnecting}")
-    print(f"mobile connected? {is_mobile_connected}")
-    print(f"physical connected? {is_physical_connected}")
 
     # while device isnt connected yet, wait
     while "Connected" not in state:
