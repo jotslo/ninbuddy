@@ -73,7 +73,7 @@ def add_to_queue(location, value):
 
 def set_input():
     global last_input
-    
+
     current_time = time.time()
 
     # prevent input from being sent too fast
@@ -82,6 +82,9 @@ def set_input():
         return
     
     last_input = current_time
+
+    if len(packet_queue) > 0:
+        print(packet_queue)
 
     for button in packet_queue:
         queue = packet_queue[button]
