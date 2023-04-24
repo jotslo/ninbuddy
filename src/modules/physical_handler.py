@@ -2,6 +2,7 @@ import pygame
 import time
 
 from modules import controller, input_maps
+from threading import Thread
 
 # store last movement time & joystick object
 last_movement = 0
@@ -38,7 +39,7 @@ def connect_physical():
     
     # if mobile device isn't in-use, use physical controller
     if not controller.is_mobile_connected:
-        controller.connect()
+        Thread(target=controller.connect).start()
 
 # listen for physical controller input
 def listen():
@@ -73,7 +74,7 @@ def listen():
             elif event.type == pygame.JOYDEVICEREMOVED and pygame.joystick.get_count() == 0:
                 joystick.quit()
                 controller.is_physical_connected = False
-                controller.attempt_disconnect()
+                Thread(target=controller.attempt_disconnect).start()
             
             # if controller button is pressed, update packet accordingly
             elif event.type == pygame.JOYBUTTONDOWN:
