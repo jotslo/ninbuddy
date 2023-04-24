@@ -1,6 +1,7 @@
 # main file to run on raspberry pi
 from os import environ, geteuid, system
 from sys import executable, exit
+import signal
 
 # prevent pygame from outputting extraneous info
 # this makes the console output cleaner
@@ -11,6 +12,11 @@ red = "\033[31m"
 bold = "\033[1m"
 green = "\033[32m"
 reset = "\033[0m"
+
+def signal_handler(sig, frame):
+    exit(0)
+
+signal.signal(signal.SIGINT, signal_handler)
 
 # if video driver is not set, set it to dummy value
 # this allows us to use pygame without a display
