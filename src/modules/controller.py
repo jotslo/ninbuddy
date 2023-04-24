@@ -58,6 +58,7 @@ def update_packet(location, value):
     else:
         packet[location[0]][location[1]] = value
 
+
 def add_to_queue(location, value):
     global packet_queue
 
@@ -72,13 +73,12 @@ def set_input():
     for button in packet_queue:
         queue = packet_queue[button]
 
-        packet[button] = queue[0]
+        if len(queue) == 0:
+            continue
 
+        packet[button] = queue[0]
         queue.pop(0)
 
-        if len(queue) == 0:
-            packet_queue.pop(button)
-            
     nx.set_controller_input(device, packet)
 
 # connect new generated controller to switch
