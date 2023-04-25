@@ -35,7 +35,8 @@ def connect_physical():
     # initialise the connected physical controller
     joystick = pygame.joystick.Joystick(0)
     joystick.init()
-
+    
+    controller.name = joystick.get_name()
     controller.is_physical_connected = True
     
     # if mobile device isn't in-use, use physical controller
@@ -71,7 +72,6 @@ def listen():
             try:
                 # if new physical controller is added for the first time, connect to switch
                 if event.type == pygame.JOYDEVICEADDED and pygame.joystick.get_count() == 1:
-                    controller.name = joystick.get_name()
                     connect_physical()
                 
                 # if physical controller is removed, attempt to disconnect from switch
