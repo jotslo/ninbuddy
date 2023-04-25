@@ -105,8 +105,7 @@ def z_button_move(axis, value):
 
     if "Z" in axis_map[axis]:
         controller.update_packet(axis_map[axis], value >= 0.75)
-
-    print("AXIS", axis_map[axis], value)
+        print("AXIS", axis_map[axis], value)
 
 def axis_move(joystick):
     axis_map = get_map(controller.name)["Axes"]
