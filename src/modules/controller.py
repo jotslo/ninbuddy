@@ -88,11 +88,13 @@ def set_input():
         if len(queue) == 0:
             continue
 
-        if time.time() - last_change < 1 / 60:
+        if time.time() - last_change < 1 / 30:
             continue
 
         packet_queue[button]["last_change"] = time.time()
         packet[button] = queue[0]
+
+        print(button, queue[0])
 
         queue.pop(0)
 
