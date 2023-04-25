@@ -53,7 +53,14 @@ input_map_dict = {
             15: ["SCREENSHOT"]
         },
         "D-pad": {},
-        "Axes": {}
+        "Axes": {
+            0: ["L_STICK", "X_VALUE", 100],
+            1: ["L_STICK", "Y_VALUE", -100],
+            2: ["R_STICK", "X_VALUE", 100],
+            3: ["R_STICK", "Y_VALUE", -100],
+            4: ["ZL"],
+            5: ["ZR"]
+        }
     }
 }
 
