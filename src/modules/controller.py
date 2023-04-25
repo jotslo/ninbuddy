@@ -3,12 +3,10 @@ from modules import config
 
 # start nxbt and get format for input packet
 # input packet is sent to switch each frame
+# queue is used to prevent packet loss - updates at 20hz
 nx = nxbt.Nxbt()
 packet = nx.create_input_packet()
-
 packet_queue = {}
-
-last_input = 0
 
 # variables containing current controller and its visual state
 device = None
@@ -31,14 +29,18 @@ reset = "\033[0m"
 # ip of raspberry pi
 ip = None
 
+# directory to extract ninbuddy to
 extract_dir = f"/home/{os.environ.get('SUDO_USER')}/ninbuddy"
 
+# update state visible to user via dashboard & console
 def update_state(new_state):
     global state
     state = new_state
 
+    # clear console
     os.system("clear")
 
+    # output header
     print(f"{red}{bold}### NinBuddy by Josh Lotriet{reset}")
     print(f"{green}{bold}### STARTED{reset}\n")
     print(f"{bold}> {state}{reset}\n")
@@ -60,16 +62,18 @@ def update_packet(location, value):
     global packet
 
     # if only one location, update packet with value
-    # otherwise, access nested dict and update with value
     if len(location) == 1:
         packet[location[0]] = value
+    
+    # otherwise, access nested dict and update with value
     else:
         packet[location[0]][location[1]] = value
 
-
+# add packet data to queue to prevent packet loss
 def add_to_queue(location, value):
     global packet_queue
 
+    # if click location isnt in queue yet, add it
     if location not in packet_queue:
         packet_queue[location] = {
             "queue": [value],
@@ -77,25 +81,33 @@ def add_to_queue(location, value):
         }
         return
     
+    # otherwise, add value to queue
     packet_queue[location]["queue"] += [value]
 
-
+# set input packet to values in packet
 def set_input():
+    # iterate through packet queue to update packet
     for button in packet_queue:
         queue = packet_queue[button]["queue"]
         last_change = packet_queue[button]["last_change"]
 
+        # if queue is empty, ignore
         if len(queue) == 0:
             continue
 
+        # if it hasn't been 1/20s since last change, ignore
         if time.time() - last_change < 1 / 20:
             continue
 
+        # otherwise, update packet and last change
         packet_queue[button]["last_change"] = time.time()
         packet[button] = queue[0]
 
+        # remove first value from queue
         queue.pop(0)
 
+    # update packet with new joystick values
+    # physical controller does not queue as connection is wired, so loss is unlikely
     nx.set_controller_input(device, packet)
 
 # connect new generated controller to switch

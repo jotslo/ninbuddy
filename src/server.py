@@ -29,6 +29,7 @@ if __name__ == "__main__":
     # import modules that handle web and physical controller input
     from modules import web_handler, physical_handler
 
+    # start web server and listen for physical controller input
     try:
         web_handler.start()
         physical_handler.listen()

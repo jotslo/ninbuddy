@@ -15,10 +15,6 @@ def update_joystick():
 
     # if 120th of a second has passed, update joystick values
     if current_time - last_movement > 1/120:
-        """controller.update_packet(["L_STICK", "X_VALUE"], joystick.get_axis(0) * 100)
-        controller.update_packet(["L_STICK", "Y_VALUE"], joystick.get_axis(1) * -100)
-        controller.update_packet(["R_STICK", "X_VALUE"], joystick.get_axis(3) * 100)
-        controller.update_packet(["R_STICK", "Y_VALUE"], joystick.get_axis(4) * -100)"""
         input_maps.axis_move(joystick)
 
         # update last movement time
@@ -36,6 +32,7 @@ def connect_physical():
     joystick = pygame.joystick.Joystick(0)
     joystick.init()
     
+    # update controller name & physical connection status
     controller.name = joystick.get_name()
     controller.is_physical_connected = True
     
@@ -86,45 +83,21 @@ def listen():
                 # if controller button is pressed, update packet accordingly
                 elif event.type == pygame.JOYBUTTONDOWN:
                     input_maps.button_down(event.button)
-                    #controller.update_packet(input_maps.button_map[event.button], True)
                 
                 # if controller button is released, update packet accordingly
                 elif event.type == pygame.JOYBUTTONUP:
                     input_maps.button_up(event.button)
-                    #controller.update_packet(input_maps.button_map[event.button], False)
                 
                 # if controller dpad is moved, update packet accordingly
                 elif event.type == pygame.JOYHATMOTION:
                     input_maps.dpad_move(event.value)
 
-                    """# reset dpad values
-                    controller.update_packet(["DPAD_UP"], False)
-                    controller.update_packet(["DPAD_DOWN"], False)
-                    controller.update_packet(["DPAD_LEFT"], False)
-                    controller.update_packet(["DPAD_RIGHT"], False)
-
-                    # update dpad values based on current values
-                    if event.value[0] == 1:
-                        controller.update_packet(["DPAD_RIGHT"], True)
-                    elif event.value[0] == -1:
-                        controller.update_packet(["DPAD_LEFT"], True)
-                    if event.value[1] == 1:
-                        controller.update_packet(["DPAD_UP"], True)
-                    elif event.value[1] == -1:
-                        controller.update_packet(["DPAD_DOWN"], True)"""
-                
-                # if controller trigger buttons are moved, update packet accordingly
-
-                # ZL & ZR are buttons unlike most controllers,
-                # so only apply user input if pressed past 75% of the way down
+                # if ZL or ZR are pressed, update packet accordingly
+                # these are triggers on xbox & ps, so apply if 75% or more is pressed
                 elif event.type == pygame.JOYAXISMOTION:
-                    #print(event.axis, event.value)
                     input_maps.z_button_move(event.axis, event.value)
-                    #input_maps.axis_move(event.axis, event.value)
-                    """if event.axis == 2:
-                        controller.update_packet(["ZL"], event.value >= 0.75)
-                    elif event.axis == 5:
-                        controller.update_packet(["ZR"], event.value >= 0.75)"""
 
-            except Exception as exception:
-                print("ERROR", exception)
+            except Exception:
+                # ignore any errors that occur
+                # prevents software from crashing
+                pass
