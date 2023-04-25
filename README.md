@@ -11,7 +11,7 @@
 <h3 align="center">NinBuddy - Play with any controller</h3>
 
   <p align="center">
-    Just plug in your Raspberry Pi on-the-go, and play.
+    Connect your favourite game controller to a Nintendo Switch.
     <br />
     Supports <b>Xbox</b> & <b>PlayStation</b> controllers, and your <b>mobile</b> web browser.
     <br />
@@ -25,12 +25,32 @@
 
 
 ## Install now
+Paste this command into your Raspberry Pi terminal to get started.
    ```sh
    curl -L -O nb.jotslo.com/get && sudo python3 get
    ```
 
-<!-- ABOUT THE PROJECT -->
-## About The Project
+<br />
+
+## Use any game controller, while on-the-go
+NinBuddy allows you to connect a range of alternate game controllers to your Nintendo Switch.
+
+By default, NinBuddy will automatically be ready when you plug in your Raspberry Pi. It's just so simple!
+1. Plug in your Raspberry Pi to the wall, or a battery pack
+2. Connect an Xbox or PS controller to the Pi via USB
+3. Navigate to 'Change Grip/Order' on your Switch
+4. Wait for your controller to connect, and play!
+
+<br />
+
+## What else?
+Need an extra controller for your friend at home? NinBuddy can 
+1. Start NinBuddy
+2. Go to the link it gives you on your mobile device
+3. Navigate to 'Change Grip/Order' on your Switch
+4. Wait for your phone to connect, and play!
+
+
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
