@@ -14,6 +14,9 @@ last_input = 0
 device = None
 state = "Waiting for controller..."
 
+# name of physical controller (e.g. "Xbox Series X Controller")
+name = None
+
 # variables that determine connection state
 is_physical_connected = False
 is_mobile_connected = False
@@ -70,10 +73,10 @@ def add_to_queue(location, value):
     # none value acts as a buffer to prevent fast inputs that get ignored
 
     if location not in packet_queue:
-        packet_queue[location] = [value, None, None]
+        packet_queue[location] = [value, None]
         return
     
-    packet_queue[location] += [value, None, None]
+    packet_queue[location] += [value, None]
 
 
 def set_input():
@@ -86,8 +89,13 @@ def set_input():
         if len(queue) == 0:
             continue
 
-        if queue[0] != None:
-            packet[button] = queue[0]
+        next_input = queue[0]
+
+        if next_input != None:
+            if "STICK" in button:
+                packet[button]["PRESSED"] = next_input
+            else:
+                packet[button] = next_input
 
         queue.pop(0)
 

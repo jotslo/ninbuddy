@@ -15,10 +15,11 @@ def update_joystick():
 
     # if 120th of a second has passed, update joystick values
     if current_time - last_movement > 1/120:
-        controller.update_packet(["L_STICK", "X_VALUE"], joystick.get_axis(0) * 100)
+        """controller.update_packet(["L_STICK", "X_VALUE"], joystick.get_axis(0) * 100)
         controller.update_packet(["L_STICK", "Y_VALUE"], joystick.get_axis(1) * -100)
         controller.update_packet(["R_STICK", "X_VALUE"], joystick.get_axis(3) * 100)
-        controller.update_packet(["R_STICK", "Y_VALUE"], joystick.get_axis(4) * -100)
+        controller.update_packet(["R_STICK", "Y_VALUE"], joystick.get_axis(4) * -100)"""
+        input_maps.axis_move(joystick)
 
         # update last movement time
         last_movement = current_time
@@ -70,10 +71,12 @@ def listen():
             try:
                 # if new physical controller is added for the first time, connect to switch
                 if event.type == pygame.JOYDEVICEADDED and pygame.joystick.get_count() == 1:
+                    controller.name = joystick.get_name()
                     connect_physical()
                 
                 # if physical controller is removed, attempt to disconnect from switch
                 elif event.type == pygame.JOYDEVICEREMOVED and pygame.joystick.get_count() == 0:
+                    controller.name = None
                     joystick.quit()
                     controller.is_physical_connected = False
                     disconn = Thread(target=controller.attempt_disconnect)
@@ -82,20 +85,19 @@ def listen():
                 
                 # if controller button is pressed, update packet accordingly
                 elif event.type == pygame.JOYBUTTONDOWN:
-                    # get name of controller
-                    name = joystick.get_name()
-                    print(name)
-
-                    controller.update_packet(input_maps.button_map[event.button], True)
+                    input_maps.button_down(event.button)
+                    #controller.update_packet(input_maps.button_map[event.button], True)
                 
                 # if controller button is released, update packet accordingly
                 elif event.type == pygame.JOYBUTTONUP:
-                    controller.update_packet(input_maps.button_map[event.button], False)
+                    input_maps.button_up(event.button)
+                    #controller.update_packet(input_maps.button_map[event.button], False)
                 
                 # if controller dpad is moved, update packet accordingly
                 elif event.type == pygame.JOYHATMOTION:
+                    input_maps.dpad_move(event.value)
 
-                    # reset dpad values
+                    """# reset dpad values
                     controller.update_packet(["DPAD_UP"], False)
                     controller.update_packet(["DPAD_DOWN"], False)
                     controller.update_packet(["DPAD_LEFT"], False)
@@ -109,17 +111,18 @@ def listen():
                     if event.value[1] == 1:
                         controller.update_packet(["DPAD_UP"], True)
                     elif event.value[1] == -1:
-                        controller.update_packet(["DPAD_DOWN"], True)
+                        controller.update_packet(["DPAD_DOWN"], True)"""
                 
                 # if controller trigger buttons are moved, update packet accordingly
 
                 # ZL & ZR are buttons unlike most controllers,
                 # so only apply user input if pressed past 75% of the way down
                 elif event.type == pygame.JOYAXISMOTION:
-                    if event.axis == 2:
+                    input_maps.axis_move(event.axis, event.value)
+                    """if event.axis == 2:
                         controller.update_packet(["ZL"], event.value >= 0.75)
                     elif event.axis == 5:
-                        controller.update_packet(["ZR"], event.value >= 0.75)
+                        controller.update_packet(["ZR"], event.value >= 0.75)"""
 
             except Exception as exception:
                 print("ERROR", exception)
