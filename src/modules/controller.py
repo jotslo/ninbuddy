@@ -70,26 +70,29 @@ def update_packet(location, value):
 def add_to_queue(location, value):
     global packet_queue
 
-    # none value acts as a buffer to prevent fast inputs that get ignored
-
     if location not in packet_queue:
-        packet_queue[location] = [value]
+        packet_queue[location] = {
+            "queue": [value],
+            "last_change": 0
+        }
         return
     
-    packet_queue[location] += [value]
+    packet_queue[location]["queue"] += [value]
 
 
 def set_input():
     for button in packet_queue:
-        queue = packet_queue[button]
+        queue = packet_queue[button]["queue"]
+        last_change = packet_queue[button]["last_change"]
 
         if len(queue) == 0:
             continue
 
-        next_input = queue[0]
+        if time.time() - last_change < 1 / 60:
+            continue
 
-        if next_input != None:
-            packet[button] = next_input
+        packet_queue[button]["last_change"] = time.time()
+        packet[button] = queue[0]
 
         queue.pop(0)
 
