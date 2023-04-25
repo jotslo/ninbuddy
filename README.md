@@ -71,7 +71,7 @@ set of images here
 ## Installation
 Simply paste the <a href="#readme-top">command at the top of the page</a> to install NinBuddy.
 
-To manually install NinBuddy, the Zip file can be found in the releases section.
+Alternatively, you can <a href="https://github.com/jotslo/ninbuddy/releases/tag/v1.0.0">manually install NinBuddy here</a>.
 
 <br />
 
