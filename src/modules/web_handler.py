@@ -56,36 +56,6 @@ def track_last_ping():
         controller.is_mobile_connected = False
         controller.attempt_disconnect()
 
-"""# forward joystick input to controller when received from mobile device
-@socketio.on("joystick-input")
-def joystick_input(packet):
-    # clamp joystick values between -100 and 100 to prevent errors
-    packet["L_STICK"][0] = clamp(packet["L_STICK"][0], -100, 100)
-    packet["L_STICK"][1] = clamp(packet["L_STICK"][1], -100, 100)
-    packet["R_STICK"][0] = clamp(packet["R_STICK"][0], -100, 100)
-    packet["R_STICK"][1] = clamp(packet["R_STICK"][1], -100, 100)
-
-    # update pending controller packet with joystick values
-    controller.update_packet(["L_STICK", "X_VALUE"], packet["L_STICK"][0])
-    controller.update_packet(["L_STICK", "Y_VALUE"], -packet["L_STICK"][1])
-    controller.update_packet(["R_STICK", "X_VALUE"], packet["R_STICK"][0])
-    controller.update_packet(["R_STICK", "Y_VALUE"], -packet["R_STICK"][1])
-    
-    # output joystick values to console
-    print("JOY", packet)
-
-# when button pressed, update pending controller packet
-@socketio.on("button-down")
-def button_down(packet):
-    controller.update_packet([packet], True)
-    print("DOWN", packet)
-
-# when button released, update pending controller packet
-@socketio.on("button-up")
-def button_up(packet):
-    controller.update_packet([packet], False)
-    print("UP", packet)"""
-
 # forward joystick input to controller when received from mobile device
 @socketio.on("joystick-input")
 def joystick_input(packet):
@@ -100,21 +70,16 @@ def joystick_input(packet):
     controller.update_packet(["L_STICK", "Y_VALUE"], -packet["L_STICK"][1])
     controller.update_packet(["R_STICK", "X_VALUE"], packet["R_STICK"][0])
     controller.update_packet(["R_STICK", "Y_VALUE"], -packet["R_STICK"][1])
-    
-    # output joystick values to console
-    print("JOY", packet)
 
 # when button pressed, update pending controller packet
 @socketio.on("button-down")
 def button_down(packet):
     controller.add_to_queue(packet, True)
-    print("DOWN", packet)
 
 # when button released, update pending controller packet
 @socketio.on("button-up")
 def button_up(packet):
     controller.add_to_queue(packet, False)
-    print("UP", packet)
 
 # start web server on local network with defined port
 def start():

@@ -80,9 +80,6 @@ def add_to_queue(location, value):
 
 
 def set_input():
-    if len(packet_queue) > 0:
-        print(packet_queue)
-
     for button in packet_queue:
         queue = packet_queue[button]
 
@@ -92,10 +89,7 @@ def set_input():
         next_input = queue[0]
 
         if next_input != None:
-            if "STICK" in button:
-                packet[button]["PRESSED"] = next_input
-            else:
-                packet[button] = next_input
+            packet[button] = next_input
 
         queue.pop(0)
 
