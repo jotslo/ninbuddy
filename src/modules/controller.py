@@ -73,10 +73,10 @@ def add_to_queue(location, value):
     # none value acts as a buffer to prevent fast inputs that get ignored
 
     if location not in packet_queue:
-        packet_queue[location] = [value, None, None]
+        packet_queue[location] = [value]
         return
     
-    packet_queue[location] += [value, None, None]
+    packet_queue[location] += [value]
 
 
 def set_input():
