@@ -15,11 +15,11 @@ def update_joystick():
 
     # if 120th of a second has passed, update joystick values
     if current_time - last_movement > 1/120:
-        """controller.update_packet(["L_STICK", "X_VALUE"], joystick.get_axis(0) * 100)
+        controller.update_packet(["L_STICK", "X_VALUE"], joystick.get_axis(0) * 100)
         controller.update_packet(["L_STICK", "Y_VALUE"], joystick.get_axis(1) * -100)
         controller.update_packet(["R_STICK", "X_VALUE"], joystick.get_axis(3) * 100)
-        controller.update_packet(["R_STICK", "Y_VALUE"], joystick.get_axis(4) * -100)"""
-        input_maps.axis_move(joystick)
+        controller.update_packet(["R_STICK", "Y_VALUE"], joystick.get_axis(4) * -100)
+        #input_maps.axis_move(joystick)
 
         # update last movement time
         last_movement = current_time
