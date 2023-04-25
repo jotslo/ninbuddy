@@ -60,10 +60,11 @@ def track_last_ping():
 @socketio.on("joystick-input")
 def joystick_input(packet):
     # clamp joystick values between -100 and 100 to prevent errors
-    packet["L_STICK"][0] = clamp(packet["L_STICK"][0], -100, 100)
-    packet["L_STICK"][1] = clamp(packet["L_STICK"][1], -100, 100)
-    packet["R_STICK"][0] = clamp(packet["R_STICK"][0], -100, 100)
-    packet["R_STICK"][1] = clamp(packet["R_STICK"][1], -100, 100)
+    # multiply by 1.5 to make more sensitive
+    packet["L_STICK"][0] = clamp(packet["L_STICK"][0] * 1.5, -100, 100)
+    packet["L_STICK"][1] = clamp(packet["L_STICK"][1] * 1.5, -100, 100)
+    packet["R_STICK"][0] = clamp(packet["R_STICK"][0] * 1.5, -100, 100)
+    packet["R_STICK"][1] = clamp(packet["R_STICK"][1] * 1.5, -100, 100)
 
     # update pending controller packet with joystick values
     controller.update_packet(["L_STICK", "X_VALUE"], packet["L_STICK"][0])
