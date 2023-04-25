@@ -76,11 +76,13 @@ def joystick_input(packet):
 @socketio.on("button-down")
 def button_down(packet):
     controller.add_to_queue(packet, True)
+    print(packet)
 
 # when button released, update pending controller packet
 @socketio.on("button-up")
 def button_up(packet):
     controller.add_to_queue(packet, False)
+    print(packet)
 
 # start web server on local network with defined port
 def start():
