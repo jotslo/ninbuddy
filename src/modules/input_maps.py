@@ -91,19 +91,23 @@ def dpad_move(value):
     controller.update_packet(["DPAD_LEFT"], False)
     controller.update_packet(["DPAD_UP"], False)
     controller.update_packet(["DPAD_DOWN"], False)
+
+    if value[0] in dpad_map[0]:
+        controller.update_packet(dpad_map[0][value[0]], True)
     
-    for axis in dpad_map:
-        if value[0] in dpad_map[axis]:
-            controller.update_packet(dpad_map[axis][value[0]], True)
-            print("DOWN", dpad_map[axis][value[0]])
-        if value[1] in dpad_map[axis]:
-            controller.update_packet(dpad_map[axis][value[1]], True)
-            print("DOWN", dpad_map[axis][value[1]])
+    if value[1] in dpad_map[1]:
+        controller.update_packet(dpad_map[1][value[1]], True)
+    
+    """for axis in dpad_map:
+        if value[0] in dpad_map[axis][0]:
+            controller.update_packet(dpad_map[axis][0][value[0]], True)
+        if value[1] in dpad_map[axis][1]:
+            controller.update_packet(dpad_map[axis][1][value[1]], True)"""
 
 def z_button_move(axis, value):
     axis_map = get_map(controller.name)["Axes"]
 
-    if "Z" in axis_map[axis]:
+    if "Z" in axis_map[axis][0]:
         controller.update_packet(axis_map[axis], value >= 0.75)
         print("AXIS", axis_map[axis], value)
 
