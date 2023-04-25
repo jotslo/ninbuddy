@@ -1,21 +1,3 @@
-"""button_map = {
-    0: ["A"],
-    1: ["B"],
-    2: ["X"],
-    3: ["Y"],
-    4: ["L"],
-    5: ["R"],
-    6: ["MINUS"],
-    7: ["PLUS"],
-    8: ["HOME"],
-    9: ["L_STICK", "PRESSED"],
-    10: ["R_STICK", "PRESSED"],
-    11: ["DPAD_UP"],
-    12: ["DPAD_DOWN"],
-    13: ["DPAD_LEFT"],
-    14: ["DPAD_RIGHT"]
-}"""
-
 input_map_dict = {
     "Xbox": {
         "Buttons": {
@@ -71,7 +53,7 @@ def button_down(button):
 
     controller.update_packet(button_map[button], True)
 
-    print("DOWN", button_map[button], True)
+    print("DOWN", button)
 
 
 def button_up(button):
@@ -79,7 +61,7 @@ def button_up(button):
     
     controller.update_packet(button_map[button], False)
 
-    print("UP", button_map[button], False)
+    print("UP", button)
 
 
 def dpad_move(value):
@@ -89,6 +71,8 @@ def dpad_move(value):
     controller.update_packet(["DPAD_LEFT"], False)
     controller.update_packet(["DPAD_UP"], False)
     controller.update_packet(["DPAD_DOWN"], False)
+
+    print(value)
 
     if value[0] in dpad_map[0]:
         controller.update_packet(dpad_map[0][value[0]], True)
@@ -101,7 +85,6 @@ def z_button_move(axis, value):
 
     if "Z" in axis_map[axis][0]:
         controller.update_packet(axis_map[axis], value >= 0.75)
-        print("AXIS", axis_map[axis], value)
 
 """controller.update_packet(["L_STICK", "X_VALUE"], joystick.get_axis(0) * 100)
         controller.update_packet(["L_STICK", "Y_VALUE"], joystick.get_axis(1) * -100)
@@ -110,7 +93,7 @@ def z_button_move(axis, value):
 
 def axis_move(joystick):
     axis_map = get_map(controller.name)["Axes"]
-    
+
     for axis in axis_map:
         if "Z" not in axis_map[axis][0]:
             controller.update_packet(axis_map[axis][:2],
