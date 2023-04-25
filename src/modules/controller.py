@@ -94,8 +94,6 @@ def set_input():
         packet_queue[button]["last_change"] = time.time()
         packet[button] = queue[0]
 
-        print(button, queue[0])
-
         queue.pop(0)
 
     nx.set_controller_input(device, packet)
