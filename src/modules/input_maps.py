@@ -78,18 +78,12 @@ def get_map(name):
 
 def button_down(button):
     button_map = get_map(controller.name)["Buttons"]
-
     controller.update_packet(button_map[button], True)
-
-    print("DOWN", button)
 
 
 def button_up(button):
     button_map = get_map(controller.name)["Buttons"]
-    
     controller.update_packet(button_map[button], False)
-
-    print("UP", button)
 
 
 def dpad_move(value):
