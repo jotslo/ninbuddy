@@ -118,6 +118,7 @@ def listen():
                 # ZL & ZR are buttons unlike most controllers,
                 # so only apply user input if pressed past 75% of the way down
                 elif event.type == pygame.JOYAXISMOTION:
+                    print(event.axis, event.value)
                     input_maps.z_button_move(event.axis, event.value)
                     #input_maps.axis_move(event.axis, event.value)
                     """if event.axis == 2:
