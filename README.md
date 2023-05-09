@@ -20,39 +20,31 @@
     ·
     <a href="https://github.com/jotslo/ninbuddy/issues">Request Feature</a>
   </p>
+  <br>
+  <br>
+  <img src="assets/nb_demo.png" alt="Logo">
+  <br>
+  <br>
+  <h3 align="center">Install via Terminal:</h3>
+  
+  ```
+  curl -L -O nb.jotslo.com/get && sudo python3 get
+  ```
+  *Requires a Raspberry Pi w/ Bluetooth & Python 3.9 or higher*
 </div>
 
+   
 
-
-## Install now.
-Paste this command into your Raspberry Pi terminal to get started. That's it.<br>
-
-   ```sh
-   curl -L -O nb.jotslo.com/get && sudo python3 get
-   ```
-*Requires a Raspberry Pi w/ Bluetooth & Python 3.9 or higher*
 
 <br />
 
-## Use any game controller, while on-the-go.
-By default, NinBuddy will automatically be ready when you plug in your Raspberry Pi. It's just so simple.
-1. Plug in your Raspberry Pi to the wall, or a battery pack
-2. Connect an Xbox or PS controller to the Pi via USB
-3. Navigate to 'Change Grip/Order' on your Switch
-4. Wait for your controller to connect, and play!
+## How it works
+1. Start the software. By default, NinBuddy will start when your Pi boots.
+2. Plug in an Xbox or PlayStation controller to your Raspberry Pi via USB.
+3. Go to `Change Grip/Order` on your Nintendo Switch.
+4. Wait for the controller to connect, and play!
 
-set of images here
-
-<br />
-
-## Need an extra controller? Just use your phone.
-NinBuddy offers a controller for mobile devices. Just in case you need a spare.
-1. Start NinBuddy on your home wi-fi network
-2. Go to the link it gives you on your mobile device
-3. Navigate to 'Change Grip/Order' on your Switch
-4. Wait for your phone to connect, and play!
-
-set of images here
+**Connected to Wi-Fi?** NinBuddy shows a URL in the terminal. Visit this on your mobile device to play!
 
 <br />
 
@@ -68,19 +60,13 @@ set of images here
 
 <br />
 
-## Installation
+## Automatic Installation (Recommended)
 Simply paste the <a href="#readme-top">command at the top of the page</a> to install NinBuddy.
 
-Alternatively, you can <a href="https://github.com/jotslo/ninbuddy/releases/tag/v1.0.0">manually install NinBuddy here</a>.
-
-<br />
-
-## Dependencies
-If you are manually installing NinBuddy, you will also need to install the following dependencies:
-```python
-pip install git+https://github.com/Brikwerk/nxbt.git@086293d33d8a64fdbd2b58fa15197c5b66e0ff7b
-pip install pygame
-```
+## Manual Installation (Not Recommended)
+- To manually install NinBuddy, download and extract the <a href="https://github.com/jotslo/ninbuddy/releases/tag/v1.0.0">latest release</a>.
+- Use `pip install pygame` to install PyGame
+- Use `pip install git+https://github.com/Brikwerk/nxbt.git@086293d33d8a64fdbd2b58fa15197c5b66e0ff7b` to install NXBT
 
 <br />
 
