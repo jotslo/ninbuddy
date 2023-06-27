@@ -19,6 +19,8 @@
     <a href="https://github.com/jotslo/ninbuddy/issues">Report Bug</a>
     ·
     <a href="https://github.com/jotslo/ninbuddy/issues">Request Feature</a>
+    ·
+    <a href="https://twitter.com/jotslo/status/1666946256067805184">Watch Demo</a>
   </p>
   <br>
   <br>
@@ -92,7 +94,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- CONTACT -->
 ## Contact
-Josh Lotriet - [hello@joshl.io](mailto:hello@joshl.io)
+Josh Lotriet - [josh@jotslo.com](mailto:josh@jotslo.com)
 
 <br />
 
